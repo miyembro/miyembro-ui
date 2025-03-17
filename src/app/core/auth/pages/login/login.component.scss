@@ -1,0 +1,35 @@
+.login-background {
+  background-image: url('/assets/login-background-image.jpg');
+  background-size: cover;
+    background-position: center;
+    height: 100vh; /* Full screen */
+    width: 100%;
+  }
+
+
+  // .app-logo {
+  //   background-image: url('/assets/login-background-image.jpg');
+  //   background-size: cover;
+  //     background-position: center;
+  //     height: 100vh; /* Full screen */
+  //     width: 100%;
+  //   }
+  
+  
+
+  
+:host ::ng-deep {
+  .sessions-card.p-card {
+    padding: 1rem 1rem;
+    width: 100%;
+    // box-shadow: none;
+  }
+}
+
+:host ::ng-deep {
+  .sessions-password.p-password {
+    .p-password-input	 {
+      width: 100% !important
+    }
+  }
+}

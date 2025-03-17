@@ -1,0 +1,20 @@
+<div class="max-w-4xl mx-auto p-5">
+  <form [formGroup]="organizationImageFileForm" class="w-full mx-auto">
+    <div class="space-y-6">
+      <div class="organization-background w-full flex flex-col items-center">
+        <app-avatar
+          formControlName="backgroundImage"
+          [isCoverPhoto]="true"
+          [isButtonEdit]="true"
+        ></app-avatar>
+      </div>
+      <div class="organization-logo w-full flex flex-col items-center">
+        <app-avatar
+          formControlName="logoImage"
+          [isCoverPhoto]="false"
+          avatarSize="medium"
+        ></app-avatar>
+      </div>
+    </div>
+  </form>
+</div>

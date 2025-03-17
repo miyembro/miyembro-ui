@@ -1,0 +1,29 @@
+<app-background>
+  <div
+    class="max-w-4xl max-sm:max-w-2xl mx-auto min-h-screen flex flex-col items-center justify-center"
+  >
+    <app-organization-address-form
+      [(organizationAddressForm)]="organizationAddressForm"
+      [formType]="OrganizationFormType.UPDATE_ORGANIZATION"
+      [organizationAddress]="organization?.organizationAddress"
+    >
+      <div class="flex justify-between pt-6 mt-auto">
+        <div>
+          <p-button
+            label="Cancel"
+            severity="secondary"
+            (onClick)="cancelEditOrganizationAddress()"
+          />
+        </div>
+        <p-button
+          label="Update"
+          iconPos="right"
+          [disabled]="
+            organizationAddressForm?.invalid && organizationAddressForm?.touched
+          "
+          (onClick)="updateOrganizationAddress()"
+        />
+      </div>
+    </app-organization-address-form>
+  </div>
+</app-background>

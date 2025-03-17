@@ -1,0 +1,24 @@
+
+#home-header {
+  height: 70px;
+  position: relative;  /* Needed for z-index to work */
+  z-index: 50;    
+}
+
+#home-body {
+  height: calc(100vh - 70px - 25px);
+  width: 100%;
+  overflow-y: auto !important;
+  padding: 15px;
+}
+
+#home-footer {
+  height: 25px;
+}
+
+:host ::ng-deep {
+  .header-text {
+    font-weight: normal;
+    margin: 0 0 24px 0;
+  }
+}

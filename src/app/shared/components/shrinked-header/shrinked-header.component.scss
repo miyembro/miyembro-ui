@@ -1,0 +1,36 @@
+
+@keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes fadeOut {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  .shrinked-header {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 40; /* Higher than sticky-tabs */
+    padding: 10px;
+  }
+  
+  
+  .shrinked-header {
+    animation: fadeIn 0.2s ease-in-out;
+  }
+  
+  .shrinked-header.ng-leave {
+    animation: fadeOut 0.3s ease-in-out;
+  }
+

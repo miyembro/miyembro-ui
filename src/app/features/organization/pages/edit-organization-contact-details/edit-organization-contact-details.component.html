@@ -1,0 +1,26 @@
+<app-background>
+  <div
+    class="max-w-4xl max-sm:max-w-2xl mx-auto min-h-screen flex flex-col items-center justify-center"
+  >
+    <app-organization-form
+      [(organizationForm)]="organizationForm"
+      [formType]="formType"
+    >
+      <div class="flex justify-between pt-6 mt-auto">
+        <div>
+          <p-button
+            label="Cancel"
+            severity="secondary"
+            (onClick)="cancelEditOrganizationContactDetails()"
+          />
+        </div>
+        <p-button
+          label="Update"
+          iconPos="right"
+          [disabled]="organizationForm?.invalid && organizationForm?.touched"
+          (onClick)="updateOrganizationContactDetails()"
+        />
+      </div>
+    </app-organization-form>
+  </div>
+</app-background>

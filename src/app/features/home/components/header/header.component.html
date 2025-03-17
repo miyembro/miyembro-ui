@@ -1,0 +1,71 @@
+<section class="bg-gray-50 dark:bg-gray-900 login-background"></section>
+
+<p-menubar
+  [model]="items"
+  styleClass="app-menu-bar text-sm sm:text-sm md:text-base"
+>
+  <ng-template #start>
+    <app-logo logoSize="small"></app-logo>
+  </ng-template>
+  <ng-template #item let-item>
+    <ng-container *ngIf="item.route; else urlRef">
+      <a [routerLink]="item.route" class="p-menubar-item-link">
+        <span
+          [class]="item.icon"
+          class="ml-2 text-sm sm:text-sm md:text-base"
+        ></span>
+        <span class="ml-2 text-sm sm:text-sm md:text-base">{{
+          item.label
+        }}</span>
+      </a>
+    </ng-container>
+    <ng-template #urlRef>
+      <a
+        *ngIf="item.url; else noLink"
+        [href]="item.url"
+        class="p-menubar-item-link"
+      >
+        <span
+          [class]="item.icon"
+          class="text-sm sm:text-sm md:text-base"
+        ></span>
+        <span class="ml-2 text-sm sm:text-sm md:text-base">{{
+          item.label
+        }}</span>
+      </a>
+    </ng-template>
+    <ng-template #noLink>
+      <div class="p-menubar-item-link">
+        <span
+          [class]="item.icon"
+          class="text-sm sm:text-sm md:text-base"
+        ></span>
+        <span class="ml-2 text-sm sm:text-sm md:text-base">{{
+          item.label
+        }}</span>
+        <span class="pi pi-fw pi-angle-down ml-2"></span>
+      </div>
+    </ng-template>
+  </ng-template>
+  <ng-template #end>
+    <div class="flex items-center gap-2 text-xs sm:text-xs md:text-base">
+      <div class="flex flex-wrap">
+        <p class="m-0 font-semibold text-base sm:text-base md:text-xl">
+          {{ session?.member?.firstName + ' ' + session?.member?.lastName }}
+        </p>
+      </div>
+      <p-avatar
+        [image]="profilePicUrl"
+        image="https://scontent-bru2-1.xx.fbcdn.net/v/t39.30808-6/468322464_27550249341256083_8260339221376410602_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=r9-FOSZ6_d8Q7kNvgHJ1yoU&_nc_zt=23&_nc_ht=scontent-bru2-1.xx&_nc_gid=Ap-onMDZKq5iTFWRSOigh75&oh=00_AYBoCG7u91Xpg9dmK2LW6ly7O2DsQBnzYfXxOVAm2p9vLw&oe=67A82AC4"
+        shape="circle"
+        (click)="userPopover.togglePopover($event)"
+      />
+    </div>
+  </ng-template>
+</p-menubar>
+
+<app-member-card
+  #userPopover
+  [session]="session"
+  (logout)="onClickLogout()"
+></app-member-card>

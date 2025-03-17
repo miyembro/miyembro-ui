@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* You can add global styles to this file, and also import other style files */
+@import "primeicons/primeicons.css";
+@layer tailwind-base, primeng, tailwind-utilities;
+
+@layer tailwind-base {
+@tailwind base;
+}
+
+@layer tailwind-utilities {
+@tailwind components;
+@tailwind utilities;
+}
+
+// @import 'tailwindcss/base.css' layer(tailwind);
+// @import 'tailwindcss/components.css' layer(tailwind);
+// @import 'tailwindcss/utilities.css' layer(tailwind);
+
+.metallic-blue-gradient {
+    background: linear-gradient(
+      90deg,
+      #999 5%,
+      #fff 10%,
+      #ccc 30%,
+      #ddd 50%,
+      #ccc 70%,
+      #fff 80%,
+      #999 95%
+    );
+    width: 100%;
+    height: 100%;
+  }
+
+
+  .p-tooltip {
+    &.error-tooltip {
+      .p-tooltip-arrow {
+        border-right-color: #cc0000;;
+        border-left-color: #cc0000;
+      }
+      .p-tooltip-text {
+        background: #cc0000;
+      }
+    }
+  
+    &.info-tooltip {
+      .p-tooltip-arrow {
+        border-right-color: #007ad9;
+        border-left-color: #007ad9;
+      }
+      .p-tooltip-text {
+        background: #007ad9;
+      }
+    }
+  }

@@ -1,0 +1,7 @@
+export enum MemberFormType {
+    ADDITIONAL_INFO_MEMBER = 'ADDITIONAL_INFO',
+    UPDATE_MEMBER = 'UPDATE_MEMBER',
+    ADD_MEMBER = 'ADD_MEMBER'
+
+}
+  

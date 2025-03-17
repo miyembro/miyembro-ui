@@ -1,0 +1,162 @@
+<form [formGroup]="membershipForm" autocomplete="off">
+  <div class="space-y-3 sm:space-y-3 md:space-y-6 mb-2 sm:mb-2 md:mb-4">
+    <div class="grid sm:grid-cols-2 gap-3 sm:gap-3 md:gap-6 w-full">
+      <div>
+        <p-iftalabel class="w-full">
+          <p-select
+            [options]="membershipTypes"
+            formControlName="membershipType"
+            optionLabel="name"
+            [showClear]="true"
+            inputId="membershipType"
+            placeholder="Select a membership type"
+            class="w-full sm:w-60vw md:w-56 lg:w-64"
+            pTooltip="{{
+              f['membershipType'].errors | formErrors : 'Membership Type'
+            }}"
+            tooltipStyleClass="error-tooltip"
+            [tooltipDisabled]="
+              !(f['membershipType'].invalid && f['membershipType'].touched)
+            "
+            [ngClass]="{
+              'border-2 border-red-500':
+                f['membershipType'].invalid && f['membershipType'].touched
+            }"
+          >
+            <ng-template #selectedItem let-selectedMembershipType>
+              <div class="flex items-center gap-2">
+                <div>
+                  {{ selectedMembershipType.name }}
+                </div>
+              </div>
+            </ng-template>
+            <ng-template let-membershipType #item>
+              <div class="flex items-center gap-2">
+                <div>{{ membershipType.name }}</div>
+              </div>
+            </ng-template>
+          </p-select>
+          <label for="membershipType">Membership Type</label>
+        </p-iftalabel>
+      </div>
+      <div>
+        <p-iftalabel class="w-full">
+          <p-select
+            [options]="roles"
+            formControlName="role"
+            optionLabel="name"
+            [showClear]="true"
+            inputId="role"
+            placeholder="Select a role"
+            class="w-full sm:w-60vw md:w-56 lg:w-64"
+            pTooltip="{{ f['role'].errors | formErrors : 'Role' }}"
+            tooltipStyleClass="error-tooltip"
+            [tooltipDisabled]="!(f['role'].invalid && f['role'].touched)"
+            [ngClass]="{
+              'border-2 border-red-500': f['role'].invalid && f['role'].touched
+            }"
+          >
+            <ng-template #selectedItem let-selectedRole>
+              <div class="flex items-center gap-2">
+                <div>
+                  {{ selectedRole.name }}
+                </div>
+              </div>
+            </ng-template>
+            <ng-template let-role #item>
+              <div class="flex items-center gap-2">
+                <div>{{ role.name }}</div>
+              </div>
+            </ng-template>
+          </p-select>
+          <label for="role">Role</label>
+        </p-iftalabel>
+      </div>
+    </div>
+    <div class="grid sm:grid-cols-2 gap-6 w-full">
+      <div>
+        <p-iftalabel class="w-full">
+          <p-select
+            [options]="membershipStatuses"
+            formControlName="membershipStatus"
+            optionLabel="name"
+            [showClear]="true"
+            inputId="role"
+            placeholder="Select a role"
+            class="w-full sm:w-60vw md:w-56 lg:w-64"
+            pTooltip="{{
+              f['membershipStatus'].errors | formErrors : 'Membership Status'
+            }}"
+            tooltipStyleClass="error-tooltip"
+            [tooltipDisabled]="
+              !(f['membershipStatus'].invalid && f['membershipStatus'].touched)
+            "
+            [ngClass]="{
+              'border-2 border-red-500':
+                f['membershipStatus'].invalid && f['membershipStatus'].touched
+            }"
+          >
+            <ng-template #selectedItem let-selectedMembershipStatus>
+              <div class="flex items-center gap-2">
+                <div>
+                  {{ selectedMembershipStatus.name }}
+                </div>
+              </div>
+            </ng-template>
+            <ng-template let-membershipStatus #item>
+              <div class="flex items-center gap-2">
+                <div>{{ membershipStatus.name }}</div>
+              </div>
+            </ng-template>
+          </p-select>
+          <label for="membershipStatus">Membership Status</label>
+        </p-iftalabel>
+      </div>
+    </div>
+    <div class="grid sm:grid-cols-2 gap-3 sm:gap-3 md:gap-6 w-full">
+      <div>
+        <p-floatlabel variant="in">
+          <p-datepicker
+            formControlName="startDate"
+            inputId="startDate"
+            showIcon
+            iconDisplay="input"
+            dateFormat="yy-mm-dd"
+            pTooltip="{{ f['startDate'].errors | formErrors : 'startDate' }}"
+            tooltipStyleClass="error-tooltip"
+            [tooltipDisabled]="
+              !(f['startDate'].invalid && f['startDate'].touched)
+            "
+            [styleClass]="
+              (f['startDate'].invalid && f['startDate'].touched
+                ? 'border-2 border-red-500 border-error '
+                : '') + 'w-full sm:w-60vw md:w-56 lg:w-64'
+            "
+          />
+          <label for="startDate">Start Date*</label>
+        </p-floatlabel>
+      </div>
+      <div>
+        <p-floatlabel variant="in">
+          <p-datepicker
+            formControlName="endDate"
+            inputId="endDate"
+            showIcon
+            iconDisplay="input"
+            dateFormat="yy-mm-dd"
+            pTooltip="{{ f['endDate'].errors | formErrors : 'endDate' }}"
+            tooltipStyleClass="error-tooltip"
+            [tooltipDisabled]="!(f['endDate'].invalid && f['endDate'].touched)"
+            [styleClass]="
+              (f['endDate'].invalid && f['endDate'].touched
+                ? 'border-2 border-red-500 border-error '
+                : '') + 'w-full sm:w-60vw md:w-56 lg:w-64'
+            "
+          />
+          <label for="endDate">End Date*</label>
+        </p-floatlabel>
+      </div>
+    </div>
+  </div>
+  <ng-content></ng-content>
+</form>

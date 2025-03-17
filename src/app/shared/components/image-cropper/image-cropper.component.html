@@ -1,0 +1,29 @@
+<div class="relative" [ngClass]="{ 'is-cover-photo': isCoverPhoto }">
+  <!-- Ensure that sanitizedUrl is bound correctly -->
+  <img
+    #imageElement
+    [src]="sanitizedUrl"
+    alt="Image for cropping"
+    class="max-w-[50%] max-h-[50vh] sm:w-[70vw] sm:h-[80vh] object-contain"
+    id="image"
+  />
+
+  <div class="crop-actions mt-4">
+    <button
+      class="mr-4 p-button"
+      pButton
+      icon="pi pi-refresh"
+      (click)="reset()"
+    >
+      Reset
+    </button>
+    <button
+      class="p-button p-button-primary"
+      pButton
+      icon="pi pi-check"
+      (click)="crop()"
+    >
+      Ok
+    </button>
+  </div>
+</div>

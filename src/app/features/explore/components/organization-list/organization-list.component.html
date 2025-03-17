@@ -1,0 +1,34 @@
+<div
+  class="m-0 overflow-y-auto"
+  infiniteScroll
+  [infiniteScrollDistance]="0.8"
+  [infiniteScrollThrottle]="400"
+  (scrolled)="onScroll()"
+  [infiniteScrollContainer]="getScrollContainer()"
+>
+  <p-dataview #dv [value]="organizations" layout="grid">
+    <ng-template #grid let-organizations>
+      <div class="grid grid-cols-12 gap-4">
+        <div
+          *ngFor="let organization of organizations"
+          class="col-span-6 sm:col-span-6 md:col-span-4 lg:col-span-2 xl:col-span-2 p-2"
+        >
+          <app-organization-item-grid
+            [organization]="organization"
+            (organizationClickChanged)="onClickOrganization($event)"
+          >
+          </app-organization-item-grid>
+        </div>
+      </div>
+    </ng-template>
+  </p-dataview>
+
+  <div class="grid grid-cols-12 gap-4" *ngIf="loading">
+    <div
+      *ngFor="let i of counterArray(); let first = first"
+      class="col-span-6 sm:col-span-6 md:col-span-4 lg:col-span-2 xl:col-span-2 p-2 h-full"
+    >
+      <app-organization-item-grid-skeleton></app-organization-item-grid-skeleton>
+    </div>
+  </div>
+</div>

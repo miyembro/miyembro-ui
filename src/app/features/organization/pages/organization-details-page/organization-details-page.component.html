@@ -1,0 +1,60 @@
+<app-organization [organization]="organization" [membership]="membership">
+  <div class="join-organization-button absolute bottom-0 left-0 py-3 px-3">
+    <p-button
+      class="flex-auto md:flex-initial whitespace-nowrap"
+      size="small"
+      styleClass="px-4 py-1"
+      severity="help"
+      (onClick)="joinOrganization()"
+      *ngIf="membership === null"
+      [raised]="true"
+    >
+      <i class="pi pi-user-plus"></i>
+      <span class="hidden md:inline">Join</span>
+      <span class="text-sm inline md:hidden">Join</span>
+    </p-button>
+    <p-button
+      class="flex-auto md:flex-initial whitespace-nowrap"
+      size="small"
+      styleClass="px-4 py-1  z-100"
+      severity="success"
+      *ngIf="membership && membership?.membershipType !== null"
+    >
+      <i class="pi pi-check"></i>
+      <span class="hidden md:inline">You are a Member</span>
+      <span class="text-sm inline md:hidden">Member</span>
+    </p-button>
+    <p-button
+      class="flex-auto md:flex-initial whitespace-nowrap"
+      size="small"
+      styleClass="px-4 py-1"
+      severity="secondary"
+      *ngIf="
+        membership &&
+        membership?.membershipType === null &&
+        membership.membershipStatus.name === 'Pending'
+      "
+    >
+      <i class="pi pi-clock"></i>
+      <span class="hidden md:inline">Request Pending</span>
+      <span class="text-sm inline md:hidden">Pending</span>
+    </p-button>
+    <p-button
+      class="flex-auto md:flex-initial whitespace-nowrap"
+      size="small"
+      styleClass="px-4 py-1"
+      severity="danger"
+      *ngIf="
+        membership &&
+        membership?.membershipType === null &&
+        membership.membershipStatus.name === 'Denied'
+      "
+    >
+      <i class="pi pi-times"></i>
+      <span class="hidden md:inline"
+        >Your request to join has been denied.</span
+      >
+      <span class="text-sm inline md:hidden">Denied</span>
+    </p-button>
+  </div>
+</app-organization>

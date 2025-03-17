@@ -1,0 +1,27 @@
+<section class="bg-gray-50 dark:bg-gray-900 login-background min-h-screen">
+  <div class="flex items-center justify-center px-6 py-8 mx-auto h-screen">
+    <div class="choose-organization-listbox text-center">
+      <h1
+        class="text-base mb-5 font-semibold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white"
+      >
+        Choose an organization you want to login
+      </h1>
+      <p-listbox
+        [options]="organizations"
+        [(ngModel)]="selectedOrganization"
+        optionLabel="name"
+        styleClass="w-full min-w-[90vw] md:min-w-[250px] min-h-[60vh] "
+        scrollHeight="50vh"
+        [filter]="true"
+        (onChange)="onSelectOrganization($event)"
+      >
+        <ng-template let-organization #item>
+          <div class="flex items-center gap-2">
+            <img class="w-10 h-10" [src]="organization.logoUrl" alt="logo" />
+            <div>{{ organization.name }}</div>
+          </div>
+        </ng-template>
+      </p-listbox>
+    </div>
+  </div>
+</section>

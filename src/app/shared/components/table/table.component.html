@@ -1,0 +1,291 @@
+<p-table
+  *ngIf="table"
+  [value]="table.rows ?? []"
+  [paginator]="paginator"
+  [pageLinks]="3"
+  [rows]="rowsPerPage"
+  [totalRecords]="totalRecords"
+  [rowsPerPageOptions]="[5, 10, 20]"
+  [first]="first"
+  [(selection)]="selectedItems"
+  (selectionChange)="onSelect($event)"
+  [showCurrentPageReport]="true"
+  (onPage)="onPageChange($event)"
+  [dataKey]="dataKey"
+  [scrollable]="true"
+  [tableStyle]="{ 'min-width': '80rem' }"
+  [lazy]="true"
+  [loading]="false"
+  (onSort)="onSort($event)"
+  (onFilter)="onFilter($event)"
+  styleClass="text-sm sm:text-sm md:text-base"
+  #dt1
+>
+  <ng-template #caption>
+    <div
+      class="flex flex-col md:flex-row filter-buttons py-0 sm:py-0 md:py-1 pb-0 sm:pb-0 md:pb-2 gap-2 sm:gap-2 md:gap-3"
+    >
+      <div class="general-filter-button">
+        <ng-container *ngIf="customFilterButton">
+          <ng-container *ngTemplateOutlet="customFilterButton"></ng-container>
+        </ng-container>
+      </div>
+      <div class="flex gap-2">
+        <p-button
+          label="Clear Column Filters"
+          [outlined]="true"
+          icon="pi pi-filter-slash"
+          (click)="clear(dt1)"
+          size="small"
+          styleClass="w-[180px]"
+        />
+        <p-splitbutton
+          *ngIf="enableMultiSelectButton && selectedItems.length !== 0"
+          [label]="multiSelectButtonLabel"
+          [model]="multiSelectButtonItems"
+          size="small"
+          severity="info"
+          outlined
+          styleClass="multiple-select-splitbutton-table w-[180px]"
+        />
+      </div>
+
+      <div></div>
+    </div>
+  </ng-template>
+  <ng-template #header>
+    <tr>
+      <th style="width: 0.5% !important" class="py-2 sm:py-2 md:py-3">
+        <p-tableHeaderCheckbox />
+      </th>
+      <th
+        class="py-2 sm:py-2 md:py-3"
+        *ngFor="let col of table.columns"
+        [pSortableColumn]="col.dataField ?? ''"
+        [ngStyle]="col.columnWidth ? { width: col.columnWidth } : {}"
+      >
+        <div class="flex items-center">
+          {{ col.headerText }}
+          <p-columnFilter
+            type="text"
+            [field]="col.dataField"
+            display="menu"
+            [showAddButton]="false"
+            [showMatchModes]="false"
+            [showOperator]="false"
+            *ngIf="col.headerFilterType === 'text'"
+          />
+          <p-columnFilter
+            type="date"
+            [field]="col.dataField"
+            display="menu"
+            [showAddButton]="false"
+            [showOperator]="false"
+            [showApplyButton]="true"
+            *ngIf="col.headerFilterType === 'date'"
+          />
+          <p-columnFilter
+            [field]="col.dataField"
+            *ngIf="col.headerFilterType === 'customDate'"
+            matchMode="in"
+            display="menu"
+            [showMatchModes]="false"
+            [showOperator]="false"
+            [showAddButton]="false"
+            [showApplyButton]="false"
+            [showClearButton]="false"
+          >
+            <ng-template #header>
+              <div class="px-4 pt-4 pb-0">
+                <span class="font-bold">{{ col.headerText }}</span>
+              </div>
+            </ng-template>
+            <ng-template
+              pTemplate="filter"
+              let-value
+              let-filter="filterCallback"
+            >
+              <div class="p-3">
+                <p-datepicker
+                  [(ngModel)]="
+                    selectedValuesDateMap[col.dataField ?? 'default']
+                  "
+                  selectionMode="range"
+                  styleClass="w-full md:w-56"
+                />
+              </div>
+              <div class="flex justify-between w-full mt-3">
+                <p-button
+                  label="Clear"
+                  size="small"
+                  class="py-2"
+                  variant="outlined"
+                  (onClick)="clearDateColumnFilter(col, filter)"
+                ></p-button>
+                <p-button
+                  (onClick)="applyDateColumnFilter(col, filter)"
+                  label="Apply"
+                  size="small"
+                  class="py-2"
+                ></p-button>
+              </div>
+            </ng-template>
+          </p-columnFilter>
+
+          <p-columnFilter
+            [field]="col.dataField"
+            *ngIf="col.headerFilterType === 'combo'"
+            matchMode="in"
+            display="menu"
+            [showMatchModes]="false"
+            [showOperator]="false"
+            [showAddButton]="false"
+            [showApplyButton]="false"
+            [showClearButton]="false"
+          >
+            <ng-template #header>
+              <div class="px-4 pt-4 pb-0">
+                <span class="font-bold">{{ col.headerText }}</span>
+              </div>
+            </ng-template>
+            <ng-template #filter let-value let-filter="filterCallback">
+              <div class="flex flex-col items-center space-y-2">
+                <p-select
+                  [options]="col.options"
+                  [(ngModel)]="
+                    selectedValuesComboSelectValueMap[
+                      col.dataField ?? 'default'
+                    ]
+                  "
+                  optionLabel="name"
+                  optionValue="value"
+                  class="w-full md:w-56"
+                ></p-select>
+                <input
+                  type="text"
+                  [(ngModel)]="
+                    selectedValuesComboInputValueMap[col.dataField ?? 'default']
+                  "
+                  pInputText
+                  class="w-full md:w-56"
+                  class="address-input"
+                />
+              </div>
+              <div class="flex justify-between w-full mt-3">
+                <p-button
+                  label="Clear"
+                  size="small"
+                  class="py-2"
+                  variant="outlined"
+                  (onClick)="onClearComboColumnFilter(col, filter)"
+                ></p-button>
+                <p-button
+                  label="Apply"
+                  size="small"
+                  class="py-2"
+                  (onClick)="
+                    onApplyComboColumnFilter(
+                      selectedValuesComboInputValueMap[
+                        col.dataField ?? 'default'
+                      ],
+                      filter,
+                      col.dataField
+                    )
+                  "
+                ></p-button>
+              </div>
+            </ng-template>
+          </p-columnFilter>
+          <p-columnFilter
+            [field]="col.dataField"
+            *ngIf="col.headerFilterType === 'select'"
+            matchMode="in"
+            display="menu"
+            [showMatchModes]="false"
+            [showOperator]="false"
+            [showAddButton]="false"
+            [showApplyButton]="false"
+            [showClearButton]="false"
+          >
+            <ng-template #header>
+              <div class="px-4 pt-4 pb-0">
+                <span class="font-bold">{{ col.headerText }}</span>
+              </div>
+            </ng-template>
+            <ng-template #filter let-value let-filter="filterCallback">
+              <p-multiSelect
+                [(ngModel)]="
+                  selectedValuesMultiSelectMap[col.dataField ?? 'default']
+                "
+                [options]="col.options"
+                placeholder="Any"
+                (onChange)="filter($event.value)"
+                optionLabel="name"
+                styleClass="w-full md:w-80"
+              >
+                <ng-template let-option #item>
+                  <div class="inline-block align-middle">
+                    <span class="ml-1 mt-1">{{ option.name }}</span>
+                  </div>
+                </ng-template>
+              </p-multiSelect>
+            </ng-template>
+          </p-columnFilter>
+          <p-sortIcon
+            [field]="col.dataField ?? ''"
+            *ngIf="col.sortable"
+            class="ml-1"
+          />
+        </div>
+      </th>
+    </tr>
+  </ng-template>
+
+  <ng-template #body let-rowData>
+    <tr *ngIf="rowData">
+      <td style="width: 0.5% !important" class="py-2 sm:py-2 md:py-3">
+        <p-tableCheckbox [value]="rowData" />
+      </td>
+      <td
+        class="py-2 sm:py-2 md:py-3"
+        *ngFor="let col of table?.columns"
+        [style.text-align]="col.textAlign ? col.textAlign : 'left'"
+      >
+        <ng-container [ngSwitch]="col.dataType">
+          <ng-container *ngSwitchCase="'templateRef'">
+            <ng-container
+              *ngTemplateOutlet="
+                getTemplate(col.colTemplateRefName ?? 'defaultTemplate');
+                context: { $implicit: rowData }
+              "
+            ></ng-container>
+          </ng-container>
+          <ng-container *ngSwitchDefault>
+            {{
+              col.dataField ? getNestedProperty(rowData, col.dataField) : 'N/A'
+            }}
+          </ng-container>
+        </ng-container>
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template #footer>
+    <div style="width: 4rem"></div>
+  </ng-template>
+  <ng-template #paginatorleft>
+    <div class="m-2 text-sm sm:text-sm md:text-base">
+      <span>
+        In total there are {{ totalRecords || 0 }}
+        {{ tableFooterCountTitle }}(s).
+      </span>
+      <span class="ml-2">
+        Selected Items {{ selectedItems?.length || 0 }}
+        {{ tableFooterCountTitle }}(s).
+      </span>
+    </div>
+  </ng-template>
+  <!-- <ng-template #paginatorright>
+    <p-button type="button" icon="pi pi-plus" text />
+  </ng-template> -->
+</p-table>

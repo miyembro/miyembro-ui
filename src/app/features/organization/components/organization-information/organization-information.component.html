@@ -1,0 +1,127 @@
+<div class="flex flex-wrap">
+  <div class="w-full md:w-1/4 p-2">
+    <div class="">
+      <p-card>
+        <ng-template #header>
+          <img
+            class="w-full"
+            [src]="selectedOrganization?.logoUrl"
+            alt="https://617b781c9d.clvaw-cdnwnd.com/dbfae9d0cff8037a3593c1bcc121071e/200000003-4a7b54a7b8/Logo%20Origineel%20GifAntwerpen.webp?ph=617b781c9d"
+          />
+        </ng-template>
+        <ng-template #title> {{ selectedOrganization?.name }} </ng-template>
+        <div>
+          <div class="flex items-center" *ngIf="selectedOrganization !== null">
+            <span class="pi pi-home mr-2"></span>
+            <span
+              class="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl text-muted-color"
+            >
+              {{
+                selectedOrganization?.organizationAddress?.street +
+                  ' ' +
+                  selectedOrganization?.organizationAddress?.city +
+                  ' ' +
+                  selectedOrganization?.organizationAddress?.provinceState +
+                  ', ' +
+                  selectedOrganization?.organizationAddress?.region +
+                  ', ' +
+                  selectedOrganization?.organizationAddress?.country
+              }}
+            </span>
+          </div>
+          <div
+            class="mt-2 flex items-center"
+            *ngIf="selectedOrganization !== null"
+          >
+            <span class="pi pi-envelope mr-2"></span>
+            <span class="text-sm text-muted-color">
+              {{ selectedOrganization?.email }}
+            </span>
+          </div>
+          <div
+            class="mt-2 flex items-center"
+            *ngIf="selectedOrganization !== null"
+          >
+            <span class="pi pi-phone mr-2"></span>
+            <span class="text-sm text-muted-color">
+              {{ selectedOrganization?.phoneNumber }}
+            </span>
+          </div>
+          <div
+            class="mt-2 flex items-center"
+            *ngIf="selectedOrganization !== null"
+          >
+            <span class="pi pi-globe mr-2"></span>
+            <a
+              href="{{ selectedOrganization?.websiteUrl }}"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-sm text-blue-600/100"
+            >
+              {{ selectedOrganization?.websiteUrl }}
+            </a>
+          </div>
+        </div>
+      </p-card>
+    </div>
+  </div>
+  <div class="w-full md:w-3/4 p-2">
+    <p-card [style]="{ width: '100%', height: '100%' }">
+      <ng-template #header>
+        <img
+          [src]="selectedOrganization?.backgroundImageUrl"
+          class="w-full object-cover"
+          style="height: 100px"
+          alt="https://617b781c9d.clvaw-cdnwnd.com/dbfae9d0cff8037a3593c1bcc121071e/200000001-08f2008f22/pexels-alexander-grey-1191710.webp?ph=617b781c9d"
+        />
+      </ng-template>
+      <ng-template #title>
+        <p class="text-2xl font-semibold mb-4">
+          {{ selectedOrganization?.name }}
+        </p>
+      </ng-template>
+      <ng-template #subtitle> </ng-template>
+      <div class="mb-5">
+        <p class="text-lg font-semibold mb-4">About Us</p>
+        <div class="w-full max-w-full overflow-hidden">
+          <div
+            class="break-words p-4"
+            [innerHTML]="selectedOrganization?.description"
+          ></div>
+        </div>
+      </div>
+      <div>
+        <p class="text-lg font-semibold mb-4">The Team</p>
+        <div class="flex flex-wrap justify-center">
+          <div class="w-full md:w-1/4 p-2 flex flex-col items-center">
+            <p-avatar
+              image="https://primefaces.org/cdn/primeng/images/demo/avatar/walter.jpg"
+              class="mb-2"
+              size="xlarge"
+              shape="circle"
+            ></p-avatar>
+            <p>Aioo Hyihas</p>
+          </div>
+          <div class="w-full md:w-1/4 p-2 flex flex-col items-center">
+            <p-avatar
+              image="https://primefaces.org/cdn/primeng/images/demo/avatar/asiyajavayant.png"
+              class="mb-2"
+              size="xlarge"
+              shape="circle"
+            ></p-avatar>
+            <p>Posadg Hyuou</p>
+          </div>
+          <div class="w-full md:w-1/4 p-2 flex flex-col items-center">
+            <p-avatar
+              image="https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png"
+              class="mb-2"
+              size="xlarge"
+              shape="circle"
+            ></p-avatar>
+            <p>Xavier Fabian</p>
+          </div>
+        </div>
+      </div>
+    </p-card>
+  </div>
+</div>

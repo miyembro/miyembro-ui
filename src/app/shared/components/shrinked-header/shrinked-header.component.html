@@ -1,0 +1,10 @@
+<div
+  *ngIf="visible"
+  class="flex justify-center items-center gap-4 p-4 shrinked-header"
+  [ngStyle]="{
+    'background-image': 'url(' + backgroundImageUrl + ')'
+  }"
+>
+  <p-avatar size="large" [image]="logoUrl" class="h-[45px]" />
+  <p class="text-white font-bold text-2xl">{{ title }}</p>
+</div>

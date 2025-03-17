@@ -1,0 +1,137 @@
+<div class="max-w-4xl mx-auto p-5">
+  <form [formGroup]="organizationMembershipTypesForm" class="w-full mx-auto">
+    <div formArrayName="membershipTypes">
+      <div
+        *ngFor="let membershipType of membershipTypes.controls; let i = index"
+        class="flex flex-col md:flex-row md:items-center gap-4 mb-4 p-4 border-b border-gray-300"
+      >
+        <!-- Membership Remove Button on the Left -->
+        <div class="flex justify-start items-center">
+          <p-button
+            icon="pi pi-times"
+            [rounded]="true"
+            [raised]="true"
+            severity="danger"
+            styleClass="mt-5"
+            (click)="removeMembershipType(i)"
+            [disabled]="membershipTypes.length === 1"
+          />
+        </div>
+
+        <!-- Form Inputs with Dynamic Layout -->
+        <div
+          [formGroupName]="i"
+          class="grid grid-cols-2 gap-4 w-full items-center justify-center sm:grid-cols-2 md:grid-cols-7"
+        >
+          <!-- Membership Type Name -->
+          <div class="w-full sm:col-span-1 md:col-span-2">
+            <label class="text-gray-600 text-sm mb-2 block" for="name">
+              Name<span class="ml-2 text-red-500 font-semibold">*</span>
+            </label>
+            <input
+              pInputText
+              [id]="'name-' + i"
+              formControlName="name"
+              type="text"
+              class="w-full"
+              pTooltip="{{ membershipType.get('name')?.errors?.['required'] ? 'Name is required' : null }}"
+              tooltipStyleClass="error-tooltip"
+              [tooltipDisabled]="
+                !(
+                  membershipType.get('name')?.invalid &&
+                  membershipType.get('name')?.touched
+                )
+              "
+              [ngClass]="{
+                'border-2 border-red-500':
+                  membershipType.get('name')?.invalid &&
+                  membershipType.get('name')?.touched
+              }"
+            />
+          </div>
+
+          <!-- Membership Description -->
+          <div class="w-full sm:col-span-1 md:col-span-2">
+            <label class="text-gray-600 text-sm mb-2 block" for="description">
+              Description<span class="ml-2 text-red-500 font-semibold">*</span>
+            </label>
+            <input
+              pInputText
+              [id]="'description-' + i"
+              formControlName="description"
+              type="text"
+              class="w-full"
+              pTooltip="{{ membershipType.get('description')?.errors?.['required'] ? 'Description is required' : null }}"
+              tooltipStyleClass="error-tooltip"
+              [tooltipDisabled]="
+                !(
+                  membershipType.get('description')?.invalid &&
+                  membershipType.get('description')?.touched
+                )
+              "
+              [ngClass]="{
+                'border-2 border-red-500':
+                  membershipType.get('description')?.invalid &&
+                  membershipType.get('description')?.touched
+              }"
+            />
+          </div>
+
+          <!-- Membership Validity -->
+          <div class="w-full sm:col-span-1 md:col-span-2">
+            <label
+              class="text-gray-600 text-sm mb-2 block"
+              for="membershipTypeValidity"
+            >
+              Validity<span class="ml-2 text-red-500 font-semibold">*</span>
+            </label>
+            <p-select
+              formControlName="membershipTypeValidity"
+              [options]="membershipTypeValidities"
+              optionLabel="name"
+              placeholder="Select validity"
+              class="w-full"
+              [styleClass]="
+                membershipType.get('membershipTypeValidity')?.invalid &&
+                membershipType.get('membershipTypeValidity')?.touched
+                  ? 'border-4 border-red-500'
+                  : ''
+              "
+              pTooltip="{{ membershipType.get('membershipTypeValidity')?.errors?.['required'] ? 'Validity is required' : null }}"
+              tooltipStyleClass="error-tooltip"
+              [tooltipDisabled]="
+                !(
+                  membershipType.get('membershipTypeValidity')?.invalid &&
+                  membershipType.get('membershipTypeValidity')?.touched
+                )
+              "
+            />
+          </div>
+
+          <!-- Membership Default? Radio Button -->
+          <div class="w-full sm:col-span-1 md:col-span-1">
+            <label class="text-gray-600 text-sm mb-2 block" for="isDefault">
+              Default?<span class="ml-2 text-red-500 font-semibold">*</span>
+            </label>
+            <p-radiobutton
+              formControlName="isDefault"
+              binary="true"
+              value="true"
+              (change)="setDefaultType(i)"
+            ></p-radiobutton>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Button -->
+    <div class="flex justify-center mt-6">
+      <p-button
+        label="Add Membership Type"
+        (click)="addMembershipType()"
+        [raised]="true"
+        severity="info"
+      />
+    </div>
+  </form>
+</div>

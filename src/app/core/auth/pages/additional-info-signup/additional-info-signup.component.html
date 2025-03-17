@@ -1,0 +1,24 @@
+<app-member-form
+  [member]="member"
+  [formType]="MemberFormType.ADDITIONAL_INFO_MEMBER"
+  [(memberForm)]="memberForm"
+>
+  <div class="mt-2 flex justify-between space-x-4">
+    <p-button
+      label="Skip"
+      (click)="onSkipAdditionalInfo()"
+      severity="contrast"
+      [raised]="true"
+      variant="outlined"
+      styleClass="mt-4 block text-sm tracking-wider focus:outline-none"
+    />
+    <p-button
+      label="Submit"
+      (click)="onClickRegisterAdditionalInfo()"
+      severity="success"
+      [raised]="true"
+      styleClass="mt-4 block text-sm tracking-wider focus:outline-none"
+      [disabled]="memberForm.invalid"
+    />
+  </div>
+</app-member-form>

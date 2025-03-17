@@ -1,0 +1,20 @@
+<div
+  class="flex flex-col items-center justify-center px-4 py-6 space-y-6 w-[80vw] h-[70vh] sm:w-[80vw] sm:w-[60vh] md:w-[75vw] md:h-[80vh] lg:w-[50vw] lg:h-[65vh] xl:w-[50vw] xl:h-[70vh]"
+>
+  <!-- Member Details -->
+  <div class="w-full max-w-lg flex justify-center">
+    <app-member-details [member]="member"></app-member-details>
+  </div>
+  <div class="w-full max-w-lg flex justify-center">
+    <app-contact-details
+      [address]="member?.memberAddress"
+      [phoneNumber]="member?.phoneNumber"
+      [email]="member?.email"
+      [membership]="membership"
+      textSize="small"
+      [showTitleHeader]="true"
+      [showEmail]="true"
+      [showMembership]="true"
+    ></app-contact-details>
+  </div>
+</div>

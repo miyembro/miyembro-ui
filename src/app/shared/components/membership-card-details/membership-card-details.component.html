@@ -1,0 +1,35 @@
+<div *ngIf="organization && membership">
+  <p-card styleClass="mt-2 p-card-flat p-shadow-8">
+    <div class="flex flex-col items-center">
+      <div class="flex items-center text-left">
+        <img class="w-8 h-9 mr-5" [src]="organization?.logoUrl" alt="logo" />
+        <span class="text-base font-medium text-muted-color">
+          {{ organization?.name }}
+        </span>
+      </div>
+      <div class="items-start">
+        <div class="flex items-center mt-5" *ngIf="membership?.startDate">
+          <span class="font-base mr-2">Member Since:</span>
+          <span class="text-sm text-muted-color">
+            {{ membership?.startDate | date }}
+          </span>
+        </div>
+        <div class="flex items-center" *ngIf="membership?.endDate">
+          <span class="font-base mr-2">Ends on:</span>
+          <span class="text-sm text-muted-color">
+            {{ membership?.endDate | date }}
+          </span>
+        </div>
+        <div class="flex items-center">
+          <span class="mr-2">Status:</span>
+          <span class="text-sm text-muted-color">
+            {{ membership?.membershipStatus?.name }}
+          </span>
+        </div>
+      </div>
+      <div class="flex items-center">
+        <ng-content></ng-content>
+      </div>
+    </div>
+  </p-card>
+</div>

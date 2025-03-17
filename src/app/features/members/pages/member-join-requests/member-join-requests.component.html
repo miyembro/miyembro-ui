@@ -1,0 +1,109 @@
+<div class="m-0">
+  <app-table
+    [table]="table"
+    [tableTitle]="title"
+    [tableFooterCountTitle]="tableFooterCountTitle"
+    [paginator]="true"
+    [(totalRecords)]="totalRecords"
+    [(rowsPerPage)]="rowsPerPage"
+    [(first)]="first"
+    (pageChangeTable)="pageChangeTable($event)"
+    (sortChangeTable)="sortChangeTable($event)"
+    (filterChangeTable)="filterChangeTable($event)"
+    (clearFilterChangeTable)="clearFilterChangeTable()"
+    [loading]="loading"
+    [(sortField)]="sortField"
+    [(sortOrder)]="sortOrder"
+    dataKey="membershipId"
+    multiSelectButtonLabel="Multiple Requests"
+    [enableMultiSelectButton]="true"
+    [multiSelectButtonItems]="multiSelectButtonItems"
+    [(selectedItems)]="selectedMemberships"
+  >
+    <!-- template for review button -->
+    <ng-template #customFilterButton>
+      <p-multiselect
+        [options]="joinRequestsMembershipStatuses"
+        [(ngModel)]="selectedJoinRequestsMembershipStatuses"
+        placeholder="Filter by status"
+        optionLabel="name"
+        display="chip"
+        (onChange)="onMembershipStatusChange($event)"
+        styleClass="w-full md:min-w-[350px] multiselect-status"
+        size="small"
+      >
+        <ng-template #header>
+          <div class="font-medium px-3 py-2">Membership Status</div>
+        </ng-template>
+        <ng-template let-status #item>
+          <div class="flex items-center">
+            <p-tag
+              styleClass="py-0 mt-1"
+              [rounded]="true"
+              [severity]="status.name === 'Pending' ? 'warn' : 'secondary'"
+              [value]="status.name"
+            />
+          </div>
+        </ng-template>
+      </p-multiselect>
+    </ng-template>
+    <ng-template #nameColumn let-row>
+      <div style="display: flex; align-items: center">
+        <p-avatar
+          [image]="row['member']['profilePicUrl']"
+          class="mr-2"
+          size="large"
+          shape="circle"
+        />
+        <div>
+          {{ row['member']['firstName'] + ' ' + row['member']['lastName'] }}
+
+          <div class="mt-0">
+            <p-tag
+              styleClass="py-0"
+              [rounded]="true"
+              [severity]="
+                row['membershipStatus']['name'] === 'Pending'
+                  ? 'warn'
+                  : 'secondary'
+              "
+              [value]="row['membershipStatus']['name']"
+            />
+          </div>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template #addressColumn let-row>
+      {{
+        row['member']['memberAddress']['city'] +
+          ', ' +
+          row['member']['memberAddress']['country']
+      }}
+    </ng-template>
+    <ng-template #approveDenyColumn let-row>
+      <p-button
+        label="Approve"
+        icon="pi pi-check"
+        size="small"
+        [raised]="true"
+        [rounded]="true"
+        styleClass="mr-2 mb-2 py-1 text-xs sm:text-xs md:text-sm
+        "
+        *ngIf="row['membershipStatus']['name'] === 'Pending'"
+        (onClick)="approveJoinRequest(row)"
+      />
+      <p-button
+        label="Deny"
+        icon="pi pi-times"
+        size="small"
+        severity="danger"
+        [raised]="true"
+        [rounded]="true"
+        styleClass="py-1 text-xs sm:text-xs md:text-sm
+        "
+        *ngIf="row['membershipStatus']['name'] === 'Pending'"
+        (onClick)="denyJoinRequest(row)"
+      />
+    </ng-template>
+  </app-table>
+</div>

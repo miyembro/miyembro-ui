@@ -1,0 +1,52 @@
+<input
+  type="file"
+  #fileInput
+  (change)="onFileSelected($event)"
+  accept="image/*"
+  hidden
+/>
+
+<!-- Ensures styleClass is properly applied -->
+<div
+  class="relative inline-block"
+  [ngClass]="[styleClass, isRound ? 'rounded-full' : 'rounded-lg']"
+>
+  <img
+    [src]="fileUrl || ''"
+    class="w-full h-full border-2 border-gray-300"
+    [ngClass]="{
+      'rounded-full bg-cover': isRound,
+      'object-cover ': !isRound
+    }"
+    alt="logo"
+    id="photoControlBackground"
+  />
+  <ng-content select="[organization-membership]"></ng-content>
+  <ng-content select="[organization-logo]"></ng-content>
+  <!-- Button stays inside the div at bottom-right while allowing external styles -->
+  <p-button
+    *ngIf="isEditable && isIconButtonOnly"
+    icon="pi pi-camera"
+    [rounded]="true"
+    severity="info"
+    class="absolute bottom-1 right-1"
+    [ngClass]="{
+      'mr-2 mb-2': !isRound
+    }"
+    (click)="openFilePicker()"
+  />
+  <p-button
+    class="absolute bottom-1 py-0 sm:left-1 md:right-1"
+    [rounded]="true"
+    *ngIf="isEditable && !isIconButtonOnly"
+    [ngClass]="{
+      'mr-2 mb-2 ml-2': !isRound
+    }"
+    size="small"
+    severity="info"
+    (click)="openFilePicker()"
+  >
+    <i class="pi pi-camera px-0 py-0"></i>
+    <p class="px-0 py-0">{{ buttonLabel }}</p>
+  </p-button>
+</div>

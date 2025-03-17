@@ -1,0 +1,30 @@
+:host ::ng-deep {
+    .editor-organization-description {
+        .ql-link	{
+            display:none !important;
+        }
+        .ql-image {
+            display:none !important;
+        }
+        .ql-code-block {
+            display:none !important;
+        }
+        
+    }
+  }
+
+
+  :host ::ng-deep {
+    .create-organization-description {
+        .p-editor {
+            border-color: red !important;
+            .p-editor-toolbar  {
+                border-color: red !important;
+            }
+            .p-editor-content {
+                border-color: red !important;
+
+            }
+        }
+    }
+  }

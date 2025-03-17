@@ -1,0 +1,70 @@
+<div
+  class="text-sm sm:text-sm md:text-base flex flex-col items-center px-4 sm:py-1 md:py-6 space-y-2 sm:space-y-1 md:m:space-y-4 w-[80vw] sm:w-[80vw] md:w-[70vw] lg:w-[50vw] xl:w-[50vw] p-0"
+>
+  <!-- Member Details -->
+  <div class="w-full flex justify-center">
+    <div>
+      <p-listbox
+        [options]="memberships"
+        [group]="true"
+        class="w-full md:w-56"
+        scrollHeight="150px"
+      >
+        <ng-template let-group #group>
+          <div class="flex items-center">
+            <app-member-details [member]="group?.member"></app-member-details>
+          </div>
+        </ng-template>
+      </p-listbox>
+    </div>
+  </div>
+
+  <p class="text-center">You are editing {{ memberships.length }} member/s</p>
+
+  <!-- Membership Type Dropdown -->
+  <div class="w-full flex justify-center">
+    <app-membership-form
+      [membershipForm]="membershipForm"
+      [membershipTypes]="membershipTypes"
+      [membershipStatuses]="membershipStatuses"
+      [roles]="roles"
+    ></app-membership-form>
+  </div>
+
+  <!-- Buttons -->
+  <div class="w-full max-w-lg flex justify-center space-x-4">
+    <p-button
+      label="Update"
+      icon="pi pi-check"
+      size="small"
+      [raised]="true"
+      [rounded]="true"
+      class="mb-2"
+      [disabled]="membershipForm.invalid || membershipForm.pristine"
+      (onClick)="onUpdateMemberships()"
+    />
+    <p-button
+      label="Cancel"
+      icon="pi pi-times"
+      size="small"
+      severity="secondary"
+      [raised]="true"
+      [rounded]="true"
+      (onClick)="onCancelEditMemberships()"
+    />
+  </div>
+
+  <div class="w-full max-w-lg flex justify-center space-x-4">
+    <p-button
+      label="Remove these members from the organization?"
+      size="small"
+      [raised]="true"
+      [rounded]="true"
+      severity="danger"
+      class="mb-2"
+      variant="text"
+      styleClass="text-xs"
+      (onClick)="onDeleteMemberships($event)"
+    />
+  </div>
+</div>

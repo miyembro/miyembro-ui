@@ -1,0 +1,325 @@
+<app-background>
+  <div
+    class="max-w-3xl max-sm:max-w-lg mx-auto min-h-screen flex flex-col items-center justify-center text-sm sm:text-sm md:text-base"
+  >
+    <h2
+      class="text-lg font-medium text-purple-700"
+      *ngIf="formType === MemberFormType.ADDITIONAL_INFO_MEMBER"
+    >
+      Add more details to your account
+    </h2>
+    <div class="w-full p-5">
+      <form [formGroup]="memberForm" autocomplete="off">
+        <div class="grid gap-5 w-full">
+          <div class="p-5 grid place-items-center">
+            <app-avatar
+              formControlName="profilePicUrl"
+              avatarSize="medium"
+            ></app-avatar>
+          </div>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-2 sm:gap-2 md:gap-5">
+          <div
+            *ngIf="
+              formType === MemberFormType.ADD_MEMBER ||
+              formType === MemberFormType.UPDATE_MEMBER
+            "
+          >
+            <p-floatlabel variant="in">
+              <input
+                pInputText
+                id="firstName"
+                class="text-sm sm:text-sm md:text-base"
+                formControlName="firstName"
+                autocomplete="off"
+                pTooltip="{{
+                  f['firstName'].errors | formErrors : 'first name'
+                }}"
+                tooltipStyleClass="error-tooltip"
+                [tooltipDisabled]="
+                  !(f['firstName'].invalid && f['firstName'].touched)
+                "
+                [ngClass]="{
+                  'border-2 border-red-500':
+                    f['firstName'].invalid && f['firstName'].touched
+                }"
+              />
+              <label for="firstName">First Name</label>
+            </p-floatlabel>
+          </div>
+          <div
+            *ngIf="
+              formType === MemberFormType.ADD_MEMBER ||
+              formType === MemberFormType.UPDATE_MEMBER
+            "
+          >
+            <p-floatlabel variant="in">
+              <input
+                pInputText
+                id="lastName"
+                class="text-sm sm:text-sm md:text-base"
+                formControlName="lastName"
+                autocomplete="off"
+                pTooltip="{{ f['lastName'].errors | formErrors : 'last name' }}"
+                tooltipStyleClass="error-tooltip"
+                [tooltipDisabled]="
+                  !(f['lastName'].invalid && f['lastName'].touched)
+                "
+                [ngClass]="{
+                  'border-2 border-red-500':
+                    f['lastName'].invalid && f['lastName'].touched
+                }"
+              />
+              <label for="firstName">Last Name</label>
+            </p-floatlabel>
+          </div>
+          <div>
+            <ngx-material-intl-tel-input
+              fieldControlName="phoneNumber"
+              [required]="true"
+              [autoIpLookup]="true"
+              appearance="fill"
+              [hidePhoneIcon]="true"
+              class="custom-phone-input"
+              pTooltip="{{
+                f['phoneNumber'].errors | formErrors : 'phone number'
+              }}"
+              tooltipStyleClass="error-tooltip"
+              [tooltipDisabled]="
+                !(f['phoneNumber'].invalid && f['phoneNumber'].touched)
+              "
+              [ngClass]="{
+                'border-2 border-red-500':
+                  f['phoneNumber'].invalid && f['phoneNumber'].touched
+              }"
+            >
+            </ngx-material-intl-tel-input>
+          </div>
+          <div>
+            <p-floatlabel variant="in">
+              <p-datepicker
+                formControlName="birthDate"
+                inputId="in_label"
+                showIcon
+                iconDisplay="input"
+                dateFormat="yy-mm-dd"
+                styleClass="text-xs sm:text-xs md:text-base"
+                pTooltip="{{
+                  f['birthDate'].errors | formErrors : 'birthDate'
+                }}"
+                tooltipStyleClass="error-tooltip"
+                [tooltipDisabled]="
+                  !(f['birthDate'].invalid && f['birthDate'].touched)
+                "
+                [styleClass]="
+                  f['birthDate'].invalid && f['birthDate'].touched
+                    ? 'border-2 border-red-500 border-error '
+                    : ''
+                "
+              />
+              <label for="in_label">Date of Birth*</label>
+            </p-floatlabel>
+          </div>
+        </div>
+        <p-divider styleClass="mt-4"></p-divider>
+        <h2 class="text-lg font-medium text-purple-700 mb-3">
+          Address details:
+        </h2>
+        <div
+          class="grid sm:grid-cols-2 gap-2 sm:gap-2 md:gap-5"
+          formGroupName="memberAddress"
+        >
+          <div>
+            <p-iftalabel class="w-full">
+              <p-select
+                [options]="countries"
+                formControlName="country"
+                optionLabel="name"
+                optionValue="name"
+                [filter]="true"
+                filterBy="name"
+                [showClear]="true"
+                inputId="country"
+                placeholder="Select a Country"
+                class="w-full md:w-56"
+                pTooltip="{{
+                  getControlErrors('memberAddress', 'country')
+                    | formErrors : 'country'
+                }}"
+                tooltipStyleClass="error-tooltip"
+                [tooltipDisabled]="
+                  !isControlInvalidAndTouched('memberAddress', 'country')
+                "
+                [ngClass]="{
+                  'border-2 border-red-500': isControlInvalidAndTouched(
+                    'memberAddress',
+                    'country'
+                  )
+                }"
+              >
+                <ng-template #selectedItem let-selectedOption>
+                  <div class="flex items-center gap-2">
+                    <div>
+                      {{ selectedOption.name }}
+                    </div>
+                  </div>
+                </ng-template>
+                <ng-template let-country #item>
+                  <div class="flex items-center gap-2">
+                    <div>{{ country.name }}</div>
+                  </div>
+                </ng-template>
+              </p-select>
+              <label for="country">Country</label>
+            </p-iftalabel>
+          </div>
+          <div>
+            <p-iftalabel class="w-full">
+              <p-select
+                [options]="states"
+                formControlName="provinceState"
+                optionLabel="name"
+                optionValue="name"
+                [filter]="true"
+                filterBy="name"
+                [showClear]="true"
+                inputId="provinceState"
+                [disabled]="!selectedCountry"
+                placeholder="Select a State/Province"
+                class="w-full md:w-56"
+                pTooltip="{{
+                  getControlErrors('memberAddress', 'provinceState')
+                    | formErrors : 'provinceState'
+                }}"
+                tooltipStyleClass="error-tooltip"
+                [tooltipDisabled]="
+                  !isControlInvalidAndTouched('memberAddress', 'provinceState')
+                "
+                [ngClass]="{
+                  'border-2 border-red-500': isControlInvalidAndTouched(
+                    'memberAddress',
+                    'provinceState'
+                  )
+                }"
+              >
+                <ng-template #selectedItem let-selectedOption>
+                  <div class="flex items-center gap-2">
+                    <div>
+                      {{ selectedOption.name }}
+                    </div>
+                  </div>
+                </ng-template>
+                <ng-template let-state #item>
+                  <div class="flex items-center gap-2">
+                    <div>{{ state.name }}</div>
+                  </div>
+                </ng-template>
+              </p-select>
+              <label for="provinceState">State</label>
+            </p-iftalabel>
+          </div>
+          <div>
+            <p-iftalabel class="w-full">
+              <p-select
+                [options]="cities"
+                formControlName="city"
+                optionLabel="name"
+                optionValue="name"
+                [filter]="true"
+                filterBy="name"
+                [showClear]="true"
+                inputId="city"
+                [disabled]="!selectedCountry || !selectedState"
+                placeholder="Select a City"
+                class="w-full md:w-56"
+                pTooltip="{{
+                  getControlErrors('memberAddress', 'city')
+                    | formErrors : 'city'
+                }}"
+                tooltipStyleClass="error-tooltip"
+                [tooltipDisabled]="
+                  !isControlInvalidAndTouched('memberAddress', 'city')
+                "
+                [ngClass]="{
+                  'border-2 border-red-500': isControlInvalidAndTouched(
+                    'memberAddress',
+                    'city'
+                  )
+                }"
+              >
+                <ng-template #selectedItem let-selectedOption>
+                  <div class="flex items-center gap-2">
+                    <div>
+                      {{ selectedOption.name }}
+                    </div>
+                  </div>
+                </ng-template>
+                <ng-template let-city #item>
+                  <div class="flex items-center gap-2">
+                    <div>{{ city.name }}</div>
+                  </div>
+                </ng-template>
+              </p-select>
+              <label for="city">City</label>
+            </p-iftalabel>
+          </div>
+          <div>
+            <p-floatlabel variant="in">
+              <input
+                pInputText
+                id="postalCode"
+                formControlName="postalCode"
+                type="text"
+                class="w-full text-sm sm:text-sm md:text-base"
+                pTooltip="{{
+                  getControlErrors('memberAddress', 'postalCode')
+                    | formErrors : 'postalCode'
+                }}"
+                tooltipStyleClass="error-tooltip"
+                [tooltipDisabled]="
+                  !isControlInvalidAndTouched('memberAddress', 'postalCode')
+                "
+                [ngClass]="{
+                  'border-2 border-red-500': isControlInvalidAndTouched(
+                    'memberAddress',
+                    'postalCode'
+                  )
+                }"
+              />
+              <label for="postalCode">Postal Code</label>
+            </p-floatlabel>
+          </div>
+          <div>
+            <p-floatlabel variant="in">
+              <input
+                pInputText
+                id="street"
+                formControlName="street"
+                type="text"
+                class="w-full text-sm sm:text-sm md:text-base"
+                pTooltip="{{
+                  getControlErrors('memberAddress', 'street')
+                    | formErrors : 'street'
+                }}"
+                tooltipStyleClass="error-tooltip"
+                [tooltipDisabled]="
+                  !isControlInvalidAndTouched('memberAddress', 'street')
+                "
+                [ngClass]="{
+                  'border-2 border-red-500': isControlInvalidAndTouched(
+                    'memberAddress',
+                    'street'
+                  )
+                }"
+              />
+              <label for="street">Street</label>
+            </p-floatlabel>
+          </div>
+        </div>
+        <p-divider styleClass="mt-2 sm:mt-2 md:mt-4"></p-divider>
+        <!-- For Buttons -->
+        <ng-content></ng-content>
+      </form>
+    </div>
+  </div>
+</app-background>

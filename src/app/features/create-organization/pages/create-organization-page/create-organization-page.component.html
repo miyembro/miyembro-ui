@@ -1,0 +1,183 @@
+<app-background>
+  <!-- Root div to prevent overflow -->
+  <div class="w-full p-4">
+    <div
+      class="mx-auto min-h-screen flex flex-col items-center justify-center create-organization-tabs w-full lg:w-[60%]"
+    >
+      <div class="card flex justify-center flex-col h-full w-full">
+        <p-stepper [value]="1" class="basis-[50rem]" [linear]="true">
+          <p-step-list>
+            <p-step [value]="1">
+              <span class="whitespace-normal step-title text-sm"
+                >Organization Details</span
+              >
+            </p-step>
+            <p-step [value]="2">
+              <span class="whitespace-normal step-title text-sm"
+                >Organization Address</span
+              >
+            </p-step>
+            <p-step [value]="3">
+              <span class="whitespace-normal step-title text-sm"
+                >Membership Types</span
+              >
+            </p-step>
+            <p-step [value]="4">
+              <span class="whitespace-normal step-title text-sm"
+                >Upload Image</span
+              >
+            </p-step>
+          </p-step-list>
+          <p-step-panels>
+            <p-step-panel [value]="1">
+              <ng-template #content let-activateCallback="activateCallback">
+                <div class="flex flex-col h-full w-full">
+                  <div
+                    class="border-2 border-dashed border-surface-200 dark:border-surface-700 rounded bg-surface-50 dark:bg-surface-950 flex-auto flex justify-center items-center font-medium w-full"
+                  >
+                    <app-organization-form
+                      [(organizationForm)]="organizationForm"
+                    ></app-organization-form>
+                  </div>
+                  <div class="flex pt-6 justify-between">
+                    <p-button
+                      label="Cancel"
+                      severity="secondary"
+                      icon="pi pi-times"
+                      (onClick)="cancelCreateOrganization()"
+                    />
+                    <p-button
+                      label="Next"
+                      icon="pi pi-arrow-right"
+                      iconPos="right"
+                      [disabled]="organizationForm.invalid"
+                      (onClick)="activateCallback(2)"
+                    />
+                  </div>
+                </div>
+              </ng-template>
+            </p-step-panel>
+
+            <p-step-panel [value]="2">
+              <ng-template #content let-activateCallback="activateCallback">
+                <div class="flex flex-col h-full w-full">
+                  <div
+                    class="border-2 border-dashed border-surface-200 dark:border-surface-700 rounded bg-surface-50 dark:bg-surface-950 flex-auto flex justify-center items-center font-medium w-full"
+                  >
+                    <app-organization-address-form
+                      [(organizationAddressForm)]="organizationAddressForm"
+                      [formType]="OrganizationFormType.ADD_ORGANIZATION"
+                    ></app-organization-address-form>
+                  </div>
+                  <div class="flex justify-between pt-6 mt-auto">
+                    <div>
+                      <p-button
+                        label="Back"
+                        severity="secondary"
+                        icon="pi pi-arrow-left"
+                        (onClick)="activateCallback(1)"
+                        styleClass="mr-2"
+                      />
+                      <p-button
+                        label="Cancel"
+                        severity="secondary"
+                        icon="pi pi-times"
+                        (onClick)="cancelCreateOrganization()"
+                      />
+                    </div>
+                    <p-button
+                      label="Next"
+                      icon="pi pi-arrow-right"
+                      iconPos="right"
+                      [disabled]="organizationAddressForm?.invalid"
+                      (onClick)="activateCallback(3)"
+                    />
+                  </div>
+                </div>
+              </ng-template>
+            </p-step-panel>
+
+            <p-step-panel [value]="3">
+              <ng-template #content let-activateCallback="activateCallback">
+                <div class="flex flex-col h-full w-full">
+                  <div
+                    class="border-2 border-dashed border-surface-200 justify-center dark:border-surface-700 rounded bg-surface-50 dark:bg-surface-950 flex-auto flex justify-center items-center font-medium w-full"
+                  >
+                    <app-organization-membership-type-form
+                      [membershipTypeValidities]="membershipTypeValidities"
+                      [organizationMembershipTypesForm]="
+                        organizationMembershipTypesForm
+                      "
+                    ></app-organization-membership-type-form>
+                  </div>
+                  <div class="flex justify-between pt-6 mt-auto">
+                    <div>
+                      <p-button
+                        label="Back"
+                        severity="secondary"
+                        icon="pi pi-arrow-left"
+                        (onClick)="activateCallback(2)"
+                        styleClass="mr-2"
+                      />
+                      <p-button
+                        label="Cancel"
+                        severity="secondary"
+                        icon="pi pi-times"
+                        (onClick)="cancelCreateOrganization()"
+                      />
+                    </div>
+                    <p-button
+                      label="Next"
+                      icon="pi pi-arrow-right"
+                      iconPos="right"
+                      [disabled]="organizationMembershipTypesForm?.invalid"
+                      (onClick)="activateCallback(4)"
+                    />
+                  </div>
+                </div>
+              </ng-template>
+            </p-step-panel>
+
+            <p-step-panel [value]="4">
+              <ng-template #content let-activateCallback="activateCallback">
+                <div class="flex flex-col h-full w-full">
+                  <div
+                    class="border-2 border-dashed border-surface-200 dark:border-surface-700 rounded bg-surface-50 dark:bg-surface-950 flex-auto flex justify-center items-center font-medium w-full"
+                  >
+                    <app-organization-upload-image
+                      [organizationImageFileForm]="organizationImageFileForm"
+                    ></app-organization-upload-image>
+                  </div>
+                </div>
+                <div class="flex justify-between pt-6 mt-auto">
+                  <div>
+                    <p-button
+                      label="Back"
+                      severity="secondary"
+                      icon="pi pi-arrow-left"
+                      (onClick)="activateCallback(3)"
+                      styleClass="mr-2"
+                    />
+                    <p-button
+                      label="Cancel"
+                      severity="secondary"
+                      icon="pi pi-times"
+                      (onClick)="cancelCreateOrganization()"
+                    />
+                  </div>
+                  <p-button
+                    label="Create Organization"
+                    icon="pi pi-arrow-right"
+                    iconPos="right"
+                    [disabled]="organizationImageFileForm?.invalid"
+                    (onClick)="createOrganization()"
+                  />
+                </div>
+              </ng-template>
+            </p-step-panel>
+          </p-step-panels>
+        </p-stepper>
+      </div>
+    </div>
+  </div>
+</app-background>

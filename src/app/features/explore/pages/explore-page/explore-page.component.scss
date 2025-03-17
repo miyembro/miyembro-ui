@@ -1,0 +1,25 @@
+// .explore-page {
+//     overflow-y: auto;
+//     position: relative;
+// }
+
+// /* Ensure the parent container has position: relative */
+// .explore-page {
+//     position: relative; /* Added */
+//     overflow-y: auto;
+//     height: 100vh; /* Ensure the parent has a height */
+//   }
+  
+//   .sticky-container {
+//     position: relative; /* Added */
+//   }
+  
+//   .input-wrapper {
+//     position: sticky;
+//     top: 0;
+//     background-color: white; /* Ensure the input field has a solid background */
+//     z-index: 10; /* Makes sure it stays on top */
+//     padding: 10px; /* Add any padding needed */
+//     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow */
+//   }
+  

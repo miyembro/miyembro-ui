@@ -1,0 +1,17 @@
+:host ::ng-deep {
+    .multiple-select-splitbutton-table .p-tieredmenu-overlay {
+        position: absolute !important; 
+        top: 100% !important; 
+        left: -30px !important; 
+        z-index: 9999; 
+    }
+}
+
+:host ::ng-deep {
+    .p-datatable-header  {
+        padding: 5px;
+        padding-bottom:0px;
+    }
+}
+
+

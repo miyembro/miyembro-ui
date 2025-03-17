@@ -1,0 +1,65 @@
+.login-background {
+  background-image: url('/assets/login-background-image.jpg');
+  background-size: cover;
+    background-position: center;
+    height: 100vh; /* Full screen */
+    width: 100%;
+  }
+
+
+:host ::ng-deep {
+    .sessions-card.p-card {
+      padding: 1rem 1rem;
+      width: 100%;
+      // box-shadow: none;
+    }
+  }
+  
+  :host ::ng-deep {
+    .sessions-password.p-password {
+      .p-password-input	 {
+        width: 100% !important;
+      }
+    }
+  }
+
+
+  :host ::ng-deep {
+    .register-password.password-incorrect {
+      .p-password-input	 {
+        border-width: 2px !important;
+      }
+    }
+    .register-password.p-password {
+      .p-password-input	 {
+        width: 100% !important;
+      }
+      
+    }
+  }
+
+
+  :host ::ng-deep {
+    .p-inputnumber.p-inputnumber	{
+      width: 100% !important
+    }
+  }
+
+
+  // :host ::ng-deep {
+  //   .c {
+  //     .p-inputnumber-input	{
+  //       width: 100% !important
+  //     }
+  //   }
+  // }
+
+
+
+  :host ::ng-deep {
+    .border-4.p-inputnumber-input	{
+      width: 100% !important
+    }
+  }
+
+  

@@ -1,0 +1,126 @@
+<div class="m-0">
+  <app-table
+    [table]="table"
+    [tableTitle]="title"
+    [tableFooterCountTitle]="tableFooterCountTitle"
+    [paginator]="true"
+    [(totalRecords)]="totalRecords"
+    [(rowsPerPage)]="rowsPerPage"
+    [(first)]="first"
+    (pageChangeTable)="pageChangeTable($event)"
+    (sortChangeTable)="sortChangeTable($event)"
+    (filterChangeTable)="filterChangeTable($event)"
+    (clearFilterChangeTable)="clearFilterChangeTable()"
+    [loading]="loading"
+    [(sortField)]="sortField"
+    [(sortOrder)]="sortOrder"
+    multiSelectButtonLabel="Multiple Edit"
+    [enableMultiSelectButton]="true"
+    [multiSelectButtonItems]="multiSelectButtonItems"
+    dataKey="membershipId"
+    [(selectedItems)]="selectedMemberships"
+  >
+    <ng-template #customFilterButton>
+      <p-multiselect
+        [options]="membershipStatuses"
+        [(ngModel)]="selectedMembershipStatuses"
+        (onChange)="onMembershipStatusChange($event)"
+        placeholder="Filter by status"
+        optionLabel="name"
+        display="chip"
+        styleClass="w-full md:min-w-[350px] multiselect-status"
+        size="small"
+      >
+        <ng-template #header>
+          <div class="font-medium px-3 py-2">Membership Status</div>
+        </ng-template>
+        <ng-template let-status #item>
+          <div class="flex items-center">
+            <p-tag
+              styleClass="py-0 mt-1 text-sm sm:text-sm md:text-base"
+              [rounded]="true"
+              [severity]="
+                status.name === 'Active'
+                  ? 'success'
+                  : status.name === 'Expired'
+                  ? 'danger'
+                  : status.name === 'Cancelled'
+                  ? 'info'
+                  : 'secondary'
+              "
+              [value]="status.name"
+            />
+          </div>
+        </ng-template>
+      </p-multiselect>
+    </ng-template>
+    <ng-template #nameColumn let-row>
+      <div style="display: flex; align-items: center; width: '500px'">
+        <p-avatar
+          [image]="row['member']['profilePicUrl']"
+          class="mr-2"
+          size="large"
+          shape="circle"
+        />
+        <div>
+          {{ row['member']['firstName'] + ' ' + row['member']['lastName'] }}
+
+          <div class="mt-0">
+            <p-tag
+              styleClass="py-0 text-sm sm:text-sm md:text-base"
+              [rounded]="true"
+              [severity]="
+                row['membershipStatus']['name'] === 'Active'
+                  ? 'success'
+                  : row['membershipStatus']['name'] === 'Expired'
+                  ? 'danger'
+                  : 'info'
+              "
+              [value]="row['membershipStatus']['name']"
+            />
+          </div>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template #addressColumn let-row>
+      {{
+        row['member']['memberAddress']['city'] +
+          ', ' +
+          row['member']['memberAddress']['country']
+      }}
+    </ng-template>
+    <ng-template #startDateColumn let-row>
+      {{ row['startDate'] | date : 'MMMM d, y' }}
+    </ng-template>
+    <ng-template #endDateColumn let-row>
+      {{ row['endDate'] | date : 'MMMM d, y' }}
+    </ng-template>
+    <ng-template #moreDetailsColumn let-row> </ng-template>
+    <ng-template #editMembershipColumn let-row>
+      <div class="flex space-x-2">
+        <p-button
+          label="Details"
+          size="small"
+          icon="pi pi-user"
+          severity="info"
+          [raised]="true"
+          [rounded]="true"
+          styleClass="py-1 text-xs sm:text-xs md:text-sm
+          "
+          (onClick)="onViewMemberDetails(row)"
+        />
+        <p-button
+          label="Edit"
+          icon="pi pi-pencil"
+          size="small"
+          severity="help"
+          [raised]="true"
+          [rounded]="true"
+          styleClass="py-1 text-xs sm:text-xs md:text-sm
+          "
+          (onClick)="onEditMembership(row)"
+        />
+      </div>
+    </ng-template>
+  </app-table>
+</div>

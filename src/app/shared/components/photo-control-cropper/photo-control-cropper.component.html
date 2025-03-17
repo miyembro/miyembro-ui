@@ -1,0 +1,26 @@
+<div
+  class="md:w-[50vw] md:h-[50vh] lg:w-[50vw] lg:h-[60vh]"
+  [ngStyle]="{ 'border-radius': isRound ? '50%' : '0%' }"
+>
+  <image-cropper
+    [imageChangedEvent]="imageChangedEvent"
+    [maintainAspectRatio]="true"
+    [aspectRatio]="width / height"
+    [imageBase64]="imageBase64"
+    format="png"
+    (imageCropped)="imageCropped($event)"
+    (imageLoaded)="imageLoaded($event)"
+    (cropperReady)="cropperReady()"
+    (loadImageFailed)="loadImageFailed()"
+  ></image-cropper>
+</div>
+<div class="mt-4">
+  <button
+    class="p-button p-button-primary"
+    pButton
+    icon="pi pi-check"
+    (click)="save()"
+  >
+    Save
+  </button>
+</div>

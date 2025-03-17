@@ -1,0 +1,11 @@
+
+
+:host ::ng-deep {
+    .multiselect-status {
+        .p-multiselect-label .p-chip {
+            padding-top: 0px;
+            padding-bottom: 0px;
+        }
+    }
+   
+  }

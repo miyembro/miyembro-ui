@@ -1,0 +1,6 @@
+export enum MembershipFormType {
+    UPDATE_MEMBERSHIP = 'UPDATE_MEMBERSHIP',
+    ADD_MEMBERSHIP = 'ADD_MEMBERSHIP'
+
+}
+  

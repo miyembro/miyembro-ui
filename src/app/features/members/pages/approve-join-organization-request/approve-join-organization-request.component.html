@@ -1,0 +1,68 @@
+<div
+  class="text-sm sm:text-sm md:text-base flex flex-col items-center justify-center px-4 py-6 space-y-6 w-[80vw] h-[60vh] sm:w-[80vw] sm:w-[60vh] md:w-[70vw] md:h-[60vh] lg:w-[45vw] lg:h-[60vh] xl:w-[30vw] xl:h-[60vh]"
+>
+  <!-- Member Details -->
+  <div class="w-full max-w-lg flex justify-center">
+    <app-member-details [member]="membership?.member"></app-member-details>
+  </div>
+
+  <!-- Membership Type Dropdown -->
+  <div class="text-center">
+    <p>Choose a type of membership for {{ membership?.member?.email }}</p>
+  </div>
+  <div class="w-full max-w-xs flex justify-center">
+    <p-select
+      [options]="membershipTypes"
+      [(ngModel)]="selectedMembership"
+      optionLabel="name"
+      placeholder="Choose membership"
+      [showClear]="true"
+      class="w-full"
+    />
+  </div>
+
+  <!-- Buttons -->
+  <div class="w-full max-w-lg flex justify-center space-x-4">
+    <p-button
+      label="Approve"
+      icon="pi pi-check"
+      size="small"
+      [raised]="true"
+      [rounded]="true"
+      class="mb-2"
+      [disabled]="!selectedMembership"
+      (onClick)="approveJoinRequest()"
+    />
+    <p-button
+      label="Deny"
+      icon="pi pi-times"
+      size="small"
+      [raised]="true"
+      [rounded]="true"
+      severity="danger"
+      class="mb-2"
+      (onClick)="denyJoinRequest()"
+    />
+    <p-button
+      label="Cancel"
+      size="small"
+      severity="secondary"
+      [raised]="true"
+      [rounded]="true"
+      (onClick)="cancelApproveJoinRequest()"
+    />
+  </div>
+  <!-- <div class="w-full max-w-lg flex justify-center space-x-4">
+    <p-button
+      label="Remove this member from the organization"
+      size="small"
+      [raised]="true"
+      [rounded]="true"
+      severity="danger"
+      class="mb-2"
+      variant="text"
+      styleClass="text-xs"
+      (onClick)="deleteRequests($event)"
+    />
+  </div> -->
+</div>

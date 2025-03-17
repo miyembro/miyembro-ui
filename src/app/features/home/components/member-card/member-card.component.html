@@ -1,0 +1,79 @@
+<p-popover #op>
+  <div class="flex flex-col gap-4 w-[20rem]">
+    <div>
+      <p-card header="">
+        <app-member-details
+          [member]="session?.member"
+          [role]="session?.role"
+        ></app-member-details>
+      </p-card>
+    </div>
+    <div class="m-3">
+      <div class="items-center">
+        <div>
+          <app-member-other-details
+            [member]="session?.member"
+          ></app-member-other-details>
+
+          <!-- <p-divider />
+          <div *ngIf="session?.organization === null" class="items-center">
+            <p-card>
+              <p class="font-normal flex items-center">
+                You are not a member of any organization
+              </p>
+            </p-card>
+          </div>
+          <div *ngIf="session?.organization !== null">
+            <span class="font-medium">Membership: </span>
+            <app-membership-card-details
+              [organization]="session?.organization"
+              [membership]="session?.membership"
+            >
+              <div class="justify-center p-2">
+                <p-button
+                  label="More details"
+                  styleClass="w-full mt-2"
+                  severity="info"
+                  size="small"
+                />
+              </div>
+            </app-membership-card-details>
+          </div> -->
+          <div class="space-y-4 md:space-y-6 mt-4">
+            <p-button
+              label="Edit Details"
+              styleClass="w-full mt-2"
+              severity="secondary"
+              icon="pi pi-pencil"
+              (onClick)="editDetails()"
+              size="small"
+              [raised]="true"
+            />
+          </div>
+          <div class="space-y-4 md:space-y-6">
+            <p-button
+              icon="pi pi-sign-out"
+              label="Logout"
+              severity="secondary"
+              size="small"
+              styleClass="w-full mt-4"
+              [raised]="true"
+              (onClick)="onClickLogout()"
+            />
+          </div>
+          <div class="space-y-4 md:space-y-6">
+            <p-button
+              icon="pi pi-users"
+              label="Create your organization"
+              severity="help"
+              size="small"
+              styleClass="w-full mt-4"
+              [raised]="true"
+              (onClick)="goToCreateOrganization()"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-popover>

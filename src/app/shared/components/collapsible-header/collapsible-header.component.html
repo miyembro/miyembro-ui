@@ -1,0 +1,15 @@
+<app-profile-header
+  [backgroundImageUrl]="backgroundImageUrl"
+  [logoUrl]="logoUrl"
+  [title]="title"
+  [isEditAllowed]="isEditAllowed"
+>
+  <ng-content organization-membership></ng-content>
+</app-profile-header>
+
+<app-shrinked-header
+  [visible]="schrunk"
+  [title]="title"
+  [logoUrl]="logoUrl"
+  [backgroundImageUrl]="backgroundImageUrl"
+></app-shrinked-header>

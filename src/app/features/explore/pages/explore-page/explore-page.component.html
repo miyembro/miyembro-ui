@@ -1,0 +1,48 @@
+<div
+  class="flex flex-col md:flex-row md:justify-left py-2 sm:py-2 md:py-4 gap-2 sm:gap-2 md:gap-4 text-sm sm:text-sm md:text-base"
+  style="position: sticky; top: 0; z-index: 10; background: white"
+>
+  <!-- Search by name -->
+  <div class="input-wrapper">
+    <input
+      [(ngModel)]="name"
+      pInputText
+      placeholder="Search organization"
+      class="w-full md:w-auto h-9 sm:h-9 md:h-11 text-sm sm:text-sm md:text-base"
+    />
+  </div>
+
+  <!-- Filter -->
+  <div class="flex xs:flex-row sm:flex-row gap-4">
+    <div class="w-full xs:w-1/2 sm:w-1/2 md:w-56">
+      <!-- Filter by country -->
+      <p-select
+        [options]="countries"
+        [(ngModel)]="selectedCountry"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Filter by country"
+        (onChange)="getCities($event)"
+        [showClear]="true"
+        class="w-full h-9 sm:h-9 md:h-11 text-sm sm:text-sm md:text-base"
+      />
+    </div>
+    <div class="w-full xs:w-1/2 sm:w-1/2 md:w-56">
+      <!-- Filter by city -->
+      <p-select
+        [options]="cities"
+        [(ngModel)]="selectedCity"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Filter by city"
+        [showClear]="true"
+        class="w-full h-9 sm:h-9 md:h-11 text-sm sm:text-sm md:text-base"
+      />
+    </div>
+  </div>
+</div>
+<app-organization-list
+  [searchName]="name"
+  [selectedCountry]="selectedCountry"
+  [selectedCity]="selectedCity"
+></app-organization-list>

@@ -1,0 +1,20 @@
+
+.sticky-tabs {
+    position: sticky;
+    top: 64px; /* Ensures it appears below the badge */
+    background-color: white;
+    z-index: 40; /* Lower than organization-badge-tabs */
+    transition: padding 0.3s, font-size 0.3s;
+  }
+  
+  
+
+//  .organizaion-tab-panels {
+//   .p-tabpanels {
+//     padding: 0px;
+//   }
+//  }
+
+.p-tabpanels {
+  padding: 0px;
+}

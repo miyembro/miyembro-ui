@@ -1,0 +1,30 @@
+<app-member-form
+  [member]="member"
+  [formType]="MemberFormType.UPDATE_MEMBER"
+  [(memberForm)]="memberForm"
+>
+  <div class="mt-2 flex justify-center space-x-4">
+    <p-button
+      (click)="onCancelEditMemberDetails()"
+      severity="secondary"
+      [raised]="true"
+      size="small"
+      class="mt-4 block text-sm"
+    >
+      <i class="pi pi-times"></i>
+      <span>Cancel</span>
+    </p-button>
+
+    <p-button
+      (click)="onClickRegisterAdditionalInfo()"
+      severity="success"
+      [raised]="true"
+      size="small"
+      class="mt-4 block text-sm"
+      [disabled]="memberForm.invalid || memberForm.pristine"
+    >
+      <i class="pi pi-check"></i>
+      <span>Submit</span>
+    </p-button>
+  </div>
+</app-member-form>

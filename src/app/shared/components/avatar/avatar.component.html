@@ -1,0 +1,97 @@
+<div class="avatar-container">
+  <div
+    class="image-container"
+    *ngIf="file; else placeholder"
+    [ngClass]="{
+      'w-[200px] h-[200px]': avatarSize === 'normal',
+      'w-[125px] h-[125px] sm:w-[8125px0px] sm:h-[125px] md:w-[150px] md:h-[150px] lg:w-[150px] lg:h-[150px] ':
+        avatarSize === 'medium',
+      'w-[80px] h-[80px] sm:w-[80px] sm:h-[80px] md:w-[100px] md:h-[100px] lg:w-[100px] lg:h-[100px] ':
+        avatarSize === 'small',
+      'box-shadow-avatar': !!file,
+      'cover-photo w-[80vw] h-[calc(80vw*(315/851))] sm:w-[80vw] sm:h-[calc(80vw*(315/851))] lg:w-[55vw] lg:h-[calc(55vw*(315/851))]':
+        isCoverPhoto
+    }"
+    [ngStyle]="{ backgroundImage: 'url(' + file + ')' }"
+  ></div>
+
+  <ng-template #placeholder>
+    <div
+      class="image-container avatar-placeholder"
+      [ngClass]="{
+        'w-[200px] h-[200px]': avatarSize === 'normal',
+        'w-[125px] h-[125px] sm:w-[8125px0px] sm:h-[125px] md:w-[150px] md:h-[150px] lg:w-[150px] lg:h-[150px] ':
+          avatarSize === 'medium',
+        'w-[80px] h-[80px] sm:w-[80px] sm:h-[80px] md:w-[100px] md:h-[100px] lg:w-[100px] lg:h-[100px] ':
+          avatarSize === 'small',
+        'box-shadow-avatar': !!file,
+        'cover-photo w-[80vw] h-[calc(80vw*(315/851))] sm:w-[80vw] sm:h-[calc(80vw*(315/851))] lg:w-[55vw] lg:h-[calc(55vw*(315/851))]':
+          isCoverPhoto
+      }"
+    ></div>
+  </ng-template>
+
+  <label for="avatar-input-file" [for]="uniqueId">
+    <div class="upload-photo-button" *ngIf="isButtonEdit">
+      <p-button
+        label="Upload Photo"
+        [raised]="true"
+        [rounded]="true"
+        icon="pi pi-camera"
+        styleClass="absolute bottom-0 right-0 z-20 mr-2 mb-4"
+        severity="info"
+        size="small"
+        (click)="triggerFileInput()"
+      >
+        <input
+          type="file"
+          [id]="uniqueId"
+          accept="image/*"
+          (change)="onFileChange($event)"
+          #fileInput
+        />
+      </p-button>
+    </div>
+    <div
+      *ngIf="!isButtonEdit"
+      class="icon-wrapper"
+      [ngClass]="{
+        'bottom-10': isCoverPhoto,
+        'top-3/4': !isCoverPhoto,
+        'right-10': isCoverPhoto
+      }"
+    >
+      <input
+        type="file"
+        [id]="uniqueId"
+        accept="image/*"
+        (change)="onFileChange($event)"
+      />
+      <i class="pi pi-pencil"></i>
+    </div>
+  </label>
+
+  <div class="absolute bottom-0 right-0">
+    <ng-content> </ng-content>
+  </div>
+</div>
+
+<!-- PrimeNG Dialog that contains the Image Cropper -->
+<p-dialog
+  [(visible)]="dialogVisible"
+  [modal]="true"
+  [closable]="true"
+  [responsive]="false"
+  [style]="{ width: '60vw' }"
+  styleClass="w-[60vw] h-[70vh] object-contain sm:w-[80vw] sm:h-[80vh]"
+>
+  <!-- Conditionally load the ImageCropper only when dialog is visible -->
+  <app-image-cropper
+    *ngIf="dialogVisible"
+    [image]="image"
+    [isCoverPhoto]="isCoverPhoto"
+    (imageSelected)="onImageSelected($event)"
+    (dialogClosed)="onDialogClose()"
+  >
+  </app-image-cropper>
+</p-dialog>

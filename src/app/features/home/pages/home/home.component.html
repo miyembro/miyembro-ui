@@ -1,0 +1,19 @@
+<div id="home-container" @fadeIn>
+  <!-- home page header -->
+  <div id="home-header">
+    <app-header></app-header>
+  </div>
+  <!-- home page body -->
+  <div
+    id="home-body"
+    class="home-container-class"
+    (scroll)="onNativeScroll($event)"
+  >
+    <router-outlet></router-outlet>
+  </div>
+
+  <!-- home page footer -->
+  <div id="home-footer">
+    <app-footer></app-footer>
+  </div>
+</div>

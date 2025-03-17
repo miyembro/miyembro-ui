@@ -1,0 +1,25 @@
+::ng-deep {
+    .cropper-view-box,
+    .cropper-face {
+      /* Apply border-radius conditionally */
+      border-radius: 50%;
+    }
+  
+    .is-cover-photo .cropper-view-box,
+    .is-cover-photo .cropper-face {
+      border-radius: 0% !important;  /* For rectangle cropper */
+    }
+  
+    .cropper-view-box {
+      outline: 0;
+      box-shadow: 0 0 0 1px #39f;
+    }
+  }
+  
+  .crop-actions {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    margin-top: 1rem;
+  }
+  

@@ -1,0 +1,3 @@
+import { HTTP_ERROR_STATUS } from "./http-error-status";
+
+export const GLOBAL_ALERTS = [HTTP_ERROR_STATUS.BROWSER_OFFLINE, HTTP_ERROR_STATUS.API_OFFLINE];
