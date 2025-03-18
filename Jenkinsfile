@@ -8,7 +8,7 @@ pipeline {
 
         SERVICE_NAME = "miyembro-ui"  // Replace with your service name
         IMAGE_TAG = "${SERVICE_NAME}-${ORGANIZATION_NAME}:${BUILD_NUMBER}"
-        REPOSITORY_TAG = "${DOCKERHUB_USERNAME}/${SERVICE_NAME}-${ORGANIZATION_NAME}:${BUILD_NUMBER}"
+        REPOSITORY_TAG = "${DOCKERHUB_USERNAME}/${SERVICE_NAME}:${BUILD_NUMBER}"
         DOCKER_HUB_CREDS = credentials('ee75d658-a41b-48ee-b6fa-168da312c390')  // Use the ID of your Docker Hub credentials
     }
 
@@ -33,7 +33,7 @@ pipeline {
                     sh "docker image build -t ${IMAGE_TAG} ."
 
                     // Tag the Docker image for the repository
-                    sh "docker tag ${SERVICE_NAME}-${ORGANIZATION_NAME} ${REPOSITORY_TAG}"
+                    sh "docker tag ${SERVICE_NAME} ${REPOSITORY_TAG}"
 
                     // Push the Docker image to Docker Hub
                     sh "docker push ${REPOSITORY_TAG}"
