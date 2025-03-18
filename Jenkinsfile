@@ -9,7 +9,7 @@ pipeline {
         SERVICE_NAME = "miyembro-ui"  // Replace with your service name
         IMAGE_TAG = "angular-miyembro:${BUILD_NUMBER}"
         REPOSITORY_TAG = "${DOCKERHUB_USERNAME}/angular-miyembro:${BUILD_NUMBER}"
-        DOCKER_HUB_CREDS = credentials('ee75d658-a41b-48ee-b6fa-168da312c390')  // Use the ID of your Docker Hub credentials
+        DOCKER_HUB_CREDS = credentials('miyembro-jenkins')  // Use the ID of your Docker Hub credentials
     }
 
     stages {
