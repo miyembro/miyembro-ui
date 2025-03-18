@@ -33,7 +33,7 @@ pipeline {
                     sh "echo ${DOCKER_HUB_CREDS_PSW} | docker login -u ${DOCKER_HUB_CREDS_USR} --password-stdin"
 
                     // Build the Docker image
-                    sh "docker image build -t ${IMAGE_TAG} ."
+                    sh "docker image build -t angular-miyembro ."
 
                     // Tag the Docker image for the repository
                     sh "docker tag angular-miyembro ${REPOSITORY_TAG}"
