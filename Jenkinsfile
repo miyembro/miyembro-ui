@@ -23,7 +23,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh './gradlew clean build'  // Build the project using Gradle
+                npx nx build miyembro --configuration=production
             }
         }
 
