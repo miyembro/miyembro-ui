@@ -21,13 +21,7 @@ pipeline {
             }
         }
 
-        stage('Build') {
-            steps {
-
-                sh 'npx nx build miyembro --configuration=production'
-
-            }
-        }
+        
 
         stage('Build and Push Image') {
             steps {
