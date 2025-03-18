@@ -7,8 +7,8 @@ pipeline {
         // DOCKERHUB_USERNAME (it doesn't matter if you don't have one)
 
         SERVICE_NAME = "miyembro-ui"  // Replace with your service name
-        IMAGE_TAG = "${SERVICE_NAME}:${BUILD_NUMBER}"
-        REPOSITORY_TAG = "${DOCKERHUB_USERNAME}/${SERVICE_NAME}:${BUILD_NUMBER}"
+        IMAGE_TAG = "angular-miyembro:${BUILD_NUMBER}"
+        REPOSITORY_TAG = "${DOCKERHUB_USERNAME}/angular-miyembro:${BUILD_NUMBER}"
         DOCKER_HUB_CREDS = credentials('ee75d658-a41b-48ee-b6fa-168da312c390')  // Use the ID of your Docker Hub credentials
     }
 
