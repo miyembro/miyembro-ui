@@ -24,6 +24,7 @@ pipeline {
         stage('Build') {
             steps {
                 npx nx build miyembro --configuration=production
+
             }
         }
 
