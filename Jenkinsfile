@@ -26,6 +26,9 @@ pipeline {
         stage('Build and Push Image') {
             steps {
                 script {
+
+                    echo "REPOSITORY_TAG: ${REPOSITORY_TAG}"
+
                     // Authenticate with Docker Hub using the credentials
                     sh "echo ${DOCKER_HUB_CREDS_PSW} | docker login -u ${DOCKER_HUB_CREDS_USR} --password-stdin"
 
