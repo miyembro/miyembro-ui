@@ -41,7 +41,7 @@ pipeline {
                     sh "docker image build -t ${IMAGE_NAME} ."
 
                     // Tag the Docker image for the repository
-                    sh "docker tag angular-miyembro ${REPOSITORY_TAG}"
+                    sh "docker tag ${IMAGE_NAME} ${REPOSITORY_TAG}"
 
                     // Push the Docker image to Docker Hub
                     sh "docker push ${REPOSITORY_TAG}"
