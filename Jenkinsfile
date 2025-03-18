@@ -7,8 +7,9 @@ pipeline {
         // DOCKERHUB_USERNAME (it doesn't matter if you don't have one)
 
         SERVICE_NAME = "miyembro-ui"  // Replace with your service name
-        IMAGE_TAG = "angular-miyembro:${BUILD_NUMBER}"
-        REPOSITORY_TAG = "${DOCKERHUB_USERNAME}/angular-miyembro:${BUILD_NUMBER}"
+        IMAGE_NAME = "angular-miyembro"
+        IMAGE_TAG = "${IMAGE_NAME}:${BUILD_NUMBER}"
+        REPOSITORY_TAG = "${DOCKERHUB_USERNAME}/${IMAGE_TAG}"
         DOCKER_HUB_CREDS = credentials('miyembro-docker-token')  // Use the ID of your Docker Hub credentials
     }
 
@@ -29,11 +30,15 @@ pipeline {
 
                     echo "REPOSITORY_TAG: ${REPOSITORY_TAG}"
 
+                    echo "IMAGE_TAG: ${IMAGE_TAG}"
+
+                    echo "IMAGE_NAME: ${IMAGE_NAME}"
+
                     // Authenticate with Docker Hub using the credentials
                     sh "echo ${DOCKER_HUB_CREDS_PSW} | docker login -u ${DOCKER_HUB_CREDS_USR} --password-stdin"
 
                     // Build the Docker image
-                    sh "docker image build -t angular-miyembro ."
+                    sh "docker image build -t ${IMAGE_NAME} ."
 
                     // Tag the Docker image for the repository
                     sh "docker tag angular-miyembro ${REPOSITORY_TAG}"
@@ -41,7 +46,6 @@ pipeline {
                     // Push the Docker image to Docker Hub
                     sh "docker push ${REPOSITORY_TAG}"
 
-                    sh "docker pull ${REPOSITORY_TAG}"
                 }
             }
         }
