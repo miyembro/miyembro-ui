@@ -9,7 +9,7 @@ pipeline {
         SERVICE_NAME = "miyembro-ui"  // Replace with your service name
         IMAGE_TAG = "angular-miyembro:${BUILD_NUMBER}"
         REPOSITORY_TAG = "${DOCKERHUB_USERNAME}/angular-miyembro:${BUILD_NUMBER}"
-        DOCKER_HUB_CREDS = credentials('miyembro-jenkins')  // Use the ID of your Docker Hub credentials
+        DOCKER_HUB_CREDS = credentials('miyembro-docker-token')  // Use the ID of your Docker Hub credentials
     }
 
     stages {
@@ -37,6 +37,8 @@ pipeline {
 
                     // Push the Docker image to Docker Hub
                     sh "docker push ${REPOSITORY_TAG}"
+
+                    sh "docker pull ${REPOSITORY_TAG}"
                 }
             }
         }
