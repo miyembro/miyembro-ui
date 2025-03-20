@@ -17,7 +17,7 @@ export const environment = {
         clearHashAfterLogin: true,
         strictDiscoveryDocumentValidation: false,
       },
-    apiUrl: 'http://a3ffb3a27225a4c069b0db8b5cd62ad6-1872038020.eu-north-1.elb.amazonaws.com/api/v1',
+    apiUrl: 'http://a8685bbecfb704a3d9be9ff7c79d600a-1930177911.eu-north-1.elb.amazonaws.com/api/v1',
     countryUrl: 'https://api.countrystatecity.in/v1',
     requireHttps : false
 };
