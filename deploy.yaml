@@ -31,3 +31,11 @@ spec:
           image: ${REPOSITORY_TAG}
           ports:
             - containerPort: 80
+          volumeMounts:
+            - name: config-volume
+              mountPath: /usr/share/nginx/html/assets/config.js  # This is where we mount the file
+              subPath: config.js  # This tells Kubernetes to mount just the file inside the ConfigMap
+      volumes:
+        - name: config-volume
+          configMap:
+            name: angular-config  # This references the ConfigMap containing config.js
