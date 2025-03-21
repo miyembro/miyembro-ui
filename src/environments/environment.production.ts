@@ -17,7 +17,7 @@ export const environment = {
         clearHashAfterLogin: true,
         strictDiscoveryDocumentValidation: false,
     },
-    apiUrl: 'http://ac4a6c0be793a41d69f3ad16a5c66373-1981993319.eu-north-1.elb.amazonaws.com/api/v1',  // Placeholder for the API URL
+    apiUrl: (window as any).env?.API_URL || 'http://gateway-service/api/v1', // this part (API_URL) is declared in the configmap of miyembro-angular (filename: configmap-angular-miyembro-aws.yaml)
     countryUrl: 'https://api.countrystatecity.in/v1',
     requireHttps: false
 };
