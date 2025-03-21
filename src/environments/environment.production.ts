@@ -17,7 +17,7 @@ export const environment = {
         clearHashAfterLogin: true,
         strictDiscoveryDocumentValidation: false,
     },
-    apiUrl: process.env["API_URL"] || 'http://localhost:8222/api/v1',
+    apiUrl: 'http://afb09eb2e389543a58f1bfabde9917f4-424094932.eu-north-1.elb.amazonaws.com/api/v1',  // Placeholder for the API URL
     countryUrl: 'https://api.countrystatecity.in/v1',
     requireHttps: false
 };
