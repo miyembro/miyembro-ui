@@ -14,7 +14,7 @@ COPY . .
 RUN npx nx build miyembro --configuration=production
 
 # Stage 2: Serve with Nginx
-FROM nginx:alpine
+FROM docker.io/library/nginx:alpine
 
 # Copy the built Angular files to Nginx HTML directory
 COPY --from=build /app/dist/miyembro/browser /usr/share/nginx/html
