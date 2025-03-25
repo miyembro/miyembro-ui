@@ -11,7 +11,7 @@ RUN npm install
 COPY . .
 
 # Build the Angular app (production build)
-RUN npx nx build miyembro --configuration=production
+RUN npx nx build miyembro --configuration=docker-swarm
 
 # Stage 2: Serve with Nginx
 FROM docker.io/library/nginx:alpine

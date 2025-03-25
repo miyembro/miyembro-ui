@@ -17,7 +17,10 @@ export const environment = {
         clearHashAfterLogin: true,
         strictDiscoveryDocumentValidation: false,
     },
-    apiUrl: 'http://gateway-service:8222',  // Default to the gateway service DNS
+    apiUrl: 'http://gateway-service:8222/api/v1',  // Default to the gateway service DNS
+    // apiUrl: 'http://ec2-13-53-224-124.eu-north-1.compute.amazonaws.com:8222/api/v1',  // Default to the gateway service DNS
     countryUrl: 'https://api.countrystatecity.in/v1',
     requireHttps: false
 };
+
+
