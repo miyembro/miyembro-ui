@@ -23,7 +23,6 @@
             "input": "public"
           },
           "./src/assets"
-          
         ],
         "styles": [
           "./src/styles.scss",
@@ -52,6 +51,14 @@
             {
               "replace": "src/environments/environment.ts",
               "with": "src/environments/environment.production.ts"
+            }
+          ]
+        },
+        "docker-swarm": {
+          "fileReplacements": [
+            {
+              "replace": "src/environments/environment.ts",
+              "with": "src/environments/environment.production-docker-swarm.ts"
             }
           ]
         },
@@ -85,6 +92,9 @@
         },
         "local": {
           "buildTarget": "miyembro:build:local"
+        },
+        "docker-swarm": {
+          "buildTarget": "miyembro:build:docker-swarm"
         }
       },
       "defaultConfiguration": "development"
