@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  angular-app:
+    image: ${DOCKERHUB_USERNAME}/angular-miyembro:latest-dockerswarm
+    networks:
+      - miyembro-network
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    environment:
+      - API_URL=http://gateway-service:8222
+    ports:
+      - "4200:80"
+    depends_on:
+      - gateway-service
+
+
+networks:
+  miyembro-network:
+    external: true  # Uses existing network

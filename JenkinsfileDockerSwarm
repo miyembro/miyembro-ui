@@ -2,148 +2,82 @@ pipeline {
     agent any
 
     environment {
-        // Shared environment variables
-        ORGANIZATION_NAME = 'miyembro'  // Set your org name
-        DOCKERHUB_USERNAME = 'arjayfuentes24'  // Your Docker Hub username
+        SERVICE_NAME = "miyembro-ui"  // Replace with your service name
+        IMAGE_NAME = "angular-miyembro"
+        IMAGE_TAG = "${IMAGE_NAME}:${BUILD_NUMBER}"
+        REPOSITORY_TAG = "${DOCKERHUB_USERNAME}/${IMAGE_TAG}"
         DOCKER_HUB_CREDS = credentials('miyembro-docker-token')
         STACK_NAME = "miyembro"
     }
 
     stages {
-        // ================= CONFIG SERVER =================
-        stage('Config Server: Build') {
-            environment {
-                SERVICE_NAME = "config-server"
-                IMAGE_NAME = "config-server-miyembro"
-            }
-            steps {
-                dir('config-server') {
-                    deleteDir()
-                    git credentialsId: 'GitHub',
-                        url: "https://github.com/${ORGANIZATION_NAME}/${SERVICE_NAME}",
-                        branch: 'main'
-                    sh './gradlew clean build'
-                }
-            }
-        }
-
-        stage('Config Server: Build/Push Image') {
-            environment {
-                REPOSITORY_TAG = "${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${BUILD_NUMBER}"
-            }
-            steps {
-                dir('config-server') {
-                    withCredentials([usernamePassword(
-                        credentialsId: 'miyembro-docker-token',
-                        usernameVariable: 'DOCKER_USER',
-                        passwordVariable: 'DOCKER_PASS'
-                    )]) {
-                        sh """
-                            docker build -t ${IMAGE_NAME} .
-                            docker tag ${IMAGE_NAME} ${REPOSITORY_TAG}
-                            docker tag ${IMAGE_NAME} ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest
-                            docker login -u $DOCKER_USER -p $DOCKER_PASS
-                            docker push ${REPOSITORY_TAG}
-                            docker push ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest
-                        """
-                    }
-                }
-            }
-        }
-
-        // ================= ANGULAR APP =================
-        stage('Angular: Build') {
-            environment {
-                SERVICE_NAME = "miyembro-ui"
-                IMAGE_NAME = "angular-miyembro"
-            }
-            steps {
-                dir('angular-app') {
-                    deleteDir()
-                    git credentialsId: 'GitHub',
-                        url: "https://github.com/${ORGANIZATION_NAME}/${SERVICE_NAME}",
-                        branch: 'main'
-                    sh 'npm install && npm run build -- --prod'
-                }
-            }
-        }
-
-        stage('Angular: Build/Push Image') {
-            environment {
-                REPOSITORY_TAG = "${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${BUILD_NUMBER}"
-            }
-            steps {
-                dir('angular-app') {
-                    withCredentials([usernamePassword(
-                        credentialsId: 'miyembro-docker-token',
-                        usernameVariable: 'DOCKER_USER',
-                        passwordVariable: 'DOCKER_PASS'
-                    )]) {
-                        sh """
-                            docker build -t ${IMAGE_NAME} .
-                            docker tag ${IMAGE_NAME} ${REPOSITORY_TAG}
-                            docker tag ${IMAGE_NAME} ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest
-                            docker login -u $DOCKER_USER -p $DOCKER_PASS
-                            docker push ${REPOSITORY_TAG}
-                            docker push ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest
-                        """
-                    }
-                }
-            }
-        }
-
-        // ================= DEPLOYMENT =================
-        stage('Deploy to Swarm') {
+        stage('Verify Environment') {
             steps {
                 script {
-                    // Create dedicated compose file
-                    sh """
-                        cat > docker-compose.ci.yml <<EOF
-                        version: '3.8'
-                        services:
-                          config-server:
-                            image: ${DOCKERHUB_USERNAME}/config-server-miyembro:latest
-                            networks:
-                              - miyembro-network
-                            ports:
-                              - "8888:8888"
+                    echo "Checking environment variables..."
+                    echo "ORGANIZATION_NAME: ${env.ORGANIZATION_NAME}"
+                    echo "DOCKERHUB_USERNAME: ${env.DOCKERHUB_USERNAME}"
 
-                          angular-app:
-                            image: ${DOCKERHUB_USERNAME}/angular-miyembro:latest
-                            networks:
-                              - miyembro-network
-                            ports:
-                              - "4200:80"
-                            environment:
-                              - API_URL=http://gateway-service:8222
-
-                        networks:
-                          miyembro-network:
-                            external: true
-                        EOF
-                    """
-
-                    // Deploy to Swarm
-                    sh """
-                        docker stack deploy \
-                          --compose-file docker-compose.ci.yml \
-                          --with-registry-auth \
-                          ${STACK_NAME}
-                    """
-
-                    // Verify
-                    sh "docker service ls --filter name=${STACK_NAME}_"
+                    if (!env.ORGANIZATION_NAME?.trim()) {
+                        error("ORGANIZATION_NAME is required but not set")
+                    }
+                    if (!env.DOCKERHUB_USERNAME?.trim()) {
+                        error("DOCKERHUB_USERNAME is required but not set")
+                    }
                 }
             }
         }
+
+       stage('Build and Push Image') {
+           steps {
+               script {
+                   sh """
+                       docker login -u ${DOCKER_HUB_CREDS_USR} -p ${DOCKER_HUB_CREDS_PSW} docker.io
+                       docker build -t ${IMAGE_NAME} .
+                       docker tag ${IMAGE_NAME} ${REPOSITORY_TAG}
+                       docker tag ${IMAGE_NAME} ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest
+                       docker push ${REPOSITORY_TAG}
+                       docker push ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest
+                   """
+               }
+           }
+       }
+
+       stage('Deploy') {
+           steps {
+               script {
+                   // Verify compose file exists
+                   if (!fileExists('docker-compose-miyembro-ui.yml')) {
+                       error("Miyembro Ui compose file missing!")
+                   }
+
+                   // Deploy with environment substitution
+                   sh """
+                       docker stack deploy \
+                       --compose-file docker-compose-miyembro-ui.yml \
+                       --with-registry-auth \
+                       ${STACK_NAME}
+                   """
+
+                   // Verify deployment
+                   sh "docker service ls --filter name=${STACK_NAME}_miyembro-ui"
+               }
+           }
+       }
     }
 
     post {
         always {
-            deleteDir()
+            deleteDir()  // Clean workspace after build
             script {
                 echo "Pipeline completed - result: ${currentBuild.result}"
             }
+        }
+        success {
+            echo "Pipeline succeeded!"
+        }
+        failure {
+            echo "Pipeline failed!"
         }
     }
 }
