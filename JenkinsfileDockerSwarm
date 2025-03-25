@@ -1,0 +1,149 @@
+pipeline {
+    agent any
+
+    environment {
+        // Shared environment variables
+        ORGANIZATION_NAME = 'miyembro'  // Set your org name
+        DOCKERHUB_USERNAME = 'arjayfuentes24'  // Your Docker Hub username
+        DOCKER_HUB_CREDS = credentials('miyembro-docker-token')
+        STACK_NAME = "miyembro"
+    }
+
+    stages {
+        // ================= CONFIG SERVER =================
+        stage('Config Server: Build') {
+            environment {
+                SERVICE_NAME = "config-server"
+                IMAGE_NAME = "config-server-miyembro"
+            }
+            steps {
+                dir('config-server') {
+                    deleteDir()
+                    git credentialsId: 'GitHub',
+                        url: "https://github.com/${ORGANIZATION_NAME}/${SERVICE_NAME}",
+                        branch: 'main'
+                    sh './gradlew clean build'
+                }
+            }
+        }
+
+        stage('Config Server: Build/Push Image') {
+            environment {
+                REPOSITORY_TAG = "${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${BUILD_NUMBER}"
+            }
+            steps {
+                dir('config-server') {
+                    withCredentials([usernamePassword(
+                        credentialsId: 'miyembro-docker-token',
+                        usernameVariable: 'DOCKER_USER',
+                        passwordVariable: 'DOCKER_PASS'
+                    )]) {
+                        sh """
+                            docker build -t ${IMAGE_NAME} .
+                            docker tag ${IMAGE_NAME} ${REPOSITORY_TAG}
+                            docker tag ${IMAGE_NAME} ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest
+                            docker login -u $DOCKER_USER -p $DOCKER_PASS
+                            docker push ${REPOSITORY_TAG}
+                            docker push ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest
+                        """
+                    }
+                }
+            }
+        }
+
+        // ================= ANGULAR APP =================
+        stage('Angular: Build') {
+            environment {
+                SERVICE_NAME = "miyembro-ui"
+                IMAGE_NAME = "angular-miyembro"
+            }
+            steps {
+                dir('angular-app') {
+                    deleteDir()
+                    git credentialsId: 'GitHub',
+                        url: "https://github.com/${ORGANIZATION_NAME}/${SERVICE_NAME}",
+                        branch: 'main'
+                    sh 'npm install && npm run build -- --prod'
+                }
+            }
+        }
+
+        stage('Angular: Build/Push Image') {
+            environment {
+                REPOSITORY_TAG = "${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${BUILD_NUMBER}"
+            }
+            steps {
+                dir('angular-app') {
+                    withCredentials([usernamePassword(
+                        credentialsId: 'miyembro-docker-token',
+                        usernameVariable: 'DOCKER_USER',
+                        passwordVariable: 'DOCKER_PASS'
+                    )]) {
+                        sh """
+                            docker build -t ${IMAGE_NAME} .
+                            docker tag ${IMAGE_NAME} ${REPOSITORY_TAG}
+                            docker tag ${IMAGE_NAME} ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest
+                            docker login -u $DOCKER_USER -p $DOCKER_PASS
+                            docker push ${REPOSITORY_TAG}
+                            docker push ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest
+                        """
+                    }
+                }
+            }
+        }
+
+        // ================= DEPLOYMENT =================
+        stage('Deploy to Swarm') {
+            steps {
+                script {
+                    // Create dedicated compose file
+                    sh """
+                        cat > docker-compose.ci.yml <<EOF
+                        version: '3.8'
+                        services:
+                          config-server:
+                            image: ${DOCKERHUB_USERNAME}/config-server-miyembro:latest
+                            networks:
+                              - miyembro-network
+                            ports:
+                              - "8888:8888"
+
+                          angular-app:
+                            image: ${DOCKERHUB_USERNAME}/angular-miyembro:latest
+                            networks:
+                              - miyembro-network
+                            ports:
+                              - "4200:80"
+                            environment:
+                              - API_URL=http://gateway-service:8222
+
+                        networks:
+                          miyembro-network:
+                            external: true
+                        EOF
+                    """
+
+                    // Deploy to Swarm
+                    sh """
+                        docker stack deploy \
+                          --compose-file docker-compose.ci.yml \
+                          --with-registry-auth \
+                          ${STACK_NAME}
+                    """
+
+                    // Verify
+                    sh "docker service ls --filter name=${STACK_NAME}_"
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            deleteDir()
+            script {
+                echo "Pipeline completed - result: ${currentBuild.result}"
+            }
+        }
+    }
+}
