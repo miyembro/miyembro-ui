@@ -17,7 +17,7 @@ export const environment = {
         clearHashAfterLogin: true,
         strictDiscoveryDocumentValidation: false,
     },
-    apiUrl: process.env['API_URL'] || 'http://gateway-service:8222',  // Default to the gateway service DNS
+    apiUrl: 'http://gateway-service:8222',  // Default to the gateway service DNS
     countryUrl: 'https://api.countrystatecity.in/v1',
     requireHttps: false
 };
