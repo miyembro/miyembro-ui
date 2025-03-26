@@ -19,9 +19,11 @@ FROM docker.io/library/nginx:alpine
 # Copy the built Angular files to Nginx HTML directory
 COPY --from=build /app/dist/miyembro/browser /usr/share/nginx/html
 
+# Copy custom Nginx configuration file
+COPY nginx.conf /etc/nginx/nginx.conf
+
 # Expose port 80
 EXPOSE 80
 
 # Start Nginx in the foreground
 CMD ["nginx", "-g", "daemon off;"]
-
