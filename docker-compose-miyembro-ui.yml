@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   angular-app:
-    image: ${DOCKERHUB_USERNAME}/angular-miyembro:latest-dockerswarm
+    image: ${DOCKERHUB_USERNAME}/angular-miyembro:latest
     networks:
       - miyembro-network
     deploy:
