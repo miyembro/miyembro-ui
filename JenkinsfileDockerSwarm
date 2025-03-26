@@ -60,7 +60,7 @@ pipeline {
                    """
 
                    // Verify deployment
-                   sh "docker service ls --filter name=${STACK_NAME}_miyembro-ui"
+                   sh "docker service ls --filter name=${STACK_NAME}_angular-app"
                }
            }
        }
