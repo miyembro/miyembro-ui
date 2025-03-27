@@ -10,12 +10,12 @@ RUN npx nx build miyembro --configuration=docker-swarm
 FROM nginx:alpine
 
 # Remove default config
-RUN rm /etc/nginx/conf.d/default.conf
+RUN rm -rf /etc/nginx/conf.d/*
 
 # Copy built Angular files
 COPY --from=build /app/dist/miyembro/browser /usr/share/nginx/html
 
-# Create and use a minimal Nginx config for Angular
+# Create proper Nginx configuration
 RUN echo "server { \
     listen 80; \
     server_name localhost; \
@@ -24,13 +24,7 @@ RUN echo "server { \
     location / { \
         try_files \$uri \$uri/ /index.html; \
     } \
-    location /api { \
-        proxy_pass ${API_URL}; \
-        proxy_set_header Host \$host; \
-        proxy_set_header X-Real-IP \$remote_addr; \
-        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for; \
-    } \
-}" > /etc/nginx/conf.d/angular.conf
+}" > /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
