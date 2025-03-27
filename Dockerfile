@@ -1,29 +1,36 @@
 # Stage 1: Build the Angular app using Node.js
 FROM node:20-alpine AS build
-
 WORKDIR /app
-
-# Copy workspace files
 COPY package.json package-lock.json ./
 RUN npm install
-
-# Copy the rest of the workspace files
 COPY . .
-
-# Build the Angular app (production build)
 RUN npx nx build miyembro --configuration=docker-swarm
 
 # Stage 2: Serve with Nginx
-FROM docker.io/library/nginx:alpine
+FROM nginx:alpine
 
-# Copy the built Angular files to Nginx HTML directory
+# Remove default config
+RUN rm /etc/nginx/conf.d/default.conf
+
+# Copy built Angular files
 COPY --from=build /app/dist/miyembro/browser /usr/share/nginx/html
 
-# Copy custom Nginx configuration file
-#COPY nginx.conf /etc/nginx/nginx.conf
+# Create and use a minimal Nginx config for Angular
+RUN echo "server { \
+    listen 80; \
+    server_name localhost; \
+    root /usr/share/nginx/html; \
+    index index.html; \
+    location / { \
+        try_files \$uri \$uri/ /index.html; \
+    } \
+    location /api { \
+        proxy_pass ${API_URL}; \
+        proxy_set_header Host \$host; \
+        proxy_set_header X-Real-IP \$remote_addr; \
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for; \
+    } \
+}" > /etc/nginx/conf.d/angular.conf
 
-# Expose port 8081
 EXPOSE 80
-
-# Start Nginx in the foreground
 CMD ["nginx", "-g", "daemon off;"]
