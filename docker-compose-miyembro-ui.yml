@@ -5,17 +5,17 @@ services:
     image: ${DOCKERHUB_USERNAME}/angular-miyembro:latest
     networks:
       - miyembro-network
+    expose:
+      - "8080"
     deploy:
       replicas: 1
       restart_policy:
         condition: on-failure
     environment:
       - API_URL=http://gateway-service:8222
-    ports:
-      - "80:80"
+      # Make sure this is pointing to the HTTPS gateway
     depends_on:
       - gateway-service
-
 
 networks:
   miyembro-network:

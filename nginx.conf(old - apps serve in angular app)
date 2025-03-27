@@ -1,0 +1,61 @@
+events {}
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    # Server block to serve the Angular app
+    server {
+        listen 80;
+        server_name miyembro.net;
+
+        root /usr/share/nginx/html;
+        index index.html;
+
+        location / {
+            try_files $uri $uri/ /index.html;
+        }
+    }
+
+    # Server block to proxy requests to Zipkin
+    server {
+        listen 80;
+        server_name zipkin.miyembro.net www.zipkin.miyembro.net;
+
+        location / {
+            proxy_pass http://zipkin:9411;  # 'zipkin' is the name of your Docker service
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+    }
+
+    # Server block to proxy requests to Jenkins
+    server {
+        listen 80;
+        server_name jenkins.miyembro.net www.jenkins.miyembro.net;  # Add www to the server_name
+
+        location / {
+            proxy_pass http://jenkins:8080;  # 'jenkins' is the name of your Docker service
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+    }
+
+
+    server {
+        listen 80;
+        server_name portainer.miyembro.net;
+
+        location / {
+            proxy_pass http://localhost:9000;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+    }
+}
