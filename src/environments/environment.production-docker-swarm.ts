@@ -18,8 +18,9 @@ export const environment = {
         strictDiscoveryDocumentValidation: false,
     },
     // apiUrl: `${window.location.protocol}//${window.location.hostname}:8222/api/v1`,
+    apiUrl: `${window.location.origin}/api/v1`, // Use current origin
     // apiUrl: `${window.location.protocol}//${window.location.hostname}${window.location.port ? '' : ':8222'}/api/v1`,
-    apiUrl: 'http://gateway-service:8222/api/v1',  // Default to the gateway service DNS
+    // apiUrl: 'http://gateway-service:8222/api/v1',  // Default to the gateway service DNS
     // apiUrl: 'http://ec2-13-53-224-124.eu-north-1.compute.amazonaws.com:8222/api/v1',  // Default to the gateway service DNS
     countryUrl: 'https://api.countrystatecity.in/v1',
     requireHttps: false
