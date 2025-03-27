@@ -1,22 +1,29 @@
-# Stage 1: Build the Angular app
+# Stage 1: Build the Angular app using Node.js
 FROM node:20-alpine AS build
+
 WORKDIR /app
+
+# Copy workspace files
 COPY package.json package-lock.json ./
 RUN npm install
+
+# Copy the rest of the workspace files
 COPY . .
+
+# Build the Angular app (production build)
 RUN npx nx build miyembro --configuration=docker-swarm
 
 # Stage 2: Serve with Nginx
 FROM docker.io/library/nginx:alpine
 
-# Remove all default configurations
-RUN rm -rf /etc/nginx/conf.d/*
-
-# Copy built Angular files
+# Copy the built Angular files to Nginx HTML directory
 COPY --from=build /app/dist/miyembro/browser /usr/share/nginx/html
 
-# Copy our custom Nginx configuration
-COPY nginx-default.conf /etc/nginx/conf.d/default.conf
+# Copy custom Nginx configuration file
+COPY nginx.conf /etc/nginx/nginx.conf
 
+# Expose port 80
 EXPOSE 80
+
+# Start Nginx in the foreground
 CMD ["nginx", "-g", "daemon off;"]
