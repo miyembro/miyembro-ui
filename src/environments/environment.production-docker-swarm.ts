@@ -4,8 +4,9 @@ export const environment = {
     auth: {
         issuer: 'https://extraxxx.xxxxx', // Identity Provider URL
         clientId: 'xxxxx', // Client ID
-        postLogoutRedirectUri: 'http://127.0.0.1:30085/', // Redirect URL after logout
-        redirectUri: window.location.origin + "/login/callback",
+        postLogoutRedirectUri: 'https://miyembro.net', // Redirect URL after logout
+        redirectUri: 'https://miyembro.net',
+        oauthRedirectUri: 'https://miyembro.net/login/oauth2/code/google',
         silentRefreshRedirectUri: window.location.origin + '/silent-refresh.html',
         scope: 'openid profile logistack_apps authorization',
         requireHttps: false,
