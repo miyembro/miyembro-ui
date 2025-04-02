@@ -107,7 +107,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   private loginWithGoogle(response: any) {
+    console.log("Google login response", response);
     const googleToken = response.code;
+
     
     const googleLoginRequest: GoogleRequest = {
       googleToken: googleToken
