@@ -44,25 +44,24 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    const params = this.activatedRoute.snapshot.queryParams;
-    const fieldRedirect = 'redirectTo';
-    this.loginForm
-      .valueChanges.pipe(takeUntil(this.unsubscribe))
-      .subscribe((val) => {
-        if (val && this.loginErrorMessage) {
-          this.loginErrorMessage = null;
-        }
-      });
-    this.client = google.accounts.oauth2.initCodeClient({
+    // Replace your current Google client setup with this:
+    google.accounts.id.initialize({
       client_id: '654581949282-dmvkqbivaa8rmvem7ipjbas30p5akkrm.apps.googleusercontent.com',
-      scope: 'https://www.googleapis.com/auth/userinfo.email',
-      ux_mode: 'popup',
-      redirect_uri: 'https://localhost:4200/login/callback', 
-      callback: (response: any) => {
-        this.loginWithGoogle(response);
-      }
+      callback: (response: any) => this.loginWithGoogle(response),
+      ux_mode: 'popup', // or 'redirect' if preferred
+      auto_select: true // Skips account selection if only 1 Google session exists
     });
-  } 
+
+    // Render the Google One Tap button
+    google.accounts.id.renderButton(
+        document.getElementById('google-login-button'), // HTML element ID in your template
+        {
+          type: 'standard', // Or 'icon' for a smaller button
+          theme: 'filled_blue',
+          size: 'large'
+        }
+    );
+  }
 
   ngOnDestroy(): void {
     this.unsubscribe.next(0);
@@ -88,10 +87,14 @@ export class LoginComponent implements OnInit, OnDestroy {
     );
   }
 
+  // onClickLoginWithGoogle() {
+  //   if(this.client) {
+  //     this.client.requestCode();
+  //   }
+  // }
+  // Update your onClickLoginWithGoogle() method:
   onClickLoginWithGoogle() {
-    if(this.client) {
-      this.client.requestCode();
-    } 
+    google.accounts.id.prompt(); // Triggers One Tap UI
   }
 
   onClickRegister() {
