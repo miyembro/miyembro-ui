@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       });
     this.client = google.accounts.oauth2.initCodeClient({
       client_id: '654581949282-dmvkqbivaa8rmvem7ipjbas30p5akkrm.apps.googleusercontent.com',
-      scope: 'https://www.googleapis.com/auth/userinfo.email  https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/user.addresses.read https://www.googleapis.com/auth/user.birthday.read https://www.googleapis.com/auth/user.phonenumbers.read',
+      scope: 'https://www.googleapis.com/auth/userinfo.email',
       ux_mode: 'popup',
       redirect_uri: 'https://localhost:4200/login/callback', 
       callback: (response: any) => {
