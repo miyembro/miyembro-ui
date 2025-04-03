@@ -87,12 +87,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     );
   }
 
-  // onClickLoginWithGoogle() {
-  //   if(this.client) {
-  //     this.client.requestCode();
-  //   }
-  // }
-  // Update your onClickLoginWithGoogle() method:
   onClickLoginWithGoogle() {
     google.accounts.id.prompt(); // Triggers One Tap UI
   }
