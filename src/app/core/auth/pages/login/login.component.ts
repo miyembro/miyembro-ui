@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           type: 'standard', // Or 'icon' for a smaller button
           theme: 'filled_blue',
           size: 'large',
-          text: 'continue_with'  // Force specific button text
+          text: 'signin_with'  // Force specific button text
         }
     );
   }
