@@ -49,7 +49,8 @@ export class LoginComponent implements OnInit, OnDestroy {
       client_id: '654581949282-dmvkqbivaa8rmvem7ipjbas30p5akkrm.apps.googleusercontent.com',
       callback: (response: any) => this.loginWithGoogle(response),
       ux_mode: 'popup', // or 'redirect' if preferred
-      auto_select: true // Skips account selection if only 1 Google session exists
+      auto_select: true, // Skips account selection if only 1 Google session exists
+      // scope: 'email profile openid'
     });
 
     // Render the Google One Tap button
