@@ -49,7 +49,8 @@ export class LoginComponent implements OnInit, OnDestroy {
       client_id: '654581949282-dmvkqbivaa8rmvem7ipjbas30p5akkrm.apps.googleusercontent.com',
       callback: (response: any) => this.loginWithGoogle(response),
       ux_mode: 'popup', // or 'redirect' if preferred
-      auto_select: true, // Skips account selection if only 1 Google session exists
+      auto_select: false,    // Disable auto-select
+      context: 'signin'
       // scope: 'email profile openid'
     });
 
@@ -59,7 +60,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         {
           type: 'standard', // Or 'icon' for a smaller button
           theme: 'filled_blue',
-          size: 'large'
+          size: 'large',
+          text: 'signin_with'  // Force specific button text
         }
     );
   }
