@@ -50,8 +50,8 @@ export class LoginComponent implements OnInit, OnDestroy {
       callback: (response: any) => this.loginWithGoogle(response),
       ux_mode: 'popup', // or 'redirect' if preferred
       auto_select: false,    // Disable auto-select
-      context: 'signin'
-      // scope: 'email profile openid'
+      context: 'signin',
+      scope: 'email profile openid'
     });
 
     // Render the Google One Tap button
@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           type: 'standard', // Or 'icon' for a smaller button
           theme: 'filled_blue',
           size: 'large',
-          text: 'signin_with'  // Force specific button text
+          text: 'continue_with'  // Force specific button text
         }
     );
   }
@@ -123,18 +123,27 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   private successFulLogin(session: Session) {
-    this.sessionService.setSession(session);  
-    const numberOfJoinedOrganizations: number | undefined = this.sessionService.getSession()?.organizationIdsOfMember?.length;
-    if (numberOfJoinedOrganizations && numberOfJoinedOrganizations > 1) {
-      this.router.navigate(['/choose-organization']);
+    if(session?.isNewlyRegistered == true) {
+      this.alertService.success(this.router.url, '', 'Succefully Registered');
+      this.router.navigate(['/additional-info-signup'], {
+        state: { member: session.member, session: session }
+      });
     } else {
-      const session = this.sessionService.getSession();
-      if (session) {
-        localStorage.setItem('authToken', session.accessToken);
+      this.sessionService.setSession(session);
+      const numberOfJoinedOrganizations: number | undefined = this.sessionService.getSession()?.organizationIdsOfMember?.length;
+      if (numberOfJoinedOrganizations && numberOfJoinedOrganizations > 1) {
+        this.router.navigate(['/choose-organization']);
+      } else {
+        const session = this.sessionService.getSession();
+        if (session) {
+          localStorage.setItem('authToken', session.accessToken);
+        }
+        console.log(session);
+        this.alertService.success(this.router.url, 'Success', 'Successfully logged in');
+        this.router.navigate(['/home/explore']);
       }
-      this.alertService.success(this.router.url, 'Success', 'Successfully logged in');
-      this.router.navigate(['/home/explore']);  
     }
+
   }
 
 }

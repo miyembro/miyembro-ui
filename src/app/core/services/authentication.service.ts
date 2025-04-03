@@ -23,7 +23,7 @@ export class AuthenticationService {
     
   }
 
-  getLoginSession(token: string | null): Observable<Session> {
+  getLoginSession(token: string | null | undefined): Observable<Session> {
     return this.http.post(`${env.apiUrl}${this.baseUrl}/getLoginSession`, token) as Observable<Session>;
   }
 

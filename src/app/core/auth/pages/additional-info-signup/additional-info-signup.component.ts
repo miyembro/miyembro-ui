@@ -9,6 +9,10 @@ import { AlertService } from 'src/app/core/services/alert.service';
 import { Router } from '@angular/router';
 import { dataURLToFile } from 'src/app/core/helpers/data-url-to-file';
 import { MemberService } from 'src/app/core/services/member.service';
+import {Session} from "../../../models/session";
+import {SessionService} from "../../../services/session.service";
+import {catchError, map, of} from "rxjs";
+import {AuthenticationService} from "../../../services/authentication.service";
 
 @Component({
   selector: 'app-additional-info-signup',
@@ -22,15 +26,17 @@ export class AdditionalInfoSignupComponent {
   member: Member | undefined;
   memberForm: FormGroup; 
   MemberFormType = MemberFormType;
+  session: Session | undefined;
 
   constructor(
     private alertService: AlertService,
+    private authenticationService: AuthenticationService,
     private datePipe: DatePipe,
     private formBuilder: FormBuilder,
     private location: Location, 
     private memberService: MemberService,
-
     private router: Router,
+    private sessionService: SessionService,
   ) {
     this.memberForm = this.formBuilder.group({
       memberId: [null],
@@ -53,9 +59,12 @@ export class AdditionalInfoSignupComponent {
   }
 
   ngOnInit(): void {
-    const state = this.location.getState() as { member?: Member };
+    const state = this.location.getState() as { member?: Member, session?: Session };
     if (state && state.member) {
       this.member = state.member;
+    }
+    if (state && state.session) {
+      this.session = state.session;
     }
   }
 
@@ -84,8 +93,13 @@ export class AdditionalInfoSignupComponent {
 
     this.memberService.updateMemberAfterRegistration(memberRequest.memberId, formData).subscribe(
       (res) => {
-        this.router.navigate(['/login']);
-        this.alertService.success('/additional-info-signup', 'Success', "Succesfully added details. You can now login");
+        this.alertService.success('/additional-info-signup', 'Success', "Succesfully added details");
+        alert('Saving additional info');
+        console.log(this.session);
+        if(this.session) {
+          localStorage.setItem('authToken', this.session.accessToken);
+          this.getLoginSession();
+        }
       },
       (err: any) => {
         this.alertService.error('/login', 'Error', err.error.message);
@@ -94,6 +108,29 @@ export class AdditionalInfoSignupComponent {
   }
 
   onSkipAdditionalInfo() {
-    this.router.navigate(['/login']);
+    if(this.session) {
+      this.sessionService.setSession(this.session);
+      localStorage.setItem('authToken', this.session.accessToken);
+      this.router.navigate(['/home/explore']);
+    }
   }
+
+  private getLoginSession() {
+    const token: string | null = localStorage.getItem('authToken');
+
+    this.authenticationService.getLoginSession(token).subscribe(
+        (res) => {
+          this.sessionService.setSession(res);
+          if(res) {
+            localStorage.setItem('authToken', res.accessToken);
+          }
+          this.router.navigate(['/home/explore']);
+        },
+        (err: any) => {
+          this.router.navigate(['/login']);
+        }
+    );
+  }
+
+
 }

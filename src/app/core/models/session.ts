@@ -12,4 +12,5 @@ export interface Session {
     organization: OrganizationResponse | undefined;
     organizationIdsOfMember: string[] | undefined;
     membership: MembershipResponse;
+    isNewlyRegistered: boolean;
 }
