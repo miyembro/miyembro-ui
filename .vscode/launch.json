@@ -1,17 +1,19 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-      
-      {
-        "type": "chrome",
-        "request": "attach",
-        "name": "Attach to Chrome",
-        "port": 9222,
-        "webRoot": "${workspaceFolder}",
-        "sourceMapPathOverrides": {
-          "webpack:///*": "${webRoot}/*"
-        }
-      }
-    ]
-  }
-  
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "chrome",
+      "request": "launch", // Use "launch" instead of "attach"
+      "name": "Launch Chrome for Angular",
+      "url": "http://localhost:4200",
+      "webRoot": "${workspaceFolder}",
+      "sourceMapPathOverrides": {
+        "webpack:///*": "${webRoot}/*",
+        "webpack:///./*": "${webRoot}/*" // Added for Angular 14+ projects
+      },
+      "runtimeArgs": [
+        "--remote-debugging-port=9222"
+      ]
+    }
+  ]
+}
