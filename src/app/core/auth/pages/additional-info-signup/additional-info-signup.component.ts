@@ -94,7 +94,6 @@ export class AdditionalInfoSignupComponent {
     this.memberService.updateMemberAfterRegistration(memberRequest.memberId, formData).subscribe(
       (res) => {
         this.alertService.success('/additional-info-signup', 'Success', "Succesfully added details");
-        alert('Saving additional info');
         console.log(this.session);
         if(this.session) {
           localStorage.setItem('authToken', this.session.accessToken);
