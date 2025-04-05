@@ -52,6 +52,7 @@ export const appRoutes: Route[] = [
       loadComponent: () => import('./features/create-organization/pages/create-organization-page/create-organization-page.component').then(mod => mod.CreateOrganizationPageComponent),
       canActivate: [AuthGuard],
     },
+    
     // {
     //   path: 'organization-details/:organizationId',
     //   loadComponent: () => import('./features/home/pages/organization/pages/organization-details-page/organization-details-page.component').then(mod => mod.OrganizationDetailsPageComponent),
@@ -78,7 +79,11 @@ export const appRoutes: Route[] = [
         loadComponent: () => import('./core/auth/pages/sign-up/sign-up.component').then(mod => mod.SignUpComponent),
         canActivate: [UnAuthGuard],
     },
-    
+    {
+      path: 'register-email-confirmation/:memberId',
+      loadComponent: () => import('./features/confirmation/pages/registration-email-confirmation/registration-email-confirmation.component').then(mod => mod.RegistrationEmailConfirmationComponent),
+      canActivate: [UnAuthGuard],
+    },  
     {
       path: 'additional-info-signup',
       loadComponent: () => import('./core/auth/pages/additional-info-signup/additional-info-signup.component').then(mod => mod.AdditionalInfoSignupComponent),

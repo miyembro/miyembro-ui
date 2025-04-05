@@ -93,11 +93,15 @@ export class AdditionalInfoSignupComponent {
 
     this.memberService.updateMemberAfterRegistration(memberRequest.memberId, formData).subscribe(
       (res) => {
-        this.alertService.success('/additional-info-signup', 'Success', "Succesfully added details");
+        
         console.log(this.session);
         if(this.session) {
+          this.alertService.success('/additional-info-signup', 'Success', "Succesfully added details");
           localStorage.setItem('authToken', this.session.accessToken);
           this.getLoginSession();
+        } else {
+          this.alertService.success('/additional-info-signup', 'Success', "Succesfully added details., Please confirm confirm your email to continue");
+          this.router.navigate(['/login']);
         }
       },
       (err: any) => {
@@ -111,6 +115,9 @@ export class AdditionalInfoSignupComponent {
       this.sessionService.setSession(this.session);
       localStorage.setItem('authToken', this.session.accessToken);
       this.router.navigate(['/home/explore']);
+    } else {
+      this.alertService.success('/additional-info-signup', '', "Please confirm confirm your email to continue");
+      this.router.navigate(['/login']);
     }
   }
 
