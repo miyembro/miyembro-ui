@@ -18,6 +18,7 @@ import { GoogleRequest } from 'src/app/core/models/google-request';
 import { LoginType } from 'src/app/core/models/login-type.enum';
 import { Member } from 'src/app/core/models/member';
 import { LogoComponent } from "../../../../shared/components/logo/logo.component";
+import { LoaderService } from 'src/app/core/services/loader.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -56,6 +57,7 @@ export class SignUpComponent implements OnInit {
   constructor(
     private alertService: AlertService,
     private authenticationService: AuthenticationService,
+    private loaderService: LoaderService,
     private router: Router,
     private formBuilder: FormBuilder,
   ) {
@@ -80,15 +82,18 @@ export class SignUpComponent implements OnInit {
   }
 
   onClickSignup() {
+    this.loaderService.showLoader(this.router.url, false);
     const loginFormVal = { ...this.signupForm.value };
     delete loginFormVal.confirmPassword;
     const memberRequest: MemberRequest = loginFormVal;
     this.authenticationService.register(memberRequest).subscribe(
       (res) => {
         this.successfulSignup(res);
+        this.loaderService.hideLoader(this.router.url);
       },
       (err: any) => {
         this.errorSignup(err);
+        this.loaderService.hideLoader(this.router.url);
       }
     );
   }
