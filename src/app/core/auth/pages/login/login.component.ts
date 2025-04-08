@@ -14,6 +14,7 @@ import { AlertService } from 'src/app/core/services/alert.service';
 import { GoogleRequest } from 'src/app/core/models/google-request';
 import { Session } from 'src/app/core/models/session';
 import { LogoComponent } from "../../../../shared/components/logo/logo.component";
+import { LoaderService } from 'src/app/core/services/loader.service';
 declare const google: any;
 
 @Component({
@@ -34,6 +35,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private alertService: AlertService,
     private authenticationService: AuthenticationService,
+    private loaderService: LoaderService,
     private router: Router,
     private sessionService: SessionService,
   ) {
@@ -78,14 +80,17 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   onClickLogin() {
+    this.loaderService.showLoader(this.router.url, false);
     const loginFormVal = this.loginForm.value;
     this.loginErrorMessage = null;
     this.authenticationService.login(loginFormVal).subscribe(
       (res) => {
         this.successFulLogin(res);
+        this.loaderService.hideLoader(this.router.url);
       },
       (err: any) => {
         this.errorLogin(err);
+        this.loaderService.hideLoader(this.router.url);
       }
     );
   }
@@ -104,7 +109,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   private loginWithGoogle(response: any) {
-    console.log("Google login response", response);
+    this.loaderService.showLoader(this.router.url, false);
     const googleToken = response.credential;
 
     
@@ -115,9 +120,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.authenticationService.loginWithGoogle(googleLoginRequest).subscribe(
       (res) => {
         this.successFulLogin(res);
+        this.loaderService.hideLoader(this.router.url);
       },
       (err: any) => {
         this.errorLogin(err);
+        this.loaderService.hideLoader(this.router.url);
       }
     );
   }

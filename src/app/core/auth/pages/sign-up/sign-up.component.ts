@@ -82,6 +82,7 @@ export class SignUpComponent implements OnInit {
   }
 
   onClickSignup() {
+    this.signupForm.disable();
     this.loaderService.showLoader(this.router.url, false);
     const loginFormVal = { ...this.signupForm.value };
     delete loginFormVal.confirmPassword;
@@ -90,10 +91,12 @@ export class SignUpComponent implements OnInit {
       (res) => {
         this.successfulSignup(res);
         this.loaderService.hideLoader(this.router.url);
+        this.signupForm.enable();
       },
       (err: any) => {
         this.errorSignup(err);
         this.loaderService.hideLoader(this.router.url);
+        this.signupForm.enable();
       }
     );
   }
