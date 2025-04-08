@@ -105,7 +105,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private errorLogin(error: any) {
     this.loginErrorMessage = error.error.message;
-    this.alertService.error('/login', 'Error', error.error.message);
+    this.alertService.error(this.router.url, 'Error', error.error.message);
   }
 
   private loginWithGoogle(response: any) {
