@@ -83,7 +83,7 @@ export class HeaderComponent implements OnInit{
   items: MenuItem[] | undefined;
   menuItemResponses: MenuItemResponse[] = [];
 
-  profilePicUrl: string | undefined;
+  profilePicUrl = 'assets/blank-profile-picture.jpg';
   session: Session | null = null;
 
   constructor(
@@ -99,7 +99,9 @@ export class HeaderComponent implements OnInit{
 
   ngOnInit() {
       this.session = this.sessionService.getSession();
-      this.profilePicUrl = `${this.session?.member.profilePicUrl }?v=${new Date().getTime()}`;
+      if(this.session?.member.profilePicUrl) {
+        this.profilePicUrl = `${this.session?.member.profilePicUrl }?v=${new Date().getTime()}`;
+      }
       this.availableItems = [
         {
             label: 'Explore',

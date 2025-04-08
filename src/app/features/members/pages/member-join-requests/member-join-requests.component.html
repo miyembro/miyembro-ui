@@ -50,7 +50,9 @@
     <ng-template #nameColumn let-row>
       <div style="display: flex; align-items: center">
         <p-avatar
-          [image]="row['member']['profilePicUrl']"
+          [image]="
+            row?.member?.profilePicUrl || 'assets/blank-profile-picture.jpg'
+          "
           class="mr-2"
           size="large"
           shape="circle"
@@ -75,11 +77,13 @@
     </ng-template>
     <ng-template #addressColumn let-row>
       {{
-        row['member']['memberAddress']['city'] +
-          ', ' +
-          row['member']['memberAddress']['country']
+        (row?.member?.memberAddress?.city || '') +
+          (row?.member?.memberAddress?.country
+            ? ', ' + row.member.memberAddress.country
+            : '')
       }}
     </ng-template>
+
     <ng-template #approveDenyColumn let-row>
       <p-button
         label="Approve"

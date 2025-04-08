@@ -16,11 +16,13 @@ export class MemberDetailsComponent implements OnChanges{
   @Input() role: Role | undefined;
   @Input() showAvatar = true;
 
-  profilePicUrl: string | undefined;
+  profilePicUrl = 'assets/blank-profile-picture.jpg';
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['member'] && this.member) {
-      this.profilePicUrl = `${this.member.profilePicUrl}?v=${new Date().getTime()}`;
+      if(this.member.profilePicUrl) {
+        this.profilePicUrl = `${this.member.profilePicUrl}?v=${new Date().getTime()}`;
+      }
     }
   }
 
