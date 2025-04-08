@@ -10,6 +10,7 @@ import { Member } from 'src/app/core/models/member';
 import { MemberFormType } from 'src/app/core/models/member-form-type.enum';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { MemberService } from 'src/app/core/services/member.service';
+import { LoaderService } from 'src/app/core/services/loader.service';
 
 
 @Component({
@@ -30,6 +31,7 @@ export class EditMemberDetailsPageComponent implements OnInit {
     private datePipe: DatePipe,
     private formBuilder: FormBuilder,
     private memberService: MemberService,
+    private loaderService: LoaderService,
     private router: Router,
     private sessionService: SessionService,
   ) {
@@ -62,6 +64,8 @@ export class EditMemberDetailsPageComponent implements OnInit {
   }
 
   onClickRegisterAdditionalInfo() {
+    this.loaderService.showLoader(this.router.url, false);
+    this.memberForm.disable();
     const birthDate: Date = this.memberForm.controls['birthDate'].value;
 
     const formattedBirthDate = this.datePipe.transform(birthDate, 'yyyy-MM-dd');
@@ -89,9 +93,12 @@ export class EditMemberDetailsPageComponent implements OnInit {
         this.router.navigate(['/home/explore']);
         this.sessionService.updateMember(res);
         this.alertService.success('/additional-info-signup', 'Success', "Succesfully updated details.");
+        this.loaderService.hideLoader(this.router.url);
       },
       (err: any) => {
         this.alertService.error('/login', 'Error', err.error.message);
+        this.loaderService.hideLoader(this.router.url);
+        this.memberForm.enable();
       }
     );
   }
