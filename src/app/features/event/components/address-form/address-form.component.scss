@@ -1,0 +1,14 @@
+:host ::ng-deep {
+    input.p-inputtext	{
+      width: 100% !important
+    }
+  }
+  
+  :host ::ng-deep {
+    .p-iftalabel {
+      .p-select{
+        width: 100% !important
+      }
+    }
+  }
+  

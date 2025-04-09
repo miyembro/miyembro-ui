@@ -1,0 +1,131 @@
+<div class="max-w-4xl max-sm:max-w-lg mx-auto p-5">
+  <form [formGroup]="eventForm" autocomplete="off">
+    <h2 class="text-lg font-medium text-purple-700 mb-3">Event Details:</h2>
+    <div class="sm:col-span-2">
+      <label class="text-gray-600 text-sm mb-2 block" for="name">
+        Event Name<span class="ml-2 text-red-500 font-semilbold">*</span>
+      </label>
+      <input
+        pInputText
+        id="name"
+        formControlName="name"
+        type="text"
+        class="w-full"
+        pTooltip="{{ f['name'].errors | formErrors : 'name' }}"
+        tooltipStyleClass="error-tooltip"
+        [tooltipDisabled]="!(f['name'].invalid && f['name'].touched)"
+        [ngClass]="{
+          'border-2 border-red-500': f['name'].invalid && f['name'].touched
+        }"
+      />
+    </div>
+    <!-- Description - Full Width -->
+    <div
+      class="sm:col-span-2 mt-3"
+      *ngIf="
+        formType === EventFormType.ADD_EVENT ||
+        formType === EventFormType.UPDATE_EVENT_DESCRIPTION
+      "
+    >
+      <label class="text-gray-600 text-sm mb-2 block" for="description">
+        Description<span class="ml-2 text-red-500 font-semilbold">*</span>
+      </label>
+      <div
+        class="editor-organization-description"
+        [ngClass]="{
+          'create-organization-description ':
+            f['description'].invalid && f['description'].touched
+        }"
+        tooltipStyleClass="error-tooltip"
+        [tooltipDisabled]="
+          !(f['description'].invalid && f['description'].touched)
+        "
+        pTooltip="{{ f['description'].errors | formErrors : 'description' }}"
+      >
+        <p-editor formControlName="description" [style]="{ height: '320px' }">
+        </p-editor>
+      </div>
+    </div>
+
+    <p-divider styleClass="mt-6"></p-divider>
+    <h2 class="text-lg font-medium text-purple-700 mb-3">When:</h2>
+    <!-- Start and End Date in a flex container -->
+    <!-- Start and End Date in a responsive flex container -->
+    <div class="flex flex-col gap-4 md:flex-row md:gap-4 mt-3">
+      <div class="w-full md:w-1/2">
+        <label class="text-gray-600 text-sm mb-2 block" for="startEventDate">
+          Start Date<span class="ml-2 text-red-500 font-semilbold">*</span>
+        </label>
+        <p-datepicker
+          formControlName="startEventDate"
+          inputId="startEventDate"
+          showIcon
+          iconDisplay="input"
+          dateFormat="dd-MM-yy"
+          [showTime]="true"
+          hourFormat="24"
+          pTooltip="{{
+            f['startEventDate'].errors | formErrors : 'startEventDate'
+          }}"
+          tooltipStyleClass="error-tooltip"
+          [tooltipDisabled]="
+            !(f['startEventDate'].invalid && f['startEventDate'].touched)
+          "
+          [styleClass]="
+            (f['startEventDate'].invalid && f['startEventDate'].touched
+              ? 'border-2 border-red-500 border-error '
+              : '') + 'w-full'
+          "
+        />
+      </div>
+
+      <div class="w-full md:w-1/2">
+        <label class="text-gray-600 text-sm mb-2 block" for="startEventDate">
+          End Date<span class="ml-2 text-red-500 font-semilbold">*</span>
+        </label>
+        <p-datepicker
+          formControlName="endEventDate"
+          inputId="endEventDate"
+          showIcon
+          iconDisplay="input"
+          dateFormat="dd-MM-yy"
+          [showTime]="true"
+          hourFormat="24"
+          pTooltip="{{
+            f['endEventDate'].errors | formErrors : 'endEventDate'
+          }}"
+          tooltipStyleClass="error-tooltip"
+          [tooltipDisabled]="
+            !(f['endEventDate'].invalid && f['endEventDate'].touched)
+          "
+          [styleClass]="
+            (f['endEventDate'].invalid && f['endEventDate'].touched
+              ? 'border-2 border-red-500 border-error '
+              : '') + 'w-full'
+          "
+        />
+      </div>
+    </div>
+    <p-divider styleClass="mt-4"></p-divider>
+    <h2 class="text-lg font-medium text-purple-700 mb-3">Where:</h2>
+    <app-address-form [addressForm]="eventAddressForm"> </app-address-form>
+
+    <p-divider styleClass="mt-6"></p-divider>
+    <h2 class="text-lg font-medium text-purple-700 mb-3">Poster:</h2>
+    <div class="sm:col-span-2 flex flex-col items-center">
+      <label class="text-gray-600 text-sm mb-2 block" for="eventPicUrl">
+        Upload your poster (Ideally a 3x4 size photo):
+        <!-- <span class="ml-2 text-red-500 font-semilbold">*</span> -->
+      </label>
+      <app-photo-control
+        formControlName="eventPicUrl"
+        height="400"
+        width="300"
+        styleClass="w-[300px] h-[400px] md:h-[400px] lg:h-[400px] p-0"
+        buttonLabel="Event Poster"
+        [isIconButtonOnly]="false"
+      >
+      </app-photo-control>
+    </div>
+  </form>
+</div>

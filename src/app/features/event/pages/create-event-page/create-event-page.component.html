@@ -1,0 +1,34 @@
+<app-background>
+  <!-- Root div to prevent overflow -->
+  <div class="w-full p-4">
+    <div
+      class="mx-auto min-h-screen flex flex-col items-center justify-center create-organization-tabs w-full lg:w-[60%]"
+    >
+      <app-event-form [(eventForm)]="eventForm"> </app-event-form>
+    </div>
+    <div class="mt-2 flex justify-center space-x-4">
+      <p-button
+        (onClick)="cancelCreateEvent()"
+        severity="secondary"
+        [raised]="true"
+        size="small"
+        class="mt-4 block text-sm"
+      >
+        <i class="pi pi-times"></i>
+        <span>Cancel</span>
+      </p-button>
+
+      <p-button
+        (onClick)="createEvent()"
+        severity="success"
+        [raised]="true"
+        size="small"
+        class="mt-4 block text-sm"
+        [disabled]="eventForm.invalid || eventForm.pristine"
+      >
+        <i class="pi pi-check"></i>
+        <span>Create Event</span>
+      </p-button>
+    </div>
+  </div>
+</app-background>

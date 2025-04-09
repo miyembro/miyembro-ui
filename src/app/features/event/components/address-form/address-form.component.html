@@ -1,0 +1,160 @@
+<div [formGroup]="addressForm">
+  <div class="grid sm:grid-cols-2 gap-2 sm:gap-2 md:gap-5">
+    <!-- Country -->
+    <div>
+      <p-iftalabel class="w-full">
+        <p-select
+          [options]="countries"
+          formControlName="country"
+          optionLabel="name"
+          optionValue="name"
+          [filter]="true"
+          filterBy="name"
+          [showClear]="true"
+          inputId="country"
+          placeholder="Select a Country"
+          class="w-full md:w-56"
+          pTooltip="{{ getControlErrors('country') | formErrors : 'country' }}"
+          tooltipStyleClass="error-tooltip"
+          [tooltipDisabled]="!isControlInvalidAndTouched('country')"
+          [ngClass]="{
+            'border-2 border-red-500': isControlInvalidAndTouched('country')
+          }"
+        >
+          <ng-template #selectedItem let-selectedOption>
+            <div class="flex items-center gap-2">
+              {{ selectedOption.name }}
+            </div>
+          </ng-template>
+          <ng-template let-country #item>
+            <div class="flex items-center gap-2">
+              {{ country.name }}
+            </div>
+          </ng-template>
+        </p-select>
+        <label for="country">Country</label>
+      </p-iftalabel>
+    </div>
+
+    <!-- State/Province -->
+    <div>
+      <p-iftalabel class="w-full">
+        <p-select
+          [options]="states"
+          formControlName="provinceState"
+          optionLabel="name"
+          optionValue="name"
+          [filter]="true"
+          filterBy="name"
+          [showClear]="true"
+          [virtualScroll]="true"
+          inputId="provinceState"
+          [disabled]="!selectedCountry"
+          placeholder="Select a State/Province"
+          class="w-full md:w-56"
+          pTooltip="{{
+            getControlErrors('provinceState') | formErrors : 'provinceState'
+          }}"
+          tooltipStyleClass="error-tooltip"
+          [tooltipDisabled]="!isControlInvalidAndTouched('provinceState')"
+          [ngClass]="{
+            'border-2 border-red-500':
+              isControlInvalidAndTouched('provinceState')
+          }"
+        >
+          <ng-template #selectedItem let-selectedOption>
+            <div class="flex items-center gap-2">
+              {{ selectedOption.name }}
+            </div>
+          </ng-template>
+          <ng-template let-state #item>
+            <div class="flex items-center gap-2">
+              {{ state.name }}
+            </div>
+          </ng-template>
+        </p-select>
+        <label for="provinceState">State</label>
+      </p-iftalabel>
+    </div>
+
+    <!-- City -->
+    <div>
+      <p-iftalabel class="w-full">
+        <p-select
+          [options]="cities"
+          formControlName="city"
+          optionLabel="name"
+          optionValue="name"
+          [filter]="true"
+          filterBy="name"
+          [showClear]="true"
+          [virtualScroll]="true"
+          inputId="city"
+          [disabled]="!selectedCountry || !selectedState"
+          placeholder="Select a City"
+          class="w-full md:w-56"
+          pTooltip="{{ getControlErrors('city') | formErrors : 'city' }}"
+          tooltipStyleClass="error-tooltip"
+          [tooltipDisabled]="!isControlInvalidAndTouched('city')"
+          [ngClass]="{
+            'border-2 border-red-500': isControlInvalidAndTouched('city')
+          }"
+        >
+          <ng-template #selectedItem let-selectedOption>
+            <div class="flex items-center gap-2">
+              {{ selectedOption.name }}
+            </div>
+          </ng-template>
+          <ng-template let-city #item>
+            <div class="flex items-center gap-2">
+              {{ city.name }}
+            </div>
+          </ng-template>
+        </p-select>
+        <label for="city">City</label>
+      </p-iftalabel>
+    </div>
+
+    <!-- Postal Code -->
+    <div>
+      <p-floatlabel variant="in">
+        <input
+          pInputText
+          id="postalCode"
+          formControlName="postalCode"
+          type="text"
+          class="w-full text-sm sm:text-sm md:text-base"
+          pTooltip="{{
+            getControlErrors('postalCode') | formErrors : 'postalCode'
+          }}"
+          tooltipStyleClass="error-tooltip"
+          [tooltipDisabled]="!isControlInvalidAndTouched('postalCode')"
+          [ngClass]="{
+            'border-2 border-red-500': isControlInvalidAndTouched('postalCode')
+          }"
+        />
+        <label for="postalCode">Postal Code</label>
+      </p-floatlabel>
+    </div>
+
+    <!-- Street -->
+    <div>
+      <p-floatlabel variant="in">
+        <input
+          pInputText
+          id="street"
+          formControlName="street"
+          type="text"
+          class="w-full text-sm sm:text-sm md:text-base"
+          pTooltip="{{ getControlErrors('street') | formErrors : 'street' }}"
+          tooltipStyleClass="error-tooltip"
+          [tooltipDisabled]="!isControlInvalidAndTouched('street')"
+          [ngClass]="{
+            'border-2 border-red-500': isControlInvalidAndTouched('street')
+          }"
+        />
+        <label for="street">Street</label>
+      </p-floatlabel>
+    </div>
+  </div>
+</div>
