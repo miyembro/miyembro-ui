@@ -69,8 +69,14 @@ export class EditMemberDetailsPageComponent implements OnInit {
     const rawForm = this.memberForm.getRawValue();
     const memberRequest = JSON.parse(JSON.stringify(rawForm));
 
+
+    console.log("BIRTHDATE BEFORE DATE PIPE", memberRequest.birthDate)
+
     const formattedBirthDate = this.datePipe.transform(memberRequest.birthDate, 'yyyy-MM-dd');
     memberRequest.birthDate = formattedBirthDate;
+
+    console.log("BIRTHDATE AFTER DATE PIPE", memberRequest.birthDate)
+
 
     const formData = new FormData();
     let profilePicImage = null;

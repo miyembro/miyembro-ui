@@ -12,13 +12,13 @@
   [ngClass]="[styleClass, isRound ? 'rounded-full' : 'rounded-lg']"
 >
   <img
-    [src]="fileUrl || ''"
+    [src]="fileUrl || altUrl"
     class="w-full h-full border-2 border-gray-300"
     [ngClass]="{
       'rounded-full bg-cover': isRound,
       'object-cover ': !isRound
     }"
-    alt="logo"
+    alt="assets/default-organization-wallpaper.jpg"
     id="photoControlBackground"
   />
   <ng-content select="[organization-membership]"></ng-content>

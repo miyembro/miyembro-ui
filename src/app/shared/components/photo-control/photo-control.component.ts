@@ -18,7 +18,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     useExisting: forwardRef(() => PhotoControlComponent), 
   }],
 })
-export class PhotoControlComponent implements OnDestroy, ControlValueAccessor{
+export class PhotoControlComponent implements OnInit, OnDestroy, ControlValueAccessor{
 
     @Input() buttonLabel = "Update Photo";
     @Input() height  = "200";
@@ -29,6 +29,7 @@ export class PhotoControlComponent implements OnDestroy, ControlValueAccessor{
     @Input() width = "200";;
     @ViewChild('fileInput', { static: false }) fileInput!: ElementRef;
 
+    altUrl = 'assets/default-organization-wallpaper.jpg';
     disabled = false;
     file: File | null = null;  // Store File object when a new image is cropped
     fileUrl = '';      // Store preview URL (initial value or after cropping)
@@ -41,6 +42,12 @@ export class PhotoControlComponent implements OnDestroy, ControlValueAccessor{
         public dialogService: DialogService, 
         public messageService: MessageService
     ) {}
+
+    ngOnInit() {
+        if (this.isRound) {
+            this.altUrl = 'assets/default-organization-logo.jpg';
+        }
+    }
 
     ngOnDestroy() {
         if (this.ref) {
