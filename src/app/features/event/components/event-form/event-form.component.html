@@ -2,26 +2,26 @@
   <form [formGroup]="eventForm" autocomplete="off">
     <h2 class="text-lg font-medium text-purple-700 mb-3">Event Details:</h2>
     <div class="sm:col-span-2">
-      <label class="text-gray-600 text-sm mb-2 block" for="name">
-        Event Name<span class="ml-2 text-red-500 font-semilbold">*</span>
-      </label>
-      <input
-        pInputText
-        id="name"
-        formControlName="name"
-        type="text"
-        class="w-full"
-        pTooltip="{{ f['name'].errors | formErrors : 'name' }}"
-        tooltipStyleClass="error-tooltip"
-        [tooltipDisabled]="!(f['name'].invalid && f['name'].touched)"
-        [ngClass]="{
-          'border-2 border-red-500': f['name'].invalid && f['name'].touched
-        }"
-      />
+      <p-floatlabel variant="in">
+        <input
+          pInputText
+          id="name"
+          formControlName="name"
+          type="text"
+          class="w-full"
+          pTooltip="{{ f['name'].errors | formErrors : 'name' }}"
+          tooltipStyleClass="error-tooltip"
+          [tooltipDisabled]="!(f['name'].invalid && f['name'].touched)"
+          [ngClass]="{
+            'border-2 border-red-500': f['name'].invalid && f['name'].touched
+          }"
+        />
+        <label for="name">Event Name</label>
+      </p-floatlabel>
     </div>
-    <!-- Description - Full Width -->
+    <!-- Description -->
     <div
-      class="sm:col-span-2 mt-3"
+      class="sm:col-span-2 mt-4"
       *ngIf="
         formType === EventFormType.ADD_EVENT ||
         formType === EventFormType.UPDATE_EVENT_DESCRIPTION
@@ -31,9 +31,9 @@
         Description<span class="ml-2 text-red-500 font-semilbold">*</span>
       </label>
       <div
-        class="editor-organization-description"
+        class="editor-event-description"
         [ngClass]="{
-          'create-organization-description ':
+          'create-event-description ':
             f['description'].invalid && f['description'].touched
         }"
         tooltipStyleClass="error-tooltip"
@@ -50,60 +50,60 @@
     <p-divider styleClass="mt-6"></p-divider>
     <h2 class="text-lg font-medium text-purple-700 mb-3">When:</h2>
     <!-- Start and End Date in a flex container -->
-    <!-- Start and End Date in a responsive flex container -->
     <div class="flex flex-col gap-4 md:flex-row md:gap-4 mt-3">
       <div class="w-full md:w-1/2">
-        <label class="text-gray-600 text-sm mb-2 block" for="startEventDate">
-          Start Date<span class="ml-2 text-red-500 font-semilbold">*</span>
-        </label>
-        <p-datepicker
-          formControlName="startEventDate"
-          inputId="startEventDate"
-          showIcon
-          iconDisplay="input"
-          dateFormat="dd-MM-yy"
-          [showTime]="true"
-          hourFormat="24"
-          pTooltip="{{
-            f['startEventDate'].errors | formErrors : 'startEventDate'
-          }}"
-          tooltipStyleClass="error-tooltip"
-          [tooltipDisabled]="
-            !(f['startEventDate'].invalid && f['startEventDate'].touched)
-          "
-          [styleClass]="
-            (f['startEventDate'].invalid && f['startEventDate'].touched
-              ? 'border-2 border-red-500 border-error '
-              : '') + 'w-full'
-          "
-        />
+        <p-floatlabel variant="in">
+          <p-datepicker
+            formControlName="startEventDate"
+            inputId="startEventDate"
+            showIcon
+            iconDisplay="input"
+            dateFormat="dd-MM-yy"
+            [showTime]="true"
+            hourFormat="24"
+            pTooltip="{{
+              f['startEventDate'].errors | formErrors : 'startEventDate'
+            }}"
+            tooltipStyleClass="error-tooltip"
+            [tooltipDisabled]="
+              !(f['startEventDate'].invalid && f['startEventDate'].touched)
+            "
+            [styleClass]="
+              (f['startEventDate'].invalid && f['startEventDate'].touched
+                ? 'border-2 border-red-500 border-error '
+                : '') + 'w-full'
+            "
+          />
+          <label for="startEventDate">Start Date</label>
+        </p-floatlabel>
       </div>
-
       <div class="w-full md:w-1/2">
-        <label class="text-gray-600 text-sm mb-2 block" for="startEventDate">
-          End Date<span class="ml-2 text-red-500 font-semilbold">*</span>
-        </label>
-        <p-datepicker
-          formControlName="endEventDate"
-          inputId="endEventDate"
-          showIcon
-          iconDisplay="input"
-          dateFormat="dd-MM-yy"
-          [showTime]="true"
-          hourFormat="24"
-          pTooltip="{{
-            f['endEventDate'].errors | formErrors : 'endEventDate'
-          }}"
-          tooltipStyleClass="error-tooltip"
-          [tooltipDisabled]="
-            !(f['endEventDate'].invalid && f['endEventDate'].touched)
-          "
-          [styleClass]="
-            (f['endEventDate'].invalid && f['endEventDate'].touched
-              ? 'border-2 border-red-500 border-error '
-              : '') + 'w-full'
-          "
-        />
+        <p-floatlabel variant="in">
+          <p-datepicker
+            formControlName="endEventDate"
+            inputId="endEventDate"
+            showIcon
+            iconDisplay="input"
+            dateFormat="dd-MM-yy"
+            [showTime]="true"
+            [showClear]="true"
+            hourFormat="24"
+            [minDate]="minEndDate"
+            pTooltip="{{
+              f['endEventDate'].errors | formErrors : 'endEventDate'
+            }}"
+            tooltipStyleClass="error-tooltip"
+            [tooltipDisabled]="
+              !(f['endEventDate'].invalid && f['endEventDate'].touched)
+            "
+            [styleClass]="
+              (f['endEventDate'].invalid && f['endEventDate'].touched
+                ? 'border-2 border-red-500 border-error '
+                : '') + 'w-full'
+            "
+          />
+          <label for="endEventDate">End Date</label>
+        </p-floatlabel>
       </div>
     </div>
     <p-divider styleClass="mt-4"></p-divider>

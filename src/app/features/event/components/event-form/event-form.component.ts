@@ -37,6 +37,7 @@ export class EventFormComponent implements OnInit {
   @Input() formType: EventFormType = EventFormType.ADD_EVENT;
   @Input() eventForm!: FormGroup; 
   @Output() eventFormChange = new EventEmitter<FormGroup>();
+  minEndDate: Date | null = null;
 
   EventFormType = EventFormType;
 
@@ -49,6 +50,15 @@ export class EventFormComponent implements OnInit {
   ngOnInit(): void {
     this.eventForm.valueChanges.subscribe(() => {
       this.emitForm();
+    });
+    this.eventForm.get('startEventDate')?.valueChanges.subscribe((value) => {
+      if (value) {
+        const startDate = new Date(value);
+        // Set minEndDate to be the same date as startEventDate, with the time
+        this.minEndDate = startDate;
+      } else {
+        this.minEndDate = null;
+      }
     });
   }
 

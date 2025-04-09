@@ -1,0 +1,14 @@
+:host ::ng-deep {
+    .create-event-description {
+        .p-editor {
+            border-color: red !important;
+            .p-editor-toolbar  {
+                border-color: red !important;
+            }
+            .p-editor-content {
+                border-color: red !important;
+
+            }
+        }
+    }
+}

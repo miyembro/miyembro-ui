@@ -31,6 +31,8 @@ export class FormErrorsPipe implements PipeTransform {
       errorMessage = 'Incorrect email format.';
     } else if (errors['startDateGreaterThanEndDate']) {
       errorMessage = `${fieldName[0]} must be before ${fieldName[1]}.`;
+    } else if (errors['startDateAfterEndDate']) {
+      errorMessage = `Start Date must be before End Date`;
     } else if (errors['startDateGreaterThanRegularizationDate']) {
       errorMessage = `${fieldName[0]} must be before ${fieldName[1]}.`;
     } else if (errors['passwordNotMatch']) {
