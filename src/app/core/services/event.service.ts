@@ -18,7 +18,11 @@ export class EventService {
   }
 
   createEvent(organizationId: string, formData: FormData): Observable<any> {
-    return this.http.post(`${env.apiUrl}${this.baseUrl}/organizations/` + organizationId, formData);
+    return this.http.post(
+      `${env.apiUrl}${this.baseUrl}/organizations/` + organizationId,
+      formData,
+      { responseType: 'text' as 'json' } 
+    );
   }
   
 }

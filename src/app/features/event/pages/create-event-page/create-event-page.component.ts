@@ -83,8 +83,10 @@ export class CreateEventPageComponent implements OnInit {
       (res) => {
         this.alertService.success(this.router.url, 'Success', "Succesfully created event");
         this.loaderService.hideLoader(this.router.url);
+        this.location.back();
       },
       (err: any) => {
+        console.log(err);
         this.loaderService.hideLoader(this.router.url);
         this.alertService.error(this.router.url, 'Error', err.error.message);
       }
