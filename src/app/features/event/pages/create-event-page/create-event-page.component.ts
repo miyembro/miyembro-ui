@@ -11,6 +11,7 @@ import { EventService } from 'src/app/core/services/event.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { Router } from '@angular/router';
 import { dataURLToFile } from 'src/app/core/helpers/data-url-to-file';
+import { AlertService } from 'src/app/core/services/alert.service';
 
 @Component({
   selector: 'app-create-event-page',
@@ -28,6 +29,7 @@ export class CreateEventPageComponent implements OnInit {
   eventForm: FormGroup;
   
   constructor(
+    private alertService: AlertService,
     private eventService: EventService, 
     private formBuilder: FormBuilder,
     private loaderService: LoaderService,
@@ -69,7 +71,7 @@ export class CreateEventPageComponent implements OnInit {
     if(eventRequest.eventPicUrl) {
       const eventPicUrlImage: File = this.eventForm.controls['eventPicUrl'].value;
       formData.append('eventPicUrlImage', eventPicUrlImage);
-      eventRequest.profilePicUrl = null;
+      eventRequest.eventPicUrl = '';
     }
 
      const jsonBlob = new Blob([JSON.stringify(eventRequest)], { type: 'application/json' });
@@ -79,10 +81,12 @@ export class CreateEventPageComponent implements OnInit {
 
     this.eventService.createEvent(organizationId, formData).subscribe(
       (res) => {
+        this.alertService.success(this.router.url, 'Success', "Succesfully created event");
         this.loaderService.hideLoader(this.router.url);
       },
       (err: any) => {
         this.loaderService.hideLoader(this.router.url);
+        this.alertService.error(this.router.url, 'Error', err.error.message);
       }
     );
   }
