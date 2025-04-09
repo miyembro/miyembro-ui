@@ -7,6 +7,10 @@ import { ButtonModule } from 'primeng/button';
 import { Location } from '@angular/common';
 import { emptyEditorValidator } from 'src/app/core/validators/empty-editor-validator';
 import { startDateBeforeEndDateValidator } from 'src/app/core/validators/start-date-before-end-date-validator';
+import { EventService } from 'src/app/core/services/event.service';
+import { LoaderService } from 'src/app/core/services/loader.service';
+import { Router } from '@angular/router';
+import { dataURLToFile } from 'src/app/core/helpers/data-url-to-file';
 
 @Component({
   selector: 'app-create-event-page',
@@ -24,19 +28,22 @@ export class CreateEventPageComponent implements OnInit {
   eventForm: FormGroup;
   
   constructor(
+    private eventService: EventService, 
     private formBuilder: FormBuilder,
-    private location: Location
+    private loaderService: LoaderService,
+    private location: Location,
+    private router: Router,
   ) {
     this.eventForm = this.formBuilder.group({
       eventId: [null],
       organizationId: [null],
       name: ['', Validators.required],
       description: ['', [emptyEditorValidator(), Validators.required]],
+      eventPicUrl: [''],
       startEventDate: ['', [startDateBeforeEndDateValidator('endEventDate'), Validators.required]],
       endEventDate: [''],
-      eventPicUrl: [''],
-      eventPlace: [''],
       eventAddress: this.formBuilder.group({
+        eventAddressId: [null],
         street: [null],
         city: [null],
         provinceState: [null],
@@ -53,7 +60,31 @@ export class CreateEventPageComponent implements OnInit {
   }
   
   createEvent(){
-    console.log('on create');
+    const organizationId = 'a7d1b9d0-56e8-45f6-b418-5f52960b25ab';
+
+    const eventRequest = { ...this.eventForm.value };
+
+    const formData = new FormData();
+
+    if(eventRequest.eventPicUrl) {
+      const eventPicUrlImage: File = this.eventForm.controls['eventPicUrl'].value;
+      formData.append('eventPicUrlImage', eventPicUrlImage);
+      eventRequest.profilePicUrl = null;
+    }
+
+     const jsonBlob = new Blob([JSON.stringify(eventRequest)], { type: 'application/json' });
+
+     formData.append('eventRequest', jsonBlob);
+
+
+    this.eventService.createEvent(organizationId, formData).subscribe(
+      (res) => {
+        this.loaderService.hideLoader(this.router.url);
+      },
+      (err: any) => {
+        this.loaderService.hideLoader(this.router.url);
+      }
+    );
   }
 
   cancelCreateEvent(){
