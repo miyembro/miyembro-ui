@@ -65,12 +65,11 @@ export class EditMemberDetailsPageComponent implements OnInit {
 
   onClickRegisterAdditionalInfo() {
     this.loaderService.showLoader(this.router.url, false);
-    this.memberForm.disable();
-    const birthDate: Date = this.memberForm.controls['birthDate'].value;
 
-    const formattedBirthDate = this.datePipe.transform(birthDate, 'yyyy-MM-dd');
+    const rawForm = this.memberForm.getRawValue();
+    const memberRequest = JSON.parse(JSON.stringify(rawForm));
 
-    const memberRequest = { ...this.memberForm.value };
+    const formattedBirthDate = this.datePipe.transform(memberRequest.birthDate, 'yyyy-MM-dd');
     memberRequest.birthDate = formattedBirthDate;
 
     const formData = new FormData();
@@ -87,6 +86,8 @@ export class EditMemberDetailsPageComponent implements OnInit {
     formData.append('additionalInfoRequest', JSON.stringify({
       memberRequest: memberRequest
     }));
+
+    this.memberForm.disable();
 
     this.memberService.updateMemberDetails(memberRequest.memberId, formData).subscribe(
       (res) => {
