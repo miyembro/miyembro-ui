@@ -75,6 +75,8 @@ export class CreateEventPageComponent implements OnInit {
   }
   
   createEvent() {
+    this.loaderService.showLoader(this.router.url, false);
+
     console.log(this.organizationId);
     const eventRequest = { ...this.eventForm.value };
 
@@ -90,15 +92,17 @@ export class CreateEventPageComponent implements OnInit {
 
      formData.append('eventRequest', jsonBlob);
 
-
+    this.eventForm.disable();
     this.eventService.createEvent(this.organizationId, formData).subscribe(
       (res) => {
         this.alertService.success(this.router.url, 'Success', "Succesfully created event");
         this.loaderService.hideLoader(this.router.url);
+        this.eventForm.enable();
         this.location.back();
       },
       (err: any) => {
         console.log(err);
+        this.eventForm.enable();
         this.loaderService.hideLoader(this.router.url);
         this.alertService.error(this.router.url, 'Error', err.error.message);
       }

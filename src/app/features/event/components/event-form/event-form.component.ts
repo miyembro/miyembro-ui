@@ -37,8 +37,8 @@ export class EventFormComponent implements OnInit {
   @Input() formType: EventFormType = EventFormType.ADD_EVENT;
   @Input() eventForm!: FormGroup; 
   @Output() eventFormChange = new EventEmitter<FormGroup>();
-  minEndDate: Date | null = null;
 
+  minEndDate: Date | null = null;
   EventFormType = EventFormType;
 
 

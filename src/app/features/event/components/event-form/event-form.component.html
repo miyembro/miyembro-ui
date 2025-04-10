@@ -42,7 +42,11 @@
         "
         pTooltip="{{ f['description'].errors | formErrors : 'description' }}"
       >
-        <p-editor formControlName="description" [style]="{ height: '320px' }">
+        <p-editor
+          formControlName="description"
+          [style]="{ height: '320px' }"
+          [readonly]="eventForm ? eventForm.disabled : false"
+        >
         </p-editor>
       </div>
     </div>

@@ -29,6 +29,7 @@
     icon="pi pi-camera"
     [rounded]="true"
     severity="info"
+    [disabled]="disabled"
     class="absolute bottom-1 right-1"
     [ngClass]="{
       'mr-2 mb-2': !isRound
@@ -44,6 +45,7 @@
     }"
     size="small"
     severity="info"
+    [disabled]="disabled"
     (click)="openFilePicker()"
   >
     <i class="pi pi-camera px-0 py-0"></i>
