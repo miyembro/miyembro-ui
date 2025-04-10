@@ -4,14 +4,16 @@ import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { OrganizationResponse } from 'src/app/core/models/organization-reponse';
+import { EventListComponent } from "../../../event/components/event-list/event-list.component";
 
 @Component({
   selector: 'app-organization-events',
-  imports: [   
-    ButtonModule, 
+  imports: [
+    ButtonModule,
     CardModule,
-    CommonModule
-  ],
+    CommonModule,
+    EventListComponent
+],
   templateUrl: './organization-events.component.html',
   styleUrl: './organization-events.component.scss'
 })

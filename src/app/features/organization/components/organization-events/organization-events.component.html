@@ -11,4 +11,7 @@
     *ngIf="isEditAllowed"
     (onClick)="goToCreateEvent()"
   />
+  <app-event-list
+    [organizationId]="organization?.organizationId"
+  ></app-event-list>
 </p-card>

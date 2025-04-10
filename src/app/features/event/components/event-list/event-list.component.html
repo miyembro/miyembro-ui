@@ -1,0 +1,27 @@
+<div class="m-0 overflow-y-auto mt-2">
+  <p-dataview #dv [value]="events" layout="grid">
+    <ng-template #grid let-events>
+      <div class="grid grid-cols-12 gap-3 sm:gap-1 md:gap-3">
+        <div
+          *ngFor="let event of events"
+          class="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6 xl:col-span-4"
+        >
+          <app-event-item-grid
+            [event]="event"
+            (eventClickChanged)="onClickEvent($event)"
+          >
+          </app-event-item-grid>
+        </div>
+      </div>
+    </ng-template>
+  </p-dataview>
+
+  <!-- <div class="grid grid-cols-12 gap-4" *ngIf="loading">
+    <div
+      *ngFor="let i of counterArray(); let first = first"
+      class="col-span-6 sm:col-span-6 md:col-span-4 lg:col-span-2 xl:col-span-2 p-2 h-full"
+    >
+      <app-organization-item-grid-skeleton></app-organization-item-grid-skeleton>
+    </div>
+  </div> -->
+</div>

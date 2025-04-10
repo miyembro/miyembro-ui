@@ -43,7 +43,7 @@ export class CreateEventPageComponent implements OnInit {
       organizationId: [null],
       name: ['', Validators.required],
       description: ['', [emptyEditorValidator(), Validators.required]],
-      eventPicUrl: [''],
+      eventPicUrl: [null],
       startEventDate: ['', [startDateBeforeEndDateValidator('endEventDate'), Validators.required]],
       endEventDate: [''],
       eventAddress: this.formBuilder.group({
@@ -85,7 +85,7 @@ export class CreateEventPageComponent implements OnInit {
     if(eventRequest.eventPicUrl) {
       const eventPicUrlImage: File = this.eventForm.controls['eventPicUrl'].value;
       formData.append('eventPicUrlImage', eventPicUrlImage);
-      eventRequest.eventPicUrl = '';
+      eventRequest.eventPicUrl = null;
     }
 
      const jsonBlob = new Blob([JSON.stringify(eventRequest)], { type: 'application/json' });
@@ -95,6 +95,7 @@ export class CreateEventPageComponent implements OnInit {
     this.eventForm.disable();
     this.eventService.createEvent(this.organizationId, formData).subscribe(
       (res) => {
+        console.log(res);
         this.alertService.success(this.router.url, 'Success', "Succesfully created event");
         this.loaderService.hideLoader(this.router.url);
         this.eventForm.enable();
