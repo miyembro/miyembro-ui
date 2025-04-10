@@ -9,7 +9,7 @@ import { emptyEditorValidator } from 'src/app/core/validators/empty-editor-valid
 import { startDateBeforeEndDateValidator } from 'src/app/core/validators/start-date-before-end-date-validator';
 import { EventService } from 'src/app/core/services/event.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { dataURLToFile } from 'src/app/core/helpers/data-url-to-file';
 import { AlertService } from 'src/app/core/services/alert.service';
 
@@ -27,8 +27,10 @@ import { AlertService } from 'src/app/core/services/alert.service';
 export class CreateEventPageComponent implements OnInit {
 
   eventForm: FormGroup;
+  organizationId!: string;
   
   constructor(
+    private activatedRoute : ActivatedRoute, 
     private alertService: AlertService,
     private eventService: EventService, 
     private formBuilder: FormBuilder,
@@ -53,17 +55,27 @@ export class CreateEventPageComponent implements OnInit {
         country: [null]
       })
     });
+    const navigation = this.router.getCurrentNavigation();
+    const state = navigation?.extras?.state as { organizationId?: string };
+    if (state?.organizationId) {
+      this.organizationId = state.organizationId;
+      this.eventForm.patchValue({
+        organizationId: this.organizationId
+      });
+      console.log(this.organizationId);
+    } else {
+      this.router.navigate(['**']);
+    }
   }
 
   ngOnInit(): void {
     this.eventForm.get('endEventDate')?.valueChanges.subscribe(() => {
       this.eventForm.get('startEventDate')?.updateValueAndValidity();
-    });    
+    });
   }
   
-  createEvent(){
-    const organizationId = 'a7d1b9d0-56e8-45f6-b418-5f52960b25ab';
-
+  createEvent() {
+    console.log(this.organizationId);
     const eventRequest = { ...this.eventForm.value };
 
     const formData = new FormData();
@@ -79,7 +91,7 @@ export class CreateEventPageComponent implements OnInit {
      formData.append('eventRequest', jsonBlob);
 
 
-    this.eventService.createEvent(organizationId, formData).subscribe(
+    this.eventService.createEvent(this.organizationId, formData).subscribe(
       (res) => {
         this.alertService.success(this.router.url, 'Success', "Succesfully created event");
         this.loaderService.hideLoader(this.router.url);

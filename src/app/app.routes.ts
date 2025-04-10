@@ -56,12 +56,6 @@ export const appRoutes: Route[] = [
       loadComponent: () => import('./features/event/pages/create-event-page/create-event-page.component').then(mod => mod.CreateEventPageComponent),
       canActivate: [AuthGuard],
     },
-    
-    // {
-    //   path: 'organization-details/:organizationId',
-    //   loadComponent: () => import('./features/home/pages/organization/pages/organization-details-page/organization-details-page.component').then(mod => mod.OrganizationDetailsPageComponent),
-    //   canActivate: [AuthGuard],
-    // },
     {
         path: 'login',
         loadComponent: () => import('./core/auth/pages/login/login.component').then(mod => mod.LoginComponent),
@@ -71,7 +65,7 @@ export const appRoutes: Route[] = [
       path: 'login/callback',
       component: GoogleLoginComponent,
       canActivate: [UnAuthGuard],
-  },
+    },
     {
       path: 'choose-organization',
       loadComponent: () => import('./core/auth/pages/choose-organization/choose-organization.component').then(mod => mod.ChooseOrganizationComponent),
@@ -92,22 +86,11 @@ export const appRoutes: Route[] = [
       path: 'additional-info-signup',
       loadComponent: () => import('./core/auth/pages/additional-info-signup/additional-info-signup.component').then(mod => mod.AdditionalInfoSignupComponent),
       canActivate: [UnAuthGuard],
-  },
-  //   {
-  //     path: 'register',
-  //     loadComponent: () => import('./core/auth/pages/sign-up/sign-up.component').then(mod => mod.SignUpComponent),
-  //     canActivate: [UnAuthGuard],
-
-  // },
-    //  {
-    //     path: '',
-    //     redirectTo: 'home',
-    //     pathMatch: 'full'
-    //   },
-      {
-        path: '**',
-        loadComponent: () => import('./core/auth/pages/page-not-found/page-not-found.component')
-          .then(mod => mod.PageNotFoundComponent),
-          // canActivate: [UnAuthGuard],
-      }
+    },
+    {
+      path: '**',
+      loadComponent: () => import('./core/auth/pages/page-not-found/page-not-found.component')
+        .then(mod => mod.PageNotFoundComponent),
+        // canActivate: [UnAuthGuard],
+    }
 ];

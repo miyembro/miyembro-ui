@@ -27,7 +27,9 @@ export class OrganizationEventsComponent {
   }
 
   goToCreateEvent() {
-    this.router.navigate(['/create-event']);
+    this.router.navigate(['/create-event'], {
+      state: { organizationId: this.organization?.organizationId }
+    });
   }
 
 }

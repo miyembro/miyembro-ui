@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment as env } from '@environments/environment';
 import { Observable } from 'rxjs';
 import { EventRequest } from '../models/event-request';
+import { EventResponse } from '../models/event-response';
 
 @Injectable({
   providedIn: 'root'
@@ -24,5 +25,10 @@ export class EventService {
       { responseType: 'text' as 'json' } 
     );
   }
+
+  getEventsByOrganizationId(organizationId: string): Observable<EventResponse []> {
+    return this.http.get(`${env.apiUrl}${this.baseUrl}/organizations/` + organizationId) as Observable<EventResponse []>;
+  }
+  
   
 }
