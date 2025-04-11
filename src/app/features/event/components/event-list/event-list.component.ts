@@ -54,7 +54,15 @@ export class EventListComponent implements OnInit, OnChanges{
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('sdadas');
+    if (changes['searchName'] && !changes['searchName'].firstChange) {
+      this.searchEventWithFilter();
+    }
+    if (changes['selectedCountry'] && !changes['selectedCountry'].firstChange) {
+      this.searchEventWithFilter();
+    }
+    if (changes['selectedCity'] && !changes['selectedCity'].firstChange) {
+      this.searchEventWithFilter();
+    }
   }
 
   onClickEvent(event: EventSummaryResponse | undefined) {
@@ -110,7 +118,6 @@ export class EventListComponent implements OnInit, OnChanges{
     
     this.eventService.getEventsByOrganizationIdPage(this.organizationId, pageNo, pageSize, sortField, sortOrder, this.eventFilters).subscribe(
       (res) => {
-        console.log(res);
         const newEvents = res.content.filter(event => !this.events.some(existingEvent => existingEvent.eventId === event.eventId));
         this.events = [...this.events, ...newEvents];
         if (res.content.length === 0) {
@@ -128,6 +135,18 @@ export class EventListComponent implements OnInit, OnChanges{
         this.alertService.error(this.router.url, 'Error', err.error.message);
       }
     );
+  }
+
+  private searchEventWithFilter() {
+    if (!this.searchName || this.searchName.trim().length === 0) {
+      this.searchName = null;
+    }
+
+    this.page = 0;
+    this.events = [];
+    this.hasMore = true; 
+
+    this.loadEvents(this.page, this.size);
   }
 
 }
