@@ -4,38 +4,41 @@
     [isEditAllowed]="isEditAllowed"
     ><ng-content></ng-content
   ></app-organization-collapsing-header>
-  <p-tabs value="0" styleClass="organizaion-tab-panels">
+  <p-tabs value="0" styleClass="organizaion-tab-panels" [(value)]="activeTab">
     <p-tablist class="sticky-tabs p-0 z-50">
       <p-tab value="0">About Us</p-tab>
       <p-tab value="1">Events</p-tab>
       <!-- <p-tab value="2">Photos</p-tab> -->
       <p-tab value="3" *ngIf="isMyOrganization">Your Membership</p-tab>
     </p-tablist>
-    <p-tabpanels>
-      <p-tabpanel value="0">
-        <app-organization-about-us
-          [organization]="organization"
-          [isEditAllowed]="isEditAllowed"
-        ></app-organization-about-us>
-      </p-tabpanel>
-      <p-tabpanel value="1">
-        <app-organization-events
-          [organization]="organization"
-          [isEditAllowed]="isEditAllowed"
-        ></app-organization-events>
-      </p-tabpanel>
-      <!-- 
-      <p-tabpanel value="2">
-        <app-organization-photos
-          [organization]="organization"
-        ></app-organization-photos>
-      </p-tabpanel> -->
-      <p-tabpanel value="3" *ngIf="isMyOrganization">
-        <app-organization-membership
-          [organization]="organization"
-          [membership]="membership"
-        ></app-organization-membership>
-      </p-tabpanel>
-    </p-tabpanels>
+    <!-- Replace p-tabpanels with conditional rendering -->
+    <div class="tab-content">
+      <!-- About Us Tab -->
+      @if (activeTab() === '0') {
+      <app-organization-about-us
+        [organization]="organization"
+        [isEditAllowed]="isEditAllowed"
+      >
+      </app-organization-about-us>
+      }
+
+      <!-- Events Tab -->
+      @if (activeTab() === '1') {
+      <app-organization-events
+        [organization]="organization"
+        [isEditAllowed]="isEditAllowed"
+      >
+      </app-organization-events>
+      }
+
+      <!-- Your Membership Tab -->
+      @if (isMyOrganization && activeTab() === '3') {
+      <app-organization-membership
+        [organization]="organization"
+        [membership]="membership"
+      >
+      </app-organization-membership>
+      }
+    </div>
   </p-tabs>
 </div>

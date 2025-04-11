@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, signal, WritableSignal } from '@angular/core';
 import { SessionService } from 'src/app/core/services/session.service';
 import { OrganizationResponse } from 'src/app/core/models/organization-reponse';
 import { CommonModule } from '@angular/common';
@@ -33,6 +33,8 @@ export class OrganizationComponent implements OnInit {
   @Input() isMyOrganization = false;
   @Input() membership: MembershipResponse | null = null;
   @Input() organization: OrganizationResponse | null = null;
+
+  activeTab: WritableSignal<string> = signal('0');
 
   isEditAllowed = false;
 
