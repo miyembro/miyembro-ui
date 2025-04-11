@@ -1,16 +1,17 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EventResponse } from 'src/app/core/models/event-response';
 import { EventDateRangePipe } from 'src/app/shared/pipes/event-date-range.pipe';
 import { EventSummaryResponse } from 'src/app/core/models/event-summary-response';
 import { HasAddressPipe } from "../../../../shared/pipes/has-address.pipe";
+import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-event-item-grid',
   imports: [
     CommonModule,
     EventDateRangePipe,
-    HasAddressPipe
+    HasAddressPipe,
+    TagModule
 ],
   templateUrl: './event-item-grid.component.html',
   styleUrl: './event-item-grid.component.scss',

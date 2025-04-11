@@ -5,6 +5,6 @@ export class HasAddressPipe implements PipeTransform {
   transform(address: any): boolean {
     
     if (!address) return false;
-    return Object.values(address).some(value => value != null);
+    return Object.values(address).some(value => value != null && (value != 'createdAt' && value != 'updatedAt'));
   }
 }

@@ -65,6 +65,7 @@
             dateFormat="dd-MM-yy"
             [showTime]="true"
             hourFormat="24"
+            [minDate]="dateNow"
             pTooltip="{{
               f['startEventDate'].errors | formErrors : 'startEventDate'
             }}"
@@ -112,7 +113,13 @@
     </div>
     <p-divider styleClass="mt-4"></p-divider>
     <h2 class="text-lg font-medium text-purple-700 mb-3">Where:</h2>
-    <app-address-form [addressForm]="eventAddressForm"> </app-address-form>
+    <div style="display: flex; align-items: center" class="my-3">
+      <p class="mr-2">Online?</p>
+      <p-toggleswitch formControlName="isOnline"></p-toggleswitch>
+    </div>
+
+    <app-address-form [addressForm]="eventAddressForm" *ngIf="!isOnline">
+    </app-address-form>
 
     <p-divider styleClass="mt-6"></p-divider>
     <h2 class="text-lg font-medium text-purple-700 mb-3">Poster:</h2>

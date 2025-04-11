@@ -6,6 +6,7 @@ import { MemberPageComponent } from './features/members/pages/member-page/member
 import { GoogleLoginComponent } from './core/auth/pages/google-login/google-login.component';
 import { OrganizationDetailsPageComponent } from './features/organization/pages/organization-details-page/organization-details-page.component';
 import { MyOrganizationComponent } from './features/organization/pages/my-organization/my-organization.component';
+import { EventDetailsPageComponent } from './features/event/pages/event-details/event-details-page.component';
 
 export const appRoutes: Route[] = [
     {
@@ -22,7 +23,7 @@ export const appRoutes: Route[] = [
         { path: 'my-organization', component: MyOrganizationComponent },
         { path: 'members', component: MemberPageComponent },
         { path: 'organization-details/:organizationId', component: OrganizationDetailsPageComponent },
-
+        { path: 'event-details', component: EventDetailsPageComponent },
       ],
       canActivate: [AuthGuard],
     },

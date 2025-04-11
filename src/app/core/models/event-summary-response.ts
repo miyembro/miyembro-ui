@@ -5,6 +5,7 @@ export interface EventSummaryResponse {
     organizationId: string;
     name: string;
     eventPicUrl: string;
+    isOnline: boolean;
     startEventDate: Date;
     endEventDate: Date;
     eventAddress: EventAddress;

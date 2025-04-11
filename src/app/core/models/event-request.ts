@@ -6,6 +6,7 @@ export interface EventRequest {
     name: string;
     description: string;
     eventPicUrl: string;
+    isOnline: boolean;
     startEventDate: Date;
     endEventDate: Date;
     eventAddress: EventAddress

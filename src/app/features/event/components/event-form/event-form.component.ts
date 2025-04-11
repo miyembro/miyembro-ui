@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AbstractControl, FormGroup, ReactiveFormsModule, ValidationErrors } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors } from '@angular/forms';
 import { EventFormType } from 'src/app/core/models/event-form-type';
 import { TooltipModule } from 'primeng/tooltip';
 import { FormErrorsPipe } from 'src/app/shared/pipes/form-errors.pipe';
@@ -12,10 +12,12 @@ import { DividerModule } from 'primeng/divider';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { PhotoControlComponent } from 'src/app/shared/components/photo-control/photo-control.component';
 import { AddressFormComponent } from "../address-form/address-form.component";
+import { ToggleSwitchModule } from 'primeng/toggleswitch';
 
 @Component({
   selector: 'app-event-form',
   imports: [
+    AddressFormComponent,
     CommonModule,
     DatePickerModule,
     DividerModule,
@@ -26,8 +28,8 @@ import { AddressFormComponent } from "../address-form/address-form.component";
     InputTextModule,
     PhotoControlComponent,
     ReactiveFormsModule,
-    TooltipModule,
-    AddressFormComponent
+    ToggleSwitchModule,
+    TooltipModule
 ],
   templateUrl: './event-form.component.html',
   styleUrl: './event-form.component.scss',
@@ -38,6 +40,8 @@ export class EventFormComponent implements OnInit {
   @Input() eventForm!: FormGroup; 
   @Output() eventFormChange = new EventEmitter<FormGroup>();
 
+  dateNow: Date = new Date(); 
+  isOnline = false;
   minEndDate: Date | null = null;
   EventFormType = EventFormType;
 
@@ -46,8 +50,15 @@ export class EventFormComponent implements OnInit {
     return this.eventForm.get('eventAddress') as FormGroup;
   }
 
+  constructor(
+    private formBuilder: FormBuilder,
+  ) {
+
+  }
+
 
   ngOnInit(): void {
+    this.minEndDate = this.dateNow;
     this.eventForm.valueChanges.subscribe(() => {
       this.emitForm();
     });
@@ -58,6 +69,26 @@ export class EventFormComponent implements OnInit {
         this.minEndDate = startDate;
       } else {
         this.minEndDate = null;
+      }
+    });
+    this.eventForm.get('isOnline')?.valueChanges.subscribe((value) => {
+      if(value) {
+        this.eventForm.patchValue({
+          eventAddress: null
+        });
+        this.isOnline = true;
+      } else {
+        this.eventAddressForm.patchValue({
+          eventAddress: this.formBuilder.group({
+            eventAddressId: [null],
+            street: [null],
+            city: [null],
+            provinceState: [null],
+            postalCode: [null],
+            country: [null]
+          })
+        });
+        this.isOnline = false;
       }
     });
   }

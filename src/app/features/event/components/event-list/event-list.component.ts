@@ -71,7 +71,9 @@ export class EventListComponent implements OnInit, OnChanges{
   }
 
   onClickEvent(event: EventSummaryResponse | undefined) {
-    console.log(event);
+    this.router.navigate(['/home/event-details'], {
+      state: { eventId: event?.eventId }
+    });
   }
 
 }

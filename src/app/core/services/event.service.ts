@@ -27,6 +27,13 @@ export class EventService {
     );
   }
 
+  getEvent(eventId: string): Observable<EventResponse> {
+    return this.http.get(
+      `${env.apiUrl}${this.baseUrl}/` + eventId
+    ) as Observable<EventResponse>;
+  }
+
+
   getEventsByOrganizationId(organizationId: string | undefined): Observable<EventSummaryResponse []> {
     return this.http.get(`${env.apiUrl}${this.baseUrl}/organizations/` + organizationId) as Observable<EventSummaryResponse []>;
   }

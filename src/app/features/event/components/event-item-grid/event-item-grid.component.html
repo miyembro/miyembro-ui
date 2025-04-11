@@ -34,20 +34,28 @@
     </div>
 
     <!-- Address -->
-    <div
-      class="event-address flex-grow"
-      *ngIf="event?.eventAddress | hasAddress"
-    >
-      <p
-        class="text-xs sm:text-xs md:text-sm text-surface-700 dark:text-surface-200"
-      >
-        <strong>Where:</strong>
-        {{
-          event?.eventAddress?.city
-            ? event?.eventAddress?.city + ', ' + event?.eventAddress?.country
-            : event?.eventAddress?.country
-        }}
-      </p>
+
+    <div class="event-address flex-grow">
+      <p-tag
+        severity="success"
+        value="Online"
+        *ngIf="event?.isOnline"
+        [rounded]="true"
+        styleClass="py-0"
+      />
+
+      <ng-container *ngIf="event?.eventAddress | hasAddress">
+        <p
+          class="text-xs sm:text-xs md:text-sm text-surface-700 dark:text-surface-200"
+        >
+          <strong>Where:</strong>
+          {{
+            event?.eventAddress?.city
+              ? event?.eventAddress?.city + ', ' + event?.eventAddress?.country
+              : event?.eventAddress?.country
+          }}
+        </p>
+      </ng-container>
     </div>
   </div>
 </div>

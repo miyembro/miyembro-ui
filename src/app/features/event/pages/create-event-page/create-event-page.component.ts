@@ -44,6 +44,7 @@ export class CreateEventPageComponent implements OnInit {
       name: ['', Validators.required],
       description: ['', [emptyEditorValidator(), Validators.required]],
       eventPicUrl: [null],
+      isOnline: [false],
       startEventDate: ['', [startDateBeforeEndDateValidator('endEventDate'), Validators.required]],
       endEventDate: [''],
       eventAddress: this.formBuilder.group({
@@ -80,6 +81,10 @@ export class CreateEventPageComponent implements OnInit {
     console.log(this.organizationId);
     const eventRequest = { ...this.eventForm.value };
 
+    if(eventRequest.isOnline) {
+      eventRequest.eventAddress = null;
+    }
+
     const address = eventRequest.eventAddress;
     if (address) {
       const { eventAddressId, ...addressFields } = address;
@@ -88,6 +93,7 @@ export class CreateEventPageComponent implements OnInit {
         eventRequest.eventAddress = null;
       }
     }
+    
 
     const formData = new FormData();
 
