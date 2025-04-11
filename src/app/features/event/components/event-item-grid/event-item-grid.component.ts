@@ -29,7 +29,6 @@ export class EventItemGridComponent implements OnChanges {
     if (changes['event'] && this.event) {
       if(this.event.eventPicUrl) {
         this.imageUrl = this.event.eventPicUrl;
-        console.log(this.event);
       }
     }
   }

@@ -28,8 +28,6 @@ export class EventDateRangePipe implements PipeTransform {
 
 
     if (startDate.toDateString() === endDate.toDateString()) {
-      console.log(startDate.getTime());
-      console.log(endDate.getTime());
 
       if (startDate.getHours()  === endDate.getHours() && startDate.getMinutes()  === endDate.getMinutes()) {
         return `${startDate.toLocaleString(locale, dateOptions)}`;
