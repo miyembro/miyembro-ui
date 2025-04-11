@@ -80,6 +80,15 @@ export class CreateEventPageComponent implements OnInit {
     console.log(this.organizationId);
     const eventRequest = { ...this.eventForm.value };
 
+    const address = eventRequest.eventAddress;
+    if (address) {
+      const { eventAddressId, ...addressFields } = address;
+      const allFieldsNull = Object.values(addressFields).every(val => val === null);
+      if (allFieldsNull) {
+        eventRequest.eventAddress = null;
+      }
+    }
+
     const formData = new FormData();
 
     if(eventRequest.eventPicUrl) {

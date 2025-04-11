@@ -3,13 +3,15 @@ import { CommonModule } from '@angular/common';
 import { EventResponse } from 'src/app/core/models/event-response';
 import { EventDateRangePipe } from 'src/app/shared/pipes/event-date-range.pipe';
 import { EventSummaryResponse } from 'src/app/core/models/event-summary-response';
+import { HasAddressPipe } from "../../../../shared/pipes/has-address.pipe";
 
 @Component({
   selector: 'app-event-item-grid',
   imports: [
     CommonModule,
-    EventDateRangePipe
-  ],
+    EventDateRangePipe,
+    HasAddressPipe
+],
   templateUrl: './event-item-grid.component.html',
   styleUrl: './event-item-grid.component.scss',
 })
@@ -26,6 +28,7 @@ export class EventItemGridComponent implements OnChanges {
     if (changes['event'] && this.event) {
       if(this.event.eventPicUrl) {
         this.imageUrl = this.event.eventPicUrl;
+        console.log(this.event);
       }
     }
   }
@@ -39,5 +42,4 @@ export class EventItemGridComponent implements OnChanges {
       this.onClickEvent(event);  
     }
   }
-
 }

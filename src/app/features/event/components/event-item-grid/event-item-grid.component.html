@@ -14,42 +14,40 @@
 
   <!-- Flex container to make content take up space -->
   <div class="event-details w-3/5 pl-3 flex flex-col justify-between h-full">
-    <!-- Top: Name + Address -->
-    <div class="event-name">
+    <!-- Name with wrapping -->
+    <div class="event-name flex-grow sm:h-[32px] md:h-[42px]">
       <p
-        class="text-sm text-surface-900 dark:text-surface-0 font-semibold text-sm sm:text-sm md:sm"
+        class="text-sm sm:text-sm md:text-base text-surface-900 dark:text-surface-0 font-semibold break-words line-clamp-2 overflow-hidden leading-tight h-full"
       >
         {{ event?.name }}
       </p>
-      <p class="text-sm text-surface-900 dark:text-surface-0 mt-1">
+    </div>
+
+    <!-- Dates -->
+    <div class="event-dates flex-grow mt-4" *ngIf="event">
+      <p
+        class="text-xs sm:text-xs md:text-sm text-surface-700 dark:text-surface-200"
+      >
+        <strong>When:</strong>
+        {{ event.startEventDate | eventDateRange : event.endEventDate }}
+      </p>
+    </div>
+
+    <!-- Address -->
+    <div
+      class="event-address flex-grow"
+      *ngIf="event?.eventAddress | hasAddress"
+    >
+      <p
+        class="text-xs sm:text-xs md:text-sm text-surface-700 dark:text-surface-200"
+      >
+        <strong>Where:</strong>
         {{
           event?.eventAddress?.city
             ? event?.eventAddress?.city + ', ' + event?.eventAddress?.country
             : event?.eventAddress?.country
         }}
       </p>
-    </div>
-
-    <!-- Empty space that pushes bottom content down -->
-    <div class="flex-grow"></div>
-
-    <!-- Bottom: Dates -->
-    <div class="event-dates pt-4">
-      <ng-container *ngIf="event?.startEventDate && event?.endEventDate">
-        <ng-container
-          *ngIf="
-            event?.startEventDate
-              | eventDateRange : event?.endEventDate as dateInfo
-          "
-        >
-          <p class="text-sm text-surface-700 dark:text-surface-200">
-            🗓 {{ dateInfo.date }}
-          </p>
-          <p class="text-sm text-surface-700 dark:text-surface-200">
-            🕒 {{ dateInfo.timeRange }}
-          </p>
-        </ng-container>
-      </ng-container>
     </div>
   </div>
 </div>
