@@ -4,6 +4,7 @@ import { environment as env } from '@environments/environment';
 import { Observable } from 'rxjs';
 import { EventRequest } from '../models/event-request';
 import { EventResponse } from '../models/event-response';
+import { EventSummaryResponse } from '../models/event-summary-response';
 
 @Injectable({
   providedIn: 'root'
@@ -26,8 +27,8 @@ export class EventService {
     );
   }
 
-  getEventsByOrganizationId(organizationId: string | undefined): Observable<EventResponse []> {
-    return this.http.get(`${env.apiUrl}${this.baseUrl}/organizations/` + organizationId) as Observable<EventResponse []>;
+  getEventsByOrganizationId(organizationId: string | undefined): Observable<EventSummaryResponse []> {
+    return this.http.get(`${env.apiUrl}${this.baseUrl}/organizations/` + organizationId) as Observable<EventSummaryResponse []>;
   }
   
   

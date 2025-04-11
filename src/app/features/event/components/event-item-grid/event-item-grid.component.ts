@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 import { CommonModule } from '@angular/common';
 import { EventResponse } from 'src/app/core/models/event-response';
 import { EventDateRangePipe } from 'src/app/shared/pipes/event-date-range.pipe';
+import { EventSummaryResponse } from 'src/app/core/models/event-summary-response';
 
 @Component({
   selector: 'app-event-item-grid',
@@ -15,8 +16,8 @@ import { EventDateRangePipe } from 'src/app/shared/pipes/event-date-range.pipe';
 export class EventItemGridComponent implements OnChanges {
  
 
-  @Input() event: EventResponse | undefined;
-  @Output() eventClickChanged = new EventEmitter<EventResponse | undefined>();
+  @Input() event: EventSummaryResponse | undefined;
+  @Output() eventClickChanged = new EventEmitter<EventSummaryResponse | undefined>();
 
   imageUrl = 'assets/default-event-poster.jpg';
 
@@ -29,7 +30,7 @@ export class EventItemGridComponent implements OnChanges {
     }
   }
 
-  onClickEvent(event: EventResponse | undefined) {
+  onClickEvent(event: EventSummaryResponse | undefined) {
     this.eventClickChanged.emit(event);
   }
 

@@ -1,17 +1,18 @@
-<p-card
-  styleClass="p-3 max-w-full mx-auto my-5 relative organization-description-card"
+<!-- <p-card
+  styleClass="p-0 max-w-full mx-auto my-5 relative organization-description-card"
 >
-  <p-button
-    icon="pi pi-calendar-clock"
-    label="Create an Event"
-    severity="help"
-    size="small"
-    styleClass="mt-4"
-    [raised]="true"
-    *ngIf="isEditAllowed"
-    (onClick)="goToCreateEvent()"
-  />
-  <app-event-list
-    [organizationId]="organization?.organizationId"
-  ></app-event-list>
-</p-card>
+  
+</p-card> -->
+<p-button
+  icon="pi pi-calendar-clock"
+  label="Create an Event"
+  severity="help"
+  size="small"
+  styleClass="mt-4"
+  [raised]="true"
+  *ngIf="isEditAllowed"
+  (onClick)="goToCreateEvent()"
+/>
+<app-event-list
+  [organizationId]="organization?.organizationId"
+></app-event-list>

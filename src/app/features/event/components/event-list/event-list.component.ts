@@ -12,6 +12,7 @@ import { SessionService } from 'src/app/core/services/session.service';
 import { EventService } from 'src/app/core/services/event.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { EventItemGridComponent } from '../event-item-grid/event-item-grid.component';
+import { EventSummaryResponse } from 'src/app/core/models/event-summary-response';
 
 @Component({
   selector: 'app-event-list',
@@ -30,7 +31,7 @@ export class EventListComponent implements OnInit, OnChanges{
 
   @Input() organizationId: string | undefined;
 
-  events: EventResponse [] = [];
+  events: EventSummaryResponse [] = [];
 
   constructor(
     private alertService: AlertService,
@@ -69,7 +70,7 @@ export class EventListComponent implements OnInit, OnChanges{
     );
   }
 
-  onClickEvent(event: EventResponse | undefined) {
+  onClickEvent(event: EventSummaryResponse | undefined) {
     console.log(event);
   }
 
