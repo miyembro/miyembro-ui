@@ -1,0 +1,81 @@
+<div class="m-0">
+  <app-table
+    [table]="table"
+    [tableTitle]="title"
+    [paginator]="true"
+    [(totalRecords)]="totalRecords"
+    [(rowsPerPage)]="rowsPerPage"
+    [(first)]="first"
+    (pageChangeTable)="pageChangeTable($event)"
+    (sortChangeTable)="sortChangeTable($event)"
+    [loading]="loading"
+    [(sortField)]="sortField"
+    [(sortOrder)]="sortOrder"
+    multiSelectButtonLabel="Multiple Edit"
+    [enableMultiSelectButton]="true"
+    dataKey="membershipId"
+    [(selectedItems)]="selectedEvents"
+  >
+    <ng-template #nameColumn let-row>
+      <div style="display: flex; align-items: center; width: '500px'">
+        <p-avatar
+          [image]="row?.eventPicUrl || 'assets/blank-profile-picture.jpg'"
+          class="mr-2"
+          size="large"
+        />
+        <div>
+          <p>{{ row.name }}</p>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template #isOnlineColumn let-row>
+      <div class="flex items-center">
+        <p-tag
+          *ngIf="row?.isOnline"
+          styleClass="py-0 mt-1 text-sm sm:text-sm md:text-base"
+          [rounded]="true"
+          severity="success"
+          value="Online"
+        />
+      </div>
+    </ng-template>
+    <ng-template #addressColumn let-row>
+      {{
+        (row?.eventAddress?.city || '') +
+          (row?.eventAddress?.country ? ', ' + row.eventAddress.country : '')
+      }}
+    </ng-template>
+    <ng-template #startEventDateColumn let-row>
+      {{ row?.startEventDate | date : 'MMMM d, y' }}
+    </ng-template>
+    <ng-template #endEventDateColumn let-row>
+      {{ row?.endEventDate | date : 'MMMM d, y' }}
+    </ng-template>
+    <ng-template #editEventColumn let-row>
+      <div class="flex space-x-2">
+        <p-button
+          label="Details"
+          size="small"
+          icon="pi pi-calendar"
+          severity="info"
+          [raised]="true"
+          [rounded]="true"
+          styleClass="py-1 text-xs sm:text-xs md:text-sm
+            "
+          (onClick)="onViewEventDetails(row)"
+        />
+        <p-button
+          label="Edit"
+          icon="pi pi-pencil"
+          size="small"
+          severity="help"
+          [raised]="true"
+          [rounded]="true"
+          styleClass="py-1 text-xs sm:text-xs md:text-sm
+            "
+          (onClick)="onEditEvent(row)"
+        />
+      </div>
+    </ng-template>
+  </app-table>
+</div>

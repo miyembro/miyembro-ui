@@ -120,7 +120,13 @@ export class HeaderComponent implements OnInit{
             icon: 'pi pi-user',
             route: '/home/members',
             command: () => this.removeCreateOrganization()
-        }
+        },
+        {
+          label: 'Manage Event',
+          icon: 'pi pi-calendar',
+          route: '/home/manage-events',
+          command: () => this.removeCreateOrganization()
+      }
       ];
       this.getMenus();
   }
@@ -161,6 +167,7 @@ export class HeaderComponent implements OnInit{
     const organizationId = this.sessionService.organizationId;
     this.menuService.getMenus(organizationId).subscribe(
       (res) => {
+        console.log(res);
         this.menuItemResponses = res;
         this.setMenuItems();
       },

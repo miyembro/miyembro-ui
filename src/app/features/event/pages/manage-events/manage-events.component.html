@@ -1,0 +1,20 @@
+<div class="mt-2 sm:mt-2 md:mt-5 border-b">
+  <p-selectbutton
+    [options]="tabOptions"
+    [(ngModel)]="selectedTab"
+    optionLabel="label"
+    optionValue="value"
+    aria-labelledby="basic"
+  >
+    <ng-template #item let-item>
+      <i [class]="item.icon"></i>
+      <p class="text-sm sm:text-sm md:text-base">{{ item.label }}</p>
+    </ng-template>
+  </p-selectbutton>
+</div>
+<div *ngIf="selectedTab === 'activeEvents'">
+  <app-active-events-list></app-active-events-list>
+</div>
+<div *ngIf="selectedTab === 'oldEvents'">
+  <app-old-events-list></app-old-events-list>
+</div>

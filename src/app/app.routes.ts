@@ -7,6 +7,7 @@ import { GoogleLoginComponent } from './core/auth/pages/google-login/google-logi
 import { OrganizationDetailsPageComponent } from './features/organization/pages/organization-details-page/organization-details-page.component';
 import { MyOrganizationComponent } from './features/organization/pages/my-organization/my-organization.component';
 import { EventDetailsPageComponent } from './features/event/pages/event-details/event-details-page.component';
+import { ManageEventsComponent } from './features/event/pages/manage-events/manage-events.component';
 
 export const appRoutes: Route[] = [
     {
@@ -22,6 +23,7 @@ export const appRoutes: Route[] = [
         { path: 'explore', component: ExplorePageComponent },
         { path: 'my-organization', component: MyOrganizationComponent },
         { path: 'members', component: MemberPageComponent },
+        { path: 'manage-events', component: ManageEventsComponent },
         { path: 'organization-details/:organizationId', component: OrganizationDetailsPageComponent },
         { path: 'event-details', component: EventDetailsPageComponent },
       ],

@@ -71,6 +71,8 @@ pipeline {
             deleteDir()  // Clean workspace after build
             script {
                 echo "Pipeline completed - result: ${currentBuild.result}"
+             // Clean up Docker builder cache
+                sh 'docker builder prune -f'
             }
         }
         success {
