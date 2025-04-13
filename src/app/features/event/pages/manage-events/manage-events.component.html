@@ -2,6 +2,7 @@
   <p-selectbutton
     [options]="tabOptions"
     [(ngModel)]="selectedTab"
+    (onChange)="onTabChange($event.value)"
     optionLabel="label"
     optionValue="value"
     aria-labelledby="basic"
@@ -12,9 +13,10 @@
     </ng-template>
   </p-selectbutton>
 </div>
-<div *ngIf="selectedTab === 'activeEvents'">
+<!-- <div *ngIf="selectedTab === 'activeEvents'">
   <app-active-events-list></app-active-events-list>
 </div>
 <div *ngIf="selectedTab === 'oldEvents'">
   <app-old-events-list></app-old-events-list>
-</div>
+</div> -->
+<router-outlet></router-outlet>

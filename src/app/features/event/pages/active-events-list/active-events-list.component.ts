@@ -14,6 +14,7 @@ import { TableComponent } from 'src/app/shared/components/table/table.component'
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
+import { DrawerModule } from 'primeng/drawer';
 
 @Component({
   selector: 'app-active-events-list',
@@ -21,6 +22,7 @@ import { TagModule } from 'primeng/tag';
     AvatarModule,
     ButtonModule,
     CommonModule,
+    DrawerModule,
     TableComponent,
     TagModule
   ],
@@ -29,6 +31,10 @@ import { TagModule } from 'primeng/tag';
   providers: [DialogService, MessageService]
 })
 export class ActiveEventsListComponent implements OnInit {
+
+
+  visible = false;
+
 
   addressOptions: any [] = [];
   events: EventSummaryResponse [] = [];
@@ -175,9 +181,9 @@ export class ActiveEventsListComponent implements OnInit {
     const eventFilters = event.filters;
     console.log(eventFilters);
     const nameFilter = eventFilters['name'][0].value;
-    const onlineStatuses: boolean[] = eventFilters['isOnline'][0].value.map(
+    const onlineStatuses: boolean[] = eventFilters['isOnline'][0].value ? eventFilters['isOnline'][0].value.map(
       (item: { name: string; value: boolean }) => item.value
-    );
+    ) : null;
     
     const startEventDateFilter =  eventFilters['startEventDate'][0].value;
     const endEventDateFilter =  eventFilters['endEventDate'][0].value;

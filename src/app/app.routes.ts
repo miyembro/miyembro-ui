@@ -23,7 +23,21 @@ export const appRoutes: Route[] = [
         { path: 'explore', component: ExplorePageComponent },
         { path: 'my-organization', component: MyOrganizationComponent },
         { path: 'members', component: MemberPageComponent },
-        { path: 'manage-events', component: ManageEventsComponent },
+        {
+          path: 'manage-events',
+          component: ManageEventsComponent,
+          children: [
+            { 
+              path: 'active', 
+              loadComponent: () => import('./features/event/pages/active-events-list/active-events-list.component').then(c => c.ActiveEventsListComponent) 
+            },
+            { 
+              path: 'old', 
+              loadComponent: () => import('./features/event/pages/old-events-list/old-events-list.component').then(c => c.OldEventsListComponent) 
+            },
+            { path: '', redirectTo: 'active', pathMatch: 'full' }
+          ]
+        },
         { path: 'organization-details/:organizationId', component: OrganizationDetailsPageComponent },
         { path: 'event-details', component: EventDetailsPageComponent },
       ],
