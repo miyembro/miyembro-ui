@@ -35,15 +35,14 @@ export class ActiveEventsListComponent implements OnInit {
   eventFilters: EventFilters | undefined;
   first = 0; 
   loading = false;
+  onlineOptions: any [] = [];
   rowsPerPage = 10;  
+  selectedEvents: EventSummaryResponse [] = [];
   sortField = "name";
   sortOrder = 1;  
   table: Table<any> = { rows: [], columns: [] };
   title = 'Events';
   totalRecords = 0; 
-  selectedEvents: EventSummaryResponse [] = [];
-  onlineOptions: any [] = [];
-  
 
   constructor(
     private alertService : AlertService,
@@ -56,6 +55,12 @@ export class ActiveEventsListComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.populateSelectOptions();
+    const pageNo = this.first;
+    this.populateTable(pageNo, this.rowsPerPage, this.sortField, this.sortOrder);
+  }
+
+  private populateSelectOptions() {
     this.addressOptions = [{
       dataField: 'eventAddress.city',
       name: 'City',
@@ -74,10 +79,7 @@ export class ActiveEventsListComponent implements OnInit {
       name: 'In-person',
       value: false,
     }];
-    const pageNo = this.first;
-    this.populateTable(pageNo, this.rowsPerPage, this.sortField, this.sortOrder);
   }
-
 
   private populateTable(pageNo: number, pageSize: number, sortField: string, sortOrder: number) {
     this.loaderService.showLoader(this.router.url, false);
@@ -103,88 +105,6 @@ export class ActiveEventsListComponent implements OnInit {
       }
     );
   }
-
-  clearFilterChangeTable() {
-    this.eventFilters = {} as EventFilters;
-    this.sortField = "name";
-    this.sortOrder = 1;
-    this.populateTable(0, this.rowsPerPage, this.sortField, this.sortOrder);
-  }
-
-
-
-  onEditEvent(row: any) {
-    // this.ref = this.dialogService.open(EditMembershipComponent, {
-    //     header: 'Edit Membership',
-    //     modal: true,
-    //     contentStyle: { overflow: 'auto' },
-    //     breakpoints: { '960px': '75vw', '640px': '90vw' },
-    //     data: { organizationId: row.organizationId , membership: row },
-    //     closable: true
-    // });
-
-    // this.ref.onClose.subscribe((data: any) => {
-    //     if (data?.membership) {
-    //       this.populateTable(0, this.rowsPerPage, this.sortField, this.sortOrder);
-    //     }
-    // });
-  }
-
-  filterChangeTable(event:any) {
-    const eventFilters = event.filters;
-    console.log(eventFilters);
-    const nameFilter = eventFilters['name'][0].value;
-    const onlineStatuses: boolean[] = eventFilters['isOnline'][0].value.map(
-      (item: { name: string; value: boolean }) => item.value
-    );
-    
-    const startEventDateFilter =  eventFilters['startEventDate'][0].value;
-    const endEventDateFilter =  eventFilters['endEventDate'][0].value;
-
-    const eventAddress =  eventFilters['eventAddress.city'][0].value;
-
-    const eventAddressCity = eventAddress && eventAddress.dataField !== 'eventAddress.country' ? eventAddress.value : null;
-    const eventAddressCountry = eventAddress && eventAddress.dataField === 'eventAddress.country' ? eventAddress.value : null;
-        
-    const filters = {
-      name: nameFilter,
-      onlineStatuses: onlineStatuses,
-      startDates: startEventDateFilter,
-      endDates: endEventDateFilter,
-      eventEventAddressCity: eventAddressCity,
-      eventEventAddressCountry: eventAddressCountry
-    }
-
-    console.log(filters);
-    this.eventFilters = filters;
-    this.sortField = "name";
-    this.sortOrder = 1;
-    this.populateTable(0, this.rowsPerPage, this.sortField, this.sortOrder);
-  }
-
-
-  onViewEventDetails(row: any) {
-    // this.ref = this.dialogService.open(ViewMemberDetailsComponent, {
-    //   header: 'Member Details',
-    //   modal: true,
-    //   contentStyle: { overflow: 'auto' },
-    //   breakpoints: { '960px': '75vw', '640px': '90vw' },
-    //   data: { organizationId: row.organizationId, membership: row, member: row.member },
-    //   closable: true
-    // });
-  }
-
-  pageChangeTable(event: any) {
-    const pageNo = event.first / event.rowsPerPage;
-    this.populateTable(pageNo, event.rowsPerPage, event.sortField, event.sortOrder);
-  }
-
-  sortChangeTable(event: any) {
-    const pageNo = event.first / event.rowsPerPage;
-    this.populateTable(0, event.rowsPerPage, event.sortField, event.sortOrder);
-  } 
-
-    
 
   private setTableData() {
     this.table = {
@@ -243,4 +163,85 @@ export class ActiveEventsListComponent implements OnInit {
       sortField: 'member.firstName',
     };
   }
+
+  clearFilterChangeTable() {
+    this.eventFilters = {} as EventFilters;
+    this.sortField = "name";
+    this.sortOrder = 1;
+    this.populateTable(0, this.rowsPerPage, this.sortField, this.sortOrder);
+  }
+
+  filterChangeTable(event:any) {
+    const eventFilters = event.filters;
+    console.log(eventFilters);
+    const nameFilter = eventFilters['name'][0].value;
+    const onlineStatuses: boolean[] = eventFilters['isOnline'][0].value.map(
+      (item: { name: string; value: boolean }) => item.value
+    );
+    
+    const startEventDateFilter =  eventFilters['startEventDate'][0].value;
+    const endEventDateFilter =  eventFilters['endEventDate'][0].value;
+
+    const eventAddress =  eventFilters['eventAddress.city'][0].value;
+
+    const eventAddressCity = eventAddress && eventAddress.dataField !== 'eventAddress.country' ? eventAddress.value : null;
+    const eventAddressCountry = eventAddress && eventAddress.dataField === 'eventAddress.country' ? eventAddress.value : null;
+        
+    const filters = {
+      name: nameFilter,
+      onlineStatuses: onlineStatuses,
+      startDates: startEventDateFilter,
+      endDates: endEventDateFilter,
+      eventEventAddressCity: eventAddressCity,
+      eventEventAddressCountry: eventAddressCountry
+    }
+
+    console.log(filters);
+    this.eventFilters = filters;
+    this.sortField = "name";
+    this.sortOrder = 1;
+    this.populateTable(0, this.rowsPerPage, this.sortField, this.sortOrder);
+  }
+
+  onEditEvent(row: any) {
+    // this.ref = this.dialogService.open(EditMembershipComponent, {
+    //     header: 'Edit Membership',
+    //     modal: true,
+    //     contentStyle: { overflow: 'auto' },
+    //     breakpoints: { '960px': '75vw', '640px': '90vw' },
+    //     data: { organizationId: row.organizationId , membership: row },
+    //     closable: true
+    // });
+
+    // this.ref.onClose.subscribe((data: any) => {
+    //     if (data?.membership) {
+    //       this.populateTable(0, this.rowsPerPage, this.sortField, this.sortOrder);
+    //     }
+    // });
+  }
+
+  onViewEventDetails(row: any) {
+    // this.ref = this.dialogService.open(ViewMemberDetailsComponent, {
+    //   header: 'Member Details',
+    //   modal: true,
+    //   contentStyle: { overflow: 'auto' },
+    //   breakpoints: { '960px': '75vw', '640px': '90vw' },
+    //   data: { organizationId: row.organizationId, membership: row, member: row.member },
+    //   closable: true
+    // });
+  }
+
+  pageChangeTable(event: any) {
+    const pageNo = event.first / event.rowsPerPage;
+    this.populateTable(pageNo, event.rowsPerPage, event.sortField, event.sortOrder);
+  }
+
+  sortChangeTable(event: any) {
+    const pageNo = event.first / event.rowsPerPage;
+    this.populateTable(0, event.rowsPerPage, event.sortField, event.sortOrder);
+  } 
+
+    
+
+
 }
