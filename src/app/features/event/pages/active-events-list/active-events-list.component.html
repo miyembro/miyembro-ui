@@ -39,6 +39,13 @@
           severity="success"
           value="Online"
         />
+        <p-tag
+          *ngIf="!row?.isOnline"
+          styleClass="py-0 mt-1 text-sm sm:text-sm md:text-base"
+          [rounded]="true"
+          severity="info"
+          value="In-person"
+        />
       </div>
     </ng-template>
     <ng-template #addressColumn let-row>

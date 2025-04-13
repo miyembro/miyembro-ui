@@ -1,4 +1,4 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe, Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -11,7 +11,6 @@ import { MemberFormType } from 'src/app/core/models/member-form-type.enum';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { MemberService } from 'src/app/core/services/member.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
-
 
 @Component({
   selector: 'app-edit-member-details-page',
@@ -32,6 +31,7 @@ export class EditMemberDetailsPageComponent implements OnInit {
     private formBuilder: FormBuilder,
     private memberService: MemberService,
     private loaderService: LoaderService,
+    private location: Location,
     private router: Router,
     private sessionService: SessionService,
   ) {
@@ -60,7 +60,7 @@ export class EditMemberDetailsPageComponent implements OnInit {
   }
 
   onCancelEditMemberDetails() {
-    this.router.navigate(['/home/explore']);
+    this.location.back();
   }
 
   onClickRegisterAdditionalInfo() {

@@ -229,6 +229,9 @@ export class ActiveEventsListComponent implements OnInit {
     //   data: { organizationId: row.organizationId, membership: row, member: row.member },
     //   closable: true
     // });
+    this.router.navigate(['/home/event-details'], {
+      state: { eventId: row?.eventId }
+    });
   }
 
   pageChangeTable(event: any) {
