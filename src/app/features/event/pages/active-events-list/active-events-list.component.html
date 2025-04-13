@@ -6,14 +6,16 @@
     [(totalRecords)]="totalRecords"
     [(rowsPerPage)]="rowsPerPage"
     [(first)]="first"
+    (filterChangeTable)="filterChangeTable($event)"
     (pageChangeTable)="pageChangeTable($event)"
     (sortChangeTable)="sortChangeTable($event)"
+    (clearFilterChangeTable)="clearFilterChangeTable()"
     [loading]="loading"
     [(sortField)]="sortField"
     [(sortOrder)]="sortOrder"
     multiSelectButtonLabel="Multiple Edit"
     [enableMultiSelectButton]="true"
-    dataKey="membershipId"
+    dataKey="eventId"
     [(selectedItems)]="selectedEvents"
   >
     <ng-template #nameColumn let-row>

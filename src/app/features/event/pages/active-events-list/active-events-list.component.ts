@@ -30,6 +30,7 @@ import { TagModule } from 'primeng/tag';
 })
 export class ActiveEventsListComponent implements OnInit {
 
+  addressOptions: any [] = [];
   events: EventSummaryResponse [] = [];
   eventFilters: EventFilters | undefined;
   first = 0; 
@@ -41,6 +42,7 @@ export class ActiveEventsListComponent implements OnInit {
   title = 'Events';
   totalRecords = 0; 
   selectedEvents: EventSummaryResponse [] = [];
+  onlineOptions: any [] = [];
   
 
   constructor(
@@ -54,6 +56,24 @@ export class ActiveEventsListComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.addressOptions = [{
+      dataField: 'eventAddress.city',
+      name: 'City',
+      value: 'eventAddress.city',
+    },
+    {
+      dataField: 'eventAddress.country',
+      name: 'Country',
+      value: 'eventAddress.country',
+    }];
+    this.onlineOptions = [{
+      name: 'Online',
+      value: true,
+    },
+    {
+      name: 'In-person',
+      value: false,
+    }];
     const pageNo = this.first;
     this.populateTable(pageNo, this.rowsPerPage, this.sortField, this.sortOrder);
   }
@@ -84,6 +104,13 @@ export class ActiveEventsListComponent implements OnInit {
     );
   }
 
+  clearFilterChangeTable() {
+    this.eventFilters = {} as EventFilters;
+    this.sortField = "name";
+    this.sortOrder = 1;
+    this.populateTable(0, this.rowsPerPage, this.sortField, this.sortOrder);
+  }
+
 
 
   onEditEvent(row: any) {
@@ -101,6 +128,38 @@ export class ActiveEventsListComponent implements OnInit {
     //       this.populateTable(0, this.rowsPerPage, this.sortField, this.sortOrder);
     //     }
     // });
+  }
+
+  filterChangeTable(event:any) {
+    const eventFilters = event.filters;
+    console.log(eventFilters);
+    const nameFilter = eventFilters['name'][0].value;
+    const onlineStatuses: boolean[] = eventFilters['isOnline'][0].value.map(
+      (item: { name: string; value: boolean }) => item.value
+    );
+    
+    const startEventDateFilter =  eventFilters['startEventDate'][0].value;
+    const endEventDateFilter =  eventFilters['endEventDate'][0].value;
+
+    const eventAddress =  eventFilters['eventAddress.city'][0].value;
+
+    const eventAddressCity = eventAddress && eventAddress.dataField !== 'eventAddress.country' ? eventAddress.value : null;
+    const eventAddressCountry = eventAddress && eventAddress.dataField === 'eventAddress.country' ? eventAddress.value : null;
+        
+    const filters = {
+      name: nameFilter,
+      onlineStatuses: onlineStatuses,
+      startDates: startEventDateFilter,
+      endDates: endEventDateFilter,
+      eventEventAddressCity: eventAddressCity,
+      eventEventAddressCountry: eventAddressCountry
+    }
+
+    console.log(filters);
+    this.eventFilters = filters;
+    this.sortField = "name";
+    this.sortOrder = 1;
+    this.populateTable(0, this.rowsPerPage, this.sortField, this.sortOrder);
   }
 
 
@@ -143,18 +202,18 @@ export class ActiveEventsListComponent implements OnInit {
           dataField: 'isOnline',
           dataType: 'templateRef',
           colTemplateRefName: 'isOnlineColumn',
-          headerFilterType: 'text',
+          headerFilterType: 'select',
           headerText: 'Online',
-          sortable: true,
-          columnWidth: '15%'
+          options: this.onlineOptions,
+          sortable: true
         },
         {
           dataField: 'eventAddress.city',
           dataType: 'templateRef',
           colTemplateRefName: 'addressColumn',
           headerText: 'Address',
-          // headerFilterType: 'combo',
-          // options: this.addressOptions,
+          headerFilterType: 'combo',
+          options: this.addressOptions,
           sortable: true
         },
         {

@@ -75,6 +75,15 @@
             [showOperator]="false"
             *ngIf="col.headerFilterType === 'text'"
           />
+          <!-- <p-columnFilter
+            type="boolean"
+            [showAddButton]="false"
+            [showMatchModes]="false"
+            [showOperator]="false"
+            [field]="col.dataField"
+            *ngIf="col.headerFilterType === 'boolean'"
+            display="menu"
+          ></p-columnFilter> -->
           <p-columnFilter
             type="date"
             [field]="col.dataField"

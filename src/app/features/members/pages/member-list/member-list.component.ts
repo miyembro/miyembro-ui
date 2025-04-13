@@ -130,6 +130,7 @@ export class MemberListComponent implements OnInit {
 
   filterChangeTable(event:any) {
     const eventFilters = event.filters;
+    console.log(eventFilters)
     //const memberEmail = eventFilters['member.email'][0].value;
     const membershipStatuses = this.selectedMembershipStatuses.map((filter: any) => filter.name);
     const membershipTypes = eventFilters['membershipType.name'][0].value;

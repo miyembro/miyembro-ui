@@ -109,11 +109,11 @@ export class EventListComponent implements OnInit, OnChanges{
     const sortOrder = "ASC"; 
     this.eventFilters = {
       name: this.searchName,
-      isOnline: this.isOnline,
+      onlineStatuses: [true,false],
       eventEventAddressCity: this.selectedCity,
       eventEventAddressCountry: this.selectedCountry,
-      startEventDate: null,
-      endEventDate: null
+      startDates: null,
+      endDates: null
     }
     
     this.eventService.getEventsByOrganizationIdPage(this.organizationId, pageNo, pageSize, sortField, sortOrder, this.eventFilters).subscribe(

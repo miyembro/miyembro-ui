@@ -16,4 +16,4 @@ export interface Column {
     columnWidth?: string;
   }
   
-  export type HeaderFilterType = 'text' | 'date' | 'combo' | 'select' | 'customDate' ;
+  export type HeaderFilterType = 'text' | 'date' | 'boolean' | 'combo' | 'select' | 'customDate' ;
