@@ -24,7 +24,7 @@
       class="sm:col-span-2 mt-4"
       *ngIf="
         formType === EventFormType.ADD_EVENT ||
-        formType === EventFormType.UPDATE_EVENT_DESCRIPTION
+        formType === EventFormType.UPDATE_EVENT
       "
     >
       <label class="text-gray-600 text-sm mb-2 block" for="description">
@@ -118,7 +118,12 @@
       <p-toggleswitch formControlName="isOnline"></p-toggleswitch>
     </div>
 
-    <app-address-form [addressForm]="eventAddressForm" *ngIf="!isOnline">
+    <app-address-form
+      [addressForm]="eventAddressForm"
+      [formType]="formType"
+      [address]="event?.eventAddress"
+      *ngIf="!isOnline"
+    >
     </app-address-form>
 
     <p-divider styleClass="mt-6"></p-divider>

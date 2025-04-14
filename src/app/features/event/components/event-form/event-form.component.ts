@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors } from '@angular/forms';
 import { EventFormType } from 'src/app/core/models/event-form-type';
@@ -13,6 +13,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { PhotoControlComponent } from 'src/app/shared/components/photo-control/photo-control.component';
 import { AddressFormComponent } from "../address-form/address-form.component";
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
+import { EventResponse } from 'src/app/core/models/event-response';
 
 @Component({
   selector: 'app-event-form',
@@ -34,28 +35,35 @@ import { ToggleSwitchModule } from 'primeng/toggleswitch';
   templateUrl: './event-form.component.html',
   styleUrl: './event-form.component.scss',
 })
-export class EventFormComponent implements OnInit {
+export class EventFormComponent implements OnInit, OnChanges {
 
-  @Input() formType: EventFormType = EventFormType.ADD_EVENT;
+  @Input() event: EventResponse | undefined; 
   @Input() eventForm!: FormGroup; 
+  @Input() formType: EventFormType = EventFormType.ADD_EVENT;
   @Output() eventFormChange = new EventEmitter<FormGroup>();
 
   dateNow: Date = new Date(); 
   isOnline = false;
   minEndDate: Date | null = null;
-  EventFormType = EventFormType;
 
+  EventFormType = EventFormType;
 
   get eventAddressForm(): FormGroup {
     return this.eventForm.get('eventAddress') as FormGroup;
   }
 
+  get f(): { [key: string]: AbstractControl } {
+    return this.eventForm.controls;
+  }
+
+  get fgErrors(): { [key: string]: ValidationErrors } | null {
+    return this.eventForm.errors;
+  }
+
   constructor(
     private formBuilder: FormBuilder,
   ) {
-
   }
-
 
   ngOnInit(): void {
     this.minEndDate = this.dateNow;
@@ -91,14 +99,16 @@ export class EventFormComponent implements OnInit {
         this.isOnline = false;
       }
     });
+    this.eventForm.get('endEventDate')?.valueChanges.subscribe(() => {
+      this.eventForm.get('startEventDate')?.updateValueAndValidity();
+    });
   }
 
-  get f(): { [key: string]: AbstractControl } {
-    return this.eventForm.controls;
-  }
-
-  get fgErrors(): { [key: string]: ValidationErrors } | null {
-    return this.eventForm.errors;
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['event'] && this.event) {
+      console.log('event', this.event);
+      this.patchForm();
+    }
   }
 
   emitForm(): void {
@@ -115,6 +125,19 @@ export class EventFormComponent implements OnInit {
     const group = this.eventForm.get(groupName) as FormGroup;
     const control = group ? group.get(controlName) : null;
     return control ? control.errors : null;
+  }
 
+  private patchForm() {
+    console.log(this.event);
+    this.eventForm.patchValue({
+      eventId: this.event?.eventId,
+      organizationId: this.event?.organizationId,
+      name: this.event?.name,
+      description: this.event?.description,
+      eventPicUrl: this.event?.eventPicUrl,
+      isOnline: this.event?.isOnline,
+      startEventDate: this.event?.startEventDate ? new Date(this.event.startEventDate) : null,
+      endEventDate: this.event?.endEventDate ? new Date(this.event.endEventDate) : null
+    });
   }
 }
