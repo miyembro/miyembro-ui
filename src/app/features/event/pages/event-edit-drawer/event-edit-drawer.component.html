@@ -7,43 +7,41 @@
 >
   <!-- styleClass="w-[90vw] sm:w-[95vw] md:w-[85vw] lg:w-[70vw] p-0" -->
 
-  <app-background>
-    <!-- Root div to prevent overflow -->
-    <div class="w-full p-4">
-      <div
-        class="mx-auto min-h-screen flex flex-col items-center justify-center create-organization-tabs w-full lg:w-[60%]"
+  <!-- Root div to prevent overflow -->
+  <div class="w-full p-4">
+    <div
+      class="mx-auto min-h-screen flex flex-col items-center justify-center create-organization-tabs w-full lg:w-[60%]"
+    >
+      <app-event-form
+        [event]="event"
+        [(eventForm)]="eventForm"
+        [formType]="EventFormType.UPDATE_EVENT"
       >
-        <app-event-form
-          [event]="event"
-          [(eventForm)]="eventForm"
-          [formType]="EventFormType.UPDATE_EVENT"
-        >
-        </app-event-form>
-      </div>
-      <div class="mt-2 flex justify-center space-x-4">
-        <p-button
-          (onClick)="cancelUpdateEvent()"
-          severity="secondary"
-          [raised]="true"
-          size="small"
-          class="mt-4 block text-sm"
-        >
-          <i class="pi pi-times"></i>
-          <span>Cancel</span>
-        </p-button>
-
-        <p-button
-          (onClick)="editEvent()"
-          severity="success"
-          [raised]="true"
-          size="small"
-          class="mt-4 block text-sm"
-          [disabled]="eventForm.invalid || eventForm.pristine"
-        >
-          <i class="pi pi-check"></i>
-          <span>Update Event</span>
-        </p-button>
-      </div>
+      </app-event-form>
     </div>
-  </app-background>
+    <div class="mt-2 flex justify-center space-x-4">
+      <p-button
+        (onClick)="cancelUpdateEvent()"
+        severity="secondary"
+        [raised]="true"
+        size="small"
+        class="mt-4 block text-sm"
+      >
+        <i class="pi pi-times"></i>
+        <span>Cancel</span>
+      </p-button>
+
+      <p-button
+        (onClick)="editEvent()"
+        severity="success"
+        [raised]="true"
+        size="small"
+        class="mt-4 block text-sm"
+        [disabled]="eventForm.invalid || eventForm.pristine"
+      >
+        <i class="pi pi-check"></i>
+        <span>Update Event</span>
+      </p-button>
+    </div>
+  </div>
 </p-drawer>

@@ -210,9 +210,6 @@ export class ActiveEventsListComponent implements OnInit {
   }
 
   onEditEvent(row: any) {
-    // this.router.navigate(['/edit-event'], {
-    //   state: { eventId: row?.eventId, organizationId: row.organizationId }
-    // });
     this.router.navigate(['/home/manage-events/active/edit', row.eventId]); 
   }
 
@@ -234,3 +231,8 @@ export class ActiveEventsListComponent implements OnInit {
 
 
 }
+
+
+    // this.router.navigate(['/edit-event'], {
+    //   state: { eventId: row?.eventId, organizationId: row.organizationId }
+    // });
