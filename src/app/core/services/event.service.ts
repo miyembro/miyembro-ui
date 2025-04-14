@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment as env } from '@environments/environment';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { EventRequest } from '../models/event-request';
 import { EventResponse } from '../models/event-response';
 import { EventSummaryResponse } from '../models/event-summary-response';
@@ -14,6 +14,9 @@ import { Page } from '../models/page';
 export class EventService {
 
   baseUrl = '/events';
+
+  private eventUpdatedSource = new Subject<void>();
+  eventUpdated$ = this.eventUpdatedSource.asObservable();
 
   constructor(
     private http: HttpClient,
@@ -48,6 +51,10 @@ export class EventService {
       .set('sortField', sortField.toString())
       .set('sortOrder', sortOrder.toString());
       return this.http.post<any>(url, eventFilters, { params }) as Observable<Page<EventSummaryResponse>>;
+  }
+
+  notifyEventUpdated(): void {
+    this.eventUpdatedSource.next();
   }
 
   updateEvent(organizationId: string | undefined, eventId: string, formData: FormData): Observable<EventResponse> {

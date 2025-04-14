@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EventSummaryResponse } from 'src/app/core/models/event-summary-response';
 import { AlertService } from 'src/app/core/services/alert.service';
@@ -17,6 +17,7 @@ import { TagModule } from 'primeng/tag';
 import { DrawerModule } from 'primeng/drawer';
 import { EventDetailsDrawerComponent } from "../event-details-drawer/event-details-drawer.component";
 import { RouterModule } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-active-events-list',
@@ -34,7 +35,7 @@ import { RouterModule } from '@angular/router';
   styleUrl: './active-events-list.component.scss',
   providers: [DialogService, MessageService]
 })
-export class ActiveEventsListComponent implements OnInit {
+export class ActiveEventsListComponent implements OnInit, OnDestroy {
 
   addressOptions: any [] = [];
   events: EventSummaryResponse [] = [];
@@ -50,6 +51,8 @@ export class ActiveEventsListComponent implements OnInit {
   title = 'Events';
   totalRecords = 0; 
 
+  private eventUpdateSubscription!: Subscription;
+
   constructor(
     private alertService : AlertService,
     private dialogService: DialogService,
@@ -64,6 +67,13 @@ export class ActiveEventsListComponent implements OnInit {
     this.populateSelectOptions();
     const pageNo = this.first;
     this.populateTable(pageNo, this.rowsPerPage, this.sortField, this.sortOrder);
+    this.subscribeToEventUpdates();
+  }
+
+  ngOnDestroy(): void {
+    if (this.eventUpdateSubscription) {
+      this.eventUpdateSubscription.unsubscribe();
+    }
   }
 
   private populateSelectOptions() {
@@ -170,6 +180,13 @@ export class ActiveEventsListComponent implements OnInit {
     };
   }
 
+  private subscribeToEventUpdates() {
+    this.eventUpdateSubscription = this.eventService.eventUpdated$.subscribe(() => {
+      const pageNo = this.first / this.rowsPerPage;
+      this.populateTable(pageNo, this.rowsPerPage, this.sortField, this.sortOrder);
+    });
+  }
+
   clearFilterChangeTable() {
     this.eventFilters = {} as EventFilters;
     this.sortField = "name";
@@ -226,9 +243,6 @@ export class ActiveEventsListComponent implements OnInit {
     const pageNo = event.first / event.rowsPerPage;
     this.populateTable(0, event.rowsPerPage, event.sortField, event.sortOrder);
   } 
-
-    
-
 
 }
 

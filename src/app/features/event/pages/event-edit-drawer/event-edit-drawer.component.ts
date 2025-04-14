@@ -131,6 +131,7 @@ export class EventEditDrawerComponent implements OnInit, OnDestroy {
         this.alertService.success(this.router.url, 'Success', "Succesfully updated event");
         this.loaderService.hideLoader(this.router.url);
         this.eventForm.enable();
+        this.eventService.notifyEventUpdated(); 
         this.location.back();
       },
       (err: any) => {
