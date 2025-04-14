@@ -61,8 +61,7 @@ export class EditEventPageComponent {
     });
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras?.state as { organizationId?: string, eventId?: string };
-    if (state?.organizationId && state?.eventId) {
-      this.organizationId = state.organizationId;
+    if (state?.eventId) {
       this.eventId = state.eventId;
       this.getEventDetails();
     } else {
