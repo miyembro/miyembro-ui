@@ -9,6 +9,7 @@ import { MyOrganizationComponent } from './features/organization/pages/my-organi
 import { EventDetailsPageComponent } from './features/event/pages/event-details/event-details-page.component';
 import { ManageEventsComponent } from './features/event/pages/manage-events/manage-events.component';
 import { EventDetailsDrawerComponent } from './features/event/pages/event-details-drawer/event-details-drawer.component';
+import { EventEditDrawerComponent } from './features/event/pages/event-edit-drawer/event-edit-drawer.component';
 
 export const appRoutes: Route[] = [
     {
@@ -33,7 +34,8 @@ export const appRoutes: Route[] = [
               loadComponent: () => import('./features/event/pages/active-events-list/active-events-list.component')
                 .then(c => c.ActiveEventsListComponent),
               children: [
-                { path: 'view/:eventId', component: EventDetailsDrawerComponent } // Colon syntax for params
+                { path: 'view/:eventId', component: EventDetailsDrawerComponent },
+                { path: 'edit/:eventId', component: EventEditDrawerComponent }
               ]
             },
             { 

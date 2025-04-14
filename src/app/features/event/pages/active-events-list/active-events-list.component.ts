@@ -210,24 +210,11 @@ export class ActiveEventsListComponent implements OnInit {
   }
 
   onEditEvent(row: any) {
-    // this.ref = this.dialogService.open(EditMembershipComponent, {
-    //     header: 'Edit Membership',
-    //     modal: true,
-    //     contentStyle: { overflow: 'auto' },
-    //     breakpoints: { '960px': '75vw', '640px': '90vw' },
-    //     data: { organizationId: row.organizationId , membership: row },
-    //     closable: true
-    // });
-
-    // this.ref.onClose.subscribe((data: any) => {
-    //     if (data?.membership) {
-    //       this.populateTable(0, this.rowsPerPage, this.sortField, this.sortOrder);
-    //     }
-    // });
+    this.router.navigate(['/home/manage-events/active/edit', row.eventId]); 
   }
 
   onViewEventDetails(row: any) {
-    this.router.navigate(['/home/manage-events/active/view', row.eventId]); // Navigate to child route
+    this.router.navigate(['/home/manage-events/active/view', row.eventId]);
   }
 
   pageChangeTable(event: any) {

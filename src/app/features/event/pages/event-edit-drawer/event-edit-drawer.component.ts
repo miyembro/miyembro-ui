@@ -1,25 +1,23 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { DrawerModule } from 'primeng/drawer';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventResponse } from 'src/app/core/models/event-response';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { EventService } from 'src/app/core/services/event.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
-import { EventComponent } from '../../components/event/event.component';
-import { DrawerModule } from 'primeng/drawer';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-event-details-drawer',
+  selector: 'app-event-edit-drawer',
   imports: [
     CommonModule, 
     DrawerModule,
-    EventComponent
   ],
-  templateUrl: './event-details-drawer.component.html',
-  styleUrl: './event-details-drawer.component.scss',
+  templateUrl: './event-edit-drawer.component.html',
+  styleUrl: './event-edit-drawer.component.scss',
 })
-export class EventDetailsDrawerComponent implements OnInit, OnDestroy {
+export class EventEditDrawerComponent implements OnInit, OnDestroy {
 
   visible = true;
   eventId!: string;
@@ -69,8 +67,4 @@ export class EventDetailsDrawerComponent implements OnInit, OnDestroy {
       }
     });
   }
-  
-
-  
 }
-
