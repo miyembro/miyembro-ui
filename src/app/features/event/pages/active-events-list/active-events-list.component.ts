@@ -15,6 +15,8 @@ import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
 import { DrawerModule } from 'primeng/drawer';
+import { EventDetailsDrawerComponent } from "../event-details-drawer/event-details-drawer.component";
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-active-events-list',
@@ -23,18 +25,16 @@ import { DrawerModule } from 'primeng/drawer';
     ButtonModule,
     CommonModule,
     DrawerModule,
+    EventDetailsDrawerComponent,
+    RouterModule,
     TableComponent,
-    TagModule
-  ],
+    TagModule,
+],
   templateUrl: './active-events-list.component.html',
   styleUrl: './active-events-list.component.scss',
   providers: [DialogService, MessageService]
 })
 export class ActiveEventsListComponent implements OnInit {
-
-
-  visible = false;
-
 
   addressOptions: any [] = [];
   events: EventSummaryResponse [] = [];
@@ -227,17 +227,7 @@ export class ActiveEventsListComponent implements OnInit {
   }
 
   onViewEventDetails(row: any) {
-    // this.ref = this.dialogService.open(ViewMemberDetailsComponent, {
-    //   header: 'Member Details',
-    //   modal: true,
-    //   contentStyle: { overflow: 'auto' },
-    //   breakpoints: { '960px': '75vw', '640px': '90vw' },
-    //   data: { organizationId: row.organizationId, membership: row, member: row.member },
-    //   closable: true
-    // });
-    this.router.navigate(['/home/event-details'], {
-      state: { eventId: row?.eventId }
-    });
+    this.router.navigate(['/home/manage-events/active/view', row.eventId]); // Navigate to child route
   }
 
   pageChangeTable(event: any) {

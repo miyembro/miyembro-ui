@@ -8,6 +8,7 @@ import { OrganizationDetailsPageComponent } from './features/organization/pages/
 import { MyOrganizationComponent } from './features/organization/pages/my-organization/my-organization.component';
 import { EventDetailsPageComponent } from './features/event/pages/event-details/event-details-page.component';
 import { ManageEventsComponent } from './features/event/pages/manage-events/manage-events.component';
+import { EventDetailsDrawerComponent } from './features/event/pages/event-details-drawer/event-details-drawer.component';
 
 export const appRoutes: Route[] = [
     {
@@ -27,9 +28,13 @@ export const appRoutes: Route[] = [
           path: 'manage-events',
           component: ManageEventsComponent,
           children: [
-            { 
+            {
               path: 'active', 
-              loadComponent: () => import('./features/event/pages/active-events-list/active-events-list.component').then(c => c.ActiveEventsListComponent) 
+              loadComponent: () => import('./features/event/pages/active-events-list/active-events-list.component')
+                .then(c => c.ActiveEventsListComponent),
+              children: [
+                { path: 'view/:eventId', component: EventDetailsDrawerComponent } // Colon syntax for params
+              ]
             },
             { 
               path: 'old', 
@@ -39,7 +44,11 @@ export const appRoutes: Route[] = [
           ]
         },
         { path: 'organization-details/:organizationId', component: OrganizationDetailsPageComponent },
-        { path: 'event-details', component: EventDetailsPageComponent },
+        { 
+          path: 'event-details', 
+          component: EventDetailsPageComponent,
+        },
+        
       ],
       canActivate: [AuthGuard],
     },
