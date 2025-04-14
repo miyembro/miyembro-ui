@@ -49,6 +49,13 @@ export class EventService {
       .set('sortOrder', sortOrder.toString());
       return this.http.post<any>(url, eventFilters, { params }) as Observable<Page<EventSummaryResponse>>;
   }
+
+  updateEvent(organizationId: string, eventId: string, formData: FormData): Observable<EventResponse> {
+    return this.http.put(
+      `${env.apiUrl}${this.baseUrl}/organizations/` + organizationId + '/events/' + eventId,
+      formData
+    ) as Observable<EventResponse>;
+  }
   
   
 }

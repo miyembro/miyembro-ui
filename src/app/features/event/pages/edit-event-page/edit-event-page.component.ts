@@ -32,7 +32,6 @@ export class EditEventPageComponent {
   organizationId!: string;
   EventFormType = EventFormType;
   
-
   constructor(
     private activatedRoute : ActivatedRoute, 
     private alertService: AlertService,
@@ -104,24 +103,24 @@ export class EditEventPageComponent {
     formData.append('eventRequest', jsonBlob);
 
     this.eventForm.disable();
-    // this.eventService.createEvent(this.organizationId, formData).subscribe(
-    //   (res) => {
-    //     console.log(res);
-    //     this.alertService.success(this.router.url, 'Success', "Succesfully created event");
-    //     this.loaderService.hideLoader(this.router.url);
-    //     this.eventForm.enable();
-    //     this.location.back();
-    //   },
-    //   (err: any) => {
-    //     console.log(err);
-    //     this.eventForm.enable();
-    //     this.loaderService.hideLoader(this.router.url);
-    //     this.alertService.error(this.router.url, 'Error', err.error.message);
-    //   }
-    // );
+    this.eventService.updateEvent(this.organizationId, this.eventId, formData).subscribe(
+      (res) => {
+        console.log(res);
+        this.alertService.success(this.router.url, 'Success', "Succesfully updated event");
+        this.loaderService.hideLoader(this.router.url);
+        this.eventForm.enable();
+        this.location.back();
+      },
+      (err: any) => {
+        console.log(err);
+        this.eventForm.enable();
+        this.loaderService.hideLoader(this.router.url);
+        this.alertService.error(this.router.url, 'Error', err.error.message);
+      }
+    );
   }
 
-  cancelCreateEvent(){
+  cancelUpdateEvent(){
     this.location.back();
   }
 

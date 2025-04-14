@@ -13,7 +13,7 @@
     </div>
     <div class="mt-2 flex justify-center space-x-4">
       <p-button
-        (onClick)="cancelCreateEvent()"
+        (onClick)="cancelUpdateEvent()"
         severity="secondary"
         [raised]="true"
         size="small"
@@ -32,7 +32,7 @@
         [disabled]="eventForm.invalid || eventForm.pristine"
       >
         <i class="pi pi-check"></i>
-        <span>Create Event</span>
+        <span>Update Event</span>
       </p-button>
     </div>
   </div>
