@@ -38,6 +38,7 @@ import { Subscription } from 'rxjs';
 export class ActiveEventsListComponent implements OnInit, OnDestroy {
 
   addressOptions: any [] = [];
+  dataLoadedTimestamp: number = Date.now();
   events: EventSummaryResponse [] = [];
   eventFilters: EventFilters | undefined;
   first = 0; 
@@ -111,6 +112,7 @@ export class ActiveEventsListComponent implements OnInit, OnDestroy {
         this.events = res.content;
         this.totalRecords = res.totalElements;
         this.first = pageNo * res.pageable.pageSize;
+        this.dataLoadedTimestamp = Date.now();
         this.setTableData();
         this.loading = false;
         this.loaderService.hideLoader(this.router.url);

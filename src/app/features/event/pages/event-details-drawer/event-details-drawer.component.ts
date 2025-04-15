@@ -61,6 +61,9 @@ export class EventDetailsDrawerComponent implements OnInit, OnDestroy {
     this.eventService.getEvent(this.eventId).subscribe({
       next: (res) => {
         this.event = res;
+        if (this.event?.eventPicUrl) {
+          this.event.eventPicUrl += '?v=' + Date.now();
+        }
         this.loaderService.hideLoader(this.router.url);
       },
       error: (err) => {

@@ -132,6 +132,9 @@ export class EventEditDrawerComponent implements OnInit, OnDestroy {
         this.loaderService.hideLoader(this.router.url);
         this.eventForm.enable();
         this.eventService.notifyEventUpdated(); 
+        if (this.event?.eventPicUrl) {
+          this.event.eventPicUrl += '?v=' + Date.now();
+        }
         this.location.back();
       },
       (err: any) => {
@@ -148,6 +151,9 @@ export class EventEditDrawerComponent implements OnInit, OnDestroy {
     this.eventService.getEvent(this.eventId).subscribe({
       next: (res) => {
         this.event = res;
+        if (this.event?.eventPicUrl) {
+          this.event.eventPicUrl += '?v=' + Date.now();
+        }
         this.loaderService.hideLoader(this.router.url);
       },
       error: (err) => {

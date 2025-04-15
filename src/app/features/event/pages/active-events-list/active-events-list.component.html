@@ -21,7 +21,11 @@
     <ng-template #nameColumn let-row>
       <div style="display: flex; align-items: center; width: '500px'">
         <p-avatar
-          [image]="row?.eventPicUrl || 'assets/blank-profile-picture.jpg'"
+          [image]="
+            row?.eventPicUrl
+              ? row.eventPicUrl + '?v=' + dataLoadedTimestamp
+              : 'assets/blank-profile-picture.jpg'
+          "
           class="mr-2"
           size="large"
         />
