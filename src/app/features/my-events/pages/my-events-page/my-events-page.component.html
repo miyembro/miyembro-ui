@@ -1,8 +1,9 @@
 <div class="mx-auto md:max-w-[80%] w-full text-sm sm:text-sm md:text-base">
-  <form [formGroup]="filterForm" autocomplete="off">
-    <div
+  <div style="position: sticky; top: 0; z-index: 10; background: white">
+    <form
+      [formGroup]="filterForm"
+      autocomplete="off"
       class="flex flex-col md:flex-row md:justify-left sm:py-4 md:py-2 gap-2 sm:gap-2 md:gap-4 text-sm sm:text-sm md:text-base"
-      style="position: sticky; top: 0; z-index: 10; background: white"
     >
       <div class="input-wrapper">
         <p-floatlabel variant="in">
@@ -63,8 +64,8 @@
           </p-floatlabel>
         </div>
       </div>
-    </div>
-  </form>
+    </form>
+  </div>
   <app-event-list
     [organizationId]="organizationId"
     [filterValue]="filterValue"
