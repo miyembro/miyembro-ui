@@ -9,7 +9,6 @@ import { SessionService } from 'src/app/core/services/session.service';
 import { Table } from 'src/app/core/models/table';
 import { EventService } from 'src/app/core/services/event.service';
 import { EventFilters } from 'src/app/core/models/event-filters';
-import { MessageService } from 'primeng/api';
 import { TableComponent } from 'src/app/shared/components/table/table.component';
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
@@ -18,6 +17,7 @@ import { DrawerModule } from 'primeng/drawer';
 import { EventDetailsDrawerComponent } from "../event-details-drawer/event-details-drawer.component";
 import { RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { MenuItem, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-active-events-list',
@@ -43,6 +43,7 @@ export class ActiveEventsListComponent implements OnInit, OnDestroy {
   eventFilters: EventFilters | undefined;
   first = 0; 
   loading = false;
+  multiSelectButtonItems: MenuItem [] = [];
   onlineOptions: any [] = [];
   rowsPerPage = 10;  
   selectedEvents: EventSummaryResponse [] = [];
@@ -65,6 +66,14 @@ export class ActiveEventsListComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
+    this.multiSelectButtonItems = [
+      {
+          label: 'Delete Events',
+          command: () => {
+            this.deleteEvents();
+          }
+      }
+    ];
     this.populateSelectOptions();
     const pageNo = this.first;
     this.populateTable(pageNo, this.rowsPerPage, this.sortField, this.sortOrder);
@@ -75,6 +84,10 @@ export class ActiveEventsListComponent implements OnInit, OnDestroy {
     if (this.eventUpdateSubscription) {
       this.eventUpdateSubscription.unsubscribe();
     }
+  }
+
+  private deleteEvents() {
+    console.log('dasdsad');
   }
 
   private populateSelectOptions() {
@@ -231,12 +244,7 @@ export class ActiveEventsListComponent implements OnInit, OnDestroy {
   goToCreateEvent() {
     const session = this.sessionService.getSession();
     const organizationId = session?.organization?.organizationId;
-
-    // this.router.navigate(['/home/manage-events/active/create'], {
-    //   state: { organizationId: organizationId }
-    // });
     this.router.navigate(['/home/manage-events/active/create', organizationId]); 
-
   }
 
   onEditEvent(row: any) {
@@ -258,8 +266,3 @@ export class ActiveEventsListComponent implements OnInit, OnDestroy {
   } 
 
 }
-
-
-    // this.router.navigate(['/edit-event'], {
-    //   state: { eventId: row?.eventId, organizationId: row.organizationId }
-    // });

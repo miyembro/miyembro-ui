@@ -93,6 +93,26 @@ export class EventEditDrawerComponent implements OnInit, OnDestroy {
     });
   }
 
+  deleteEvent() {
+    this.loaderService.showLoader(this.router.url, false);
+
+    this.eventService.deleteEventByOrganization(this.event?.organizationId, this.eventId).subscribe(
+      (res) => {
+        console.log(res);
+        this.alertService.success(this.router.url, 'Success', "Succesfully deleted event");
+        this.loaderService.hideLoader(this.router.url);
+        this.eventForm.enable();
+        this.eventService.notifyEventUpdated(); 
+        this.location.back();
+      },
+      (err: any) => {
+        this.eventForm.enable();
+        this.loaderService.hideLoader(this.router.url);
+        this.alertService.error(this.router.url, 'Error', err.error.message);
+      }
+    );
+  }
+
   editEvent() {
     this.loaderService.showLoader(this.router.url, false);
 

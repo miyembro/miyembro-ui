@@ -32,6 +32,13 @@ export class EventService {
     );
   }
 
+  deleteEventByOrganization(organizationId: string | undefined, eventId: string | undefined): Observable<string> {
+    return this.http.delete(
+      `${env.apiUrl}${this.baseUrl}/organizations/` + organizationId + '/events/' + eventId,
+      { responseType: 'text' as 'json' } 
+    ) as Observable<string>;
+  }
+
   getEvent(eventId: string): Observable<EventResponse> {
     return this.http.get(
       `${env.apiUrl}${this.baseUrl}/` + eventId
