@@ -28,12 +28,13 @@ import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 export class EventListComponent implements OnInit, OnChanges{
 
   @Input() organizationId: string | undefined;
+  @Input() filterValue: any | undefined;
   @Input() isOnline: boolean | null = null;
   @Input() isFullWidth = false;
   @Input() searchName: string | null = null;
   @Input() selectedCity: string | null = null;
   @Input() selectedCountry: string | null = null;
-
+  
   events: EventSummaryResponse [] = [];
   page = 0; 
   size = 6;
@@ -62,6 +63,9 @@ export class EventListComponent implements OnInit, OnChanges{
       this.searchEventWithFilter();
     }
     if (changes['selectedCity'] && !changes['selectedCity'].firstChange) {
+      this.searchEventWithFilter();
+    }
+    if (changes['filterValue'] && this.filterValue) {
       this.searchEventWithFilter();
     }
   }
@@ -108,12 +112,13 @@ export class EventListComponent implements OnInit, OnChanges{
     this.loaderService.showLoader(this.router.url, false);
     const sortField = "startEventDate";
     const sortOrder = "ASC"; 
+    console.log(this.filterValue);
     this.eventFilters = {
-      name: this.searchName,
+      name: this.filterValue ? this.filterValue.name : null,
       onlineStatuses: [true,false],
-      eventEventAddressCity: this.selectedCity,
-      eventEventAddressCountry: this.selectedCountry,
-      startDates: null,
+      eventEventAddressCity: this.filterValue ? this.filterValue.city : null,
+      eventEventAddressCountry: this.filterValue ? this.filterValue.country : null,
+      startDates: this.filterValue ? this.filterValue.dateRange : null,
       endDates: null
     }
     
