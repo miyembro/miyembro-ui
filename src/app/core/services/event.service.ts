@@ -24,7 +24,7 @@ export class EventService {
     
   }
 
-  createEvent(organizationId: string, formData: FormData): Observable<any> {
+  createEvent(organizationId: string | undefined, formData: FormData): Observable<any> {
     return this.http.post(
       `${env.apiUrl}${this.baseUrl}/organizations/` + organizationId,
       formData,

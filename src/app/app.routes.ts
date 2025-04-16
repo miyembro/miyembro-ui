@@ -10,6 +10,7 @@ import { EventDetailsPageComponent } from './features/event/pages/event-details/
 import { ManageEventsComponent } from './features/event/pages/manage-events/manage-events.component';
 import { EventDetailsDrawerComponent } from './features/event/pages/event-details-drawer/event-details-drawer.component';
 import { EventEditDrawerComponent } from './features/event/pages/event-edit-drawer/event-edit-drawer.component';
+import { EventCreateDrawerComponent } from './features/event/pages/event-create-drawer/event-create-drawer.component';
 
 export const appRoutes: Route[] = [
     {
@@ -35,7 +36,8 @@ export const appRoutes: Route[] = [
                 .then(c => c.ActiveEventsListComponent),
               children: [
                 { path: 'view/:eventId', component: EventDetailsDrawerComponent },
-                { path: 'edit/:eventId', component: EventEditDrawerComponent }
+                { path: 'edit/:eventId', component: EventEditDrawerComponent } ,
+                { path: 'create/:organizationId', component: EventCreateDrawerComponent }
               ]
             },
             { 

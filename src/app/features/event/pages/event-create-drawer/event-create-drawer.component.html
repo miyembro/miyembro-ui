@@ -14,7 +14,7 @@
           styleClass="p-button-rounded mr-2"
         ></p-button>
         <div class="text-center">
-          <h2 class="text-lg sm:text-lg md:text-xl font-bold">Edit Event</h2>
+          <h2 class="text-lg sm:text-lg md:text-xl font-bold">Create Event</h2>
         </div>
       </div>
       <div class="overflow-y-auto flex-1">
@@ -22,16 +22,14 @@
           class="mx-auto flex flex-col items-center justify-center w-full lg:w-[60%]"
         >
           <app-event-form
-            [event]="event"
             [(eventForm)]="eventForm"
-            [formType]="EventFormType.UPDATE_EVENT"
-          >
-          </app-event-form>
+            [formType]="EventFormType.ADD_EVENT"
+          ></app-event-form>
         </div>
         <div class="mt-auto shrink-0 p-4">
           <div class="flex justify-center space-x-4">
             <p-button
-              (onClick)="cancelUpdateEvent()"
+              (onClick)="cancelCreateEvent()"
               severity="secondary"
               [raised]="true"
               size="small"
@@ -42,7 +40,7 @@
             </p-button>
 
             <p-button
-              (onClick)="editEvent()"
+              (onClick)="createEvent()"
               severity="success"
               [raised]="true"
               size="small"
@@ -50,7 +48,7 @@
               [disabled]="eventForm.invalid || eventForm.pristine"
             >
               <i class="pi pi-check"></i>
-              <span>Update Event</span>
+              <span>Create Event</span>
             </p-button>
           </div>
         </div>

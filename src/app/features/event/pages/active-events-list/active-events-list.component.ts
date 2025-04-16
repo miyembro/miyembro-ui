@@ -228,6 +228,17 @@ export class ActiveEventsListComponent implements OnInit, OnDestroy {
     this.populateTable(0, this.rowsPerPage, this.sortField, this.sortOrder);
   }
 
+  goToCreateEvent() {
+    const session = this.sessionService.getSession();
+    const organizationId = session?.organization?.organizationId;
+
+    // this.router.navigate(['/home/manage-events/active/create'], {
+    //   state: { organizationId: organizationId }
+    // });
+    this.router.navigate(['/home/manage-events/active/create', organizationId]); 
+
+  }
+
   onEditEvent(row: any) {
     this.router.navigate(['/home/manage-events/active/edit', row.eventId]); 
   }
