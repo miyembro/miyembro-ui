@@ -11,6 +11,7 @@ import { ManageEventsComponent } from './features/event/pages/manage-events/mana
 import { EventDetailsDrawerComponent } from './features/event/pages/event-details-drawer/event-details-drawer.component';
 import { EventEditDrawerComponent } from './features/event/pages/event-edit-drawer/event-edit-drawer.component';
 import { EventCreateDrawerComponent } from './features/event/pages/event-create-drawer/event-create-drawer.component';
+import { MyEventsPageComponent } from './features/my-events/pages/my-events-page/my-events-page.component';
 
 export const appRoutes: Route[] = [
     {
@@ -52,7 +53,7 @@ export const appRoutes: Route[] = [
           path: 'event-details', 
           component: EventDetailsPageComponent,
         },
-        
+        { path: 'my-events', component: MyEventsPageComponent },
       ],
       canActivate: [AuthGuard],
     },

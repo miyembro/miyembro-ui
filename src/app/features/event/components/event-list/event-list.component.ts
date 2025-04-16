@@ -29,6 +29,7 @@ export class EventListComponent implements OnInit, OnChanges{
 
   @Input() organizationId: string | undefined;
   @Input() isOnline: boolean | null = null;
+  @Input() isFullWidth = false;
   @Input() searchName: string | null = null;
   @Input() selectedCity: string | null = null;
   @Input() selectedCountry: string | null = null;
@@ -89,7 +90,7 @@ export class EventListComponent implements OnInit, OnChanges{
     const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;  
     if (screenWidth >= 1280) {  // XL screen (Large screens)
-      return 16;  // Load 18 items for large screens
+      return 20;  // Load 18 items for large screens
     } else if (screenWidth >= 1024) {  // LG screen (Large screens)
       return 12;  // Load 18 items for large screens
     } else if (screenWidth >= 768) {  // MD screen (Medium screens)

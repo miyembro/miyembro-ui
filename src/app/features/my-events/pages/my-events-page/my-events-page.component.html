@@ -1,0 +1,68 @@
+<div class="mx-auto md:max-w-[80%] w-full text-sm sm:text-sm md:text-base">
+  <div
+    class="flex flex-col md:flex-row md:justify-left sm:py-4 md:py-2 gap-2 sm:gap-2 md:gap-4 text-sm sm:text-sm md:text-base"
+    style="position: sticky; top: 0; z-index: 10; background: white"
+  >
+    <div class="input-wrapper">
+      <p-floatlabel variant="in">
+        <input
+          pInputText
+          id="name"
+          [(ngModel)]="name"
+          autocomplete="off"
+          class="w-full md:w-auto h-9 sm:h-9 md:h-11 text-sm sm:text-sm md:text-base"
+        />
+        <label for="name">Search by name</label>
+      </p-floatlabel>
+    </div>
+    <div>
+      <p-floatlabel variant="in">
+        <p-datepicker
+          inputId="startDate"
+          [(ngModel)]="selectedDateRange"
+          showIcon
+          iconDisplay="input"
+          dateFormat="yy-mm-dd"
+          styleClass="w-full h-9 sm:h-9 md:h-11 text-sm sm:text-sm md:text-base"
+        />
+        <label for="startDate">Filter by Date</label>
+      </p-floatlabel>
+    </div>
+    <div class="flex xs:flex-row sm:flex-row gap-4">
+      <div class="w-full xs:w-1/2 sm:w-1/2 md:w-56">
+        <!-- Filter by country -->
+
+        <p-floatlabel class="w-full md:w-56" variant="in">
+          <p-select
+            [(ngModel)]="selectedCountry"
+            inputId="selectedCountry"
+            [options]="countries"
+            optionLabel="label"
+            optionValue="value"
+            [showClear]="true"
+            styleClass="w-full h-9 sm:h-9 md:h-11 text-sm sm:text-sm md:text-base"
+            variant="filled"
+          />
+          <label for="selectedCountry">Filter by country</label>
+        </p-floatlabel>
+      </div>
+      <div class="w-full xs:w-1/2 sm:w-1/2 md:w-56">
+        <!-- Filter by city -->
+        <p-floatlabel class="w-full md:w-56" variant="in">
+          <p-select
+            [options]="cities"
+            [(ngModel)]="selectedCity"
+            inputId="selectedCity"
+            optionLabel="label"
+            optionValue="value"
+            [showClear]="true"
+            styleClass="w-full h-9 sm:h-9 md:h-11 text-sm sm:text-sm md:text-base"
+            variant="filled"
+          />
+          <label for="selectedCity">Filter by city</label>
+        </p-floatlabel>
+      </div>
+    </div>
+  </div>
+  <app-event-list [organizationId]="organizationId"></app-event-list>
+</div>
