@@ -1,16 +1,16 @@
 <div
   class="event-page mx-auto md:max-w-[80%] w-full text-sm sm:text-sm md:text-base flex flex-col mt-2 xlg:mt-4"
   [ngClass]="{
-    'md:flex-row md:gap-6': !isFullWidth,
-    'md:max-w-full': isFullWidth
+    'md:flex-row md:gap-6': !isVerticalAlign,
+    'md:max-w-full': isVerticalAlign
   }"
 >
   <!-- Event Poster & Details -->
   <div
     class="event-poster-details flex flex-col gap-4"
     [ngClass]="{
-      'md:w-full': isFullWidth,
-      'md:w-[40%] lg:w-[28%]': !isFullWidth
+      'md:w-full': isVerticalAlign,
+      'md:w-[40%] lg:w-[28%]': !isVerticalAlign
     }"
     *ngIf="event?.eventPicUrl"
   >
@@ -62,14 +62,29 @@
         </ng-container>
       </div>
     </p-card>
+    <div class="card flex flex-col items-center gap-2">
+      <p class="pt-1">Are you going?</p>
+      <p-selectbutton
+        [options]="eventConfirmationStatuses"
+        [(ngModel)]="eventConfirmationStatus"
+        optionLabel="label"
+        optionValue="value"
+        (onChange)="confirmAttendance()"
+        size="small"
+      >
+        <ng-template #item let-item>
+          <i [class]="item.icon"></i><span>{{ item.label }}</span>
+        </ng-template>
+      </p-selectbutton>
+    </div>
   </div>
 
   <!-- Event Description -->
   <div
     class="event-name-description mt-5"
     [ngClass]="{
-      'w-full': isFullWidth,
-      'md:mt-0 md:w-[60%] lg:w-[72%]': !isFullWidth
+      'w-full': isVerticalAlign,
+      'md:mt-0 md:w-[60%] lg:w-[72%]': !isVerticalAlign
     }"
   >
     <div class="event-details">
