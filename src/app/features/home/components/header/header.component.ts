@@ -116,22 +116,35 @@ export class HeaderComponent implements OnInit{
             command: () => this.removeCreateOrganization()
         },
         {
-            label: 'Members',
-            icon: 'pi pi-user',
-            route: '/home/members',
-            command: () => this.removeCreateOrganization()
-        },
-        {
-          label: 'Manage Events',
-          icon: 'pi pi-calendar',
-          route: '/home/manage-events',
-          command: () => this.removeCreateOrganization()
-        },
-        {
-          label: 'My Events',
+          label: 'Events',
           icon: 'pi pi-calendar',
           route: '/home/my-events',
           command: () => this.removeCreateOrganization()
+        },
+        {
+          label: 'Management',
+          icon: 'pi pi-cog',
+          command: () => this.removeCreateOrganization(),
+          items: [
+            {
+                label: 'Members',
+                icon: 'pi pi-user',
+                route: '/home/members',
+            },
+            {
+              label: 'Manage Events',
+              icon: 'pi pi-calendar',
+              route: '/home/manage-events'
+            },
+            // {
+            //     separator: true,
+            // },
+            // {
+            //     label: 'UI Kit',
+            //     icon: 'pi pi-pencil',
+            //     shortcut: '⌘+U',
+            // },
+          ],
         }
       ];
       this.getMenus();

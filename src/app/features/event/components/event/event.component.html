@@ -1,21 +1,77 @@
 <div
-  class="event-page mx-auto md:max-w-[80%] w-full text-sm sm:text-sm md:text-base"
+  class="event-page mx-auto md:max-w-[80%] w-full text-sm sm:text-sm md:text-base flex flex-col mt-2 xlg:mt-4"
+  [ngClass]="{
+    'md:flex-row md:gap-6': !isFullWidth,
+    'md:max-w-full': isFullWidth
+  }"
 >
-  <div class="event-poster flex justify-center" *ngIf="event?.eventPicUrl">
-    <img
-      class="w-[80vw] sm:w-[80vw] md:w-[350px]"
-      [src]="event?.eventPicUrl"
-      alt="poster"
-    />
-  </div>
-  <div>
-    <div class="event-name flex justify-center mt-5">
-      <h2
-        class="text-lg font-medium font-bold text-purple-700 mb-3 leading-tight tracking-tight text-gray-900"
-      >
-        {{ event?.name }}
-      </h2>
+  <!-- Event Poster & Details -->
+  <div
+    class="event-poster-details flex flex-col gap-4"
+    [ngClass]="{
+      'md:w-full': isFullWidth,
+      'md:w-[40%] lg:w-[28%]': !isFullWidth
+    }"
+    *ngIf="event?.eventPicUrl"
+  >
+    <div class="event-poster flex justify-center">
+      <img
+        class="w-full max-w-[350px]"
+        [src]="event?.eventPicUrl"
+        alt="poster"
+      />
     </div>
+
+    <p-card styleClass="mt-1">
+      <div class="event-name flex justify-center">
+        <h2
+          class="text-lg font-semibold text-purple-700 leading-tight tracking-tight text-gray-900"
+        >
+          {{ event?.name }}
+        </h2>
+      </div>
+      <div class="event-dates flex-grow mt-4" *ngIf="event">
+        <p
+          class="text-sm sm:text-sm md:text-base text-surface-700 dark:text-surface-200"
+        >
+          <strong>When: </strong>
+          {{ event.startEventDate | eventDateRange : event.endEventDate }}
+        </p>
+      </div>
+      <div class="event-address flex-grow">
+        <p-tag
+          severity="success"
+          value="Online"
+          *ngIf="event?.isOnline"
+          [rounded]="true"
+          styleClass="py-0 mt-2"
+        />
+        <ng-container *ngIf="event?.eventAddress | hasAddress">
+          <p
+            class="text-sm sm:text-sm md:text-base text-surface-700 dark:text-surface-200"
+          >
+            <strong>Where:</strong>
+            {{
+              event?.eventAddress?.city
+                ? event?.eventAddress?.city +
+                  ', ' +
+                  event?.eventAddress?.country
+                : event?.eventAddress?.country
+            }}
+          </p>
+        </ng-container>
+      </div>
+    </p-card>
+  </div>
+
+  <!-- Event Description -->
+  <div
+    class="event-name-description mt-5"
+    [ngClass]="{
+      'w-full': isFullWidth,
+      'md:mt-0 md:w-[60%] lg:w-[72%]': !isFullWidth
+    }"
+  >
     <div class="event-details">
       <p-card>
         <h2 class="text-lg font-medium text-purple-700 mb-3">Description:</h2>
@@ -23,40 +79,6 @@
           [innerHTML]="event?.description"
           class="w-full max-w-full break-words p-1 sm:p-1 md:p-3"
         ></div>
-      </p-card>
-      <p-card styleClass="mt-4">
-        <h2 class="text-lg font-medium text-purple-700 mb-3">Details:</h2>
-        <div class="event-dates flex-grow mt-4" *ngIf="event">
-          <p
-            class="text-sm sm:text-sm md:text-base text-surface-700 dark:text-surface-200"
-          >
-            <strong>When: </strong>
-            {{ event.startEventDate | eventDateRange : event.endEventDate }}
-          </p>
-        </div>
-        <div class="event-address flex-grow">
-          <p-tag
-            severity="success"
-            value="Online"
-            *ngIf="event?.isOnline"
-            [rounded]="true"
-            styleClass="py-0 mt-2"
-          />
-          <ng-container *ngIf="event?.eventAddress | hasAddress">
-            <p
-              class="text-sm sm:text-sm md:text-base text-surface-700 dark:text-surface-200"
-            >
-              <strong>Where:</strong>
-              {{
-                event?.eventAddress?.city
-                  ? event?.eventAddress?.city +
-                    ', ' +
-                    event?.eventAddress?.country
-                  : event?.eventAddress?.country
-              }}
-            </p>
-          </ng-container>
-        </div>
       </p-card>
     </div>
   </div>

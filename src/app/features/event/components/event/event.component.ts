@@ -21,5 +21,6 @@ import { HasAddressPipe } from "../../../../shared/pipes/has-address.pipe";
 export class EventComponent {
 
   @Input() event: EventResponse | undefined;
+  @Input() isFullWidth = false;
   
 }
