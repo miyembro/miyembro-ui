@@ -90,6 +90,16 @@
           (onClick)="onViewEventDetails(row)"
         />
         <p-button
+          label="Attendance"
+          size="small"
+          icon="pi pi-calendar"
+          severity="success"
+          [raised]="true"
+          [rounded]="true"
+          styleClass="py-1 text-xs sm:text-xs md:text-sm"
+          (onClick)="onEventAttendanceDetails(row)"
+        />
+        <p-button
           label="Edit"
           icon="pi pi-pencil"
           size="small"

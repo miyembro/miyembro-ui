@@ -12,6 +12,7 @@ import { EventDetailsDrawerComponent } from './features/event/pages/event-detail
 import { EventEditDrawerComponent } from './features/event/pages/event-edit-drawer/event-edit-drawer.component';
 import { EventCreateDrawerComponent } from './features/event/pages/event-create-drawer/event-create-drawer.component';
 import { MyEventsPageComponent } from './features/my-events/pages/my-events-page/my-events-page.component';
+import { EventAttendanceListPageComponent } from './features/event/pages/event-attendance-list-page/event-attendance-list-page.component';
 
 export const appRoutes: Route[] = [
     {
@@ -38,7 +39,7 @@ export const appRoutes: Route[] = [
               children: [
                 { path: 'view/:eventId', component: EventDetailsDrawerComponent },
                 { path: 'edit/:eventId', component: EventEditDrawerComponent } ,
-                { path: 'create/:organizationId', component: EventCreateDrawerComponent }
+                { path: 'create/:organizationId', component: EventCreateDrawerComponent },
               ]
             },
             { 
@@ -54,6 +55,7 @@ export const appRoutes: Route[] = [
           component: EventDetailsPageComponent,
         },
         { path: 'my-events', component: MyEventsPageComponent },
+        { path: 'event-attendance-list/:eventId/:organizationId', component: EventAttendanceListPageComponent }
       ],
       canActivate: [AuthGuard],
     },

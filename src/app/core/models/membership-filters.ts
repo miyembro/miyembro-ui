@@ -8,4 +8,5 @@ export interface MembershipFilters {
     roleNames?: any [] | null;
     startDates: Date [] | null;
     endDates: Date [] | null;
+    memberIds?: (string | undefined) [];
 }

@@ -81,7 +81,7 @@ export class MembershipService {
       return this.http.post<any>(url, membershipFilters, { params }) as Observable<Page<MembershipResponse>>;
   }
 
-  getRequestsMembershipsByOrganization(organizationId: string | undefined, pageNo: number, pageSize: number, sortField: string, sortOrder: string , membershipFilters: MembershipFilters | undefined ): Observable<Page<MembershipResponse>> {
+  getRequestsMembershipsByOrganization(organizationId: string | undefined, pageNo: number, pageSize: number, sortField: string, sortOrder: string , membershipFilters: MembershipFilters ): Observable<Page<MembershipResponse>> {
     const url = `${env.apiUrl}${this.baseUrl}/organizations/${organizationId}/members/requests`;
 
     const params = new HttpParams()

@@ -272,7 +272,7 @@ export class MemberListComponent implements OnInit {
     const organizationId = session?.organization?.organizationId;
     const order = sortOrder == 1 ? 'ASC': 'DESC';
 
-    const filters = this.membershipFilters ?? {} as MembershipFilters
+    const filters = this.membershipFilters ?? {} as MembershipFilters;
 
     this.membershipService.getMembershipsByOrganization(organizationId, pageNo, pageSize, sortField, order, filters).subscribe(
       (res) => {

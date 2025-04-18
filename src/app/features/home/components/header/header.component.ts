@@ -186,7 +186,6 @@ export class HeaderComponent implements OnInit{
     const organizationId = this.sessionService.organizationId;
     this.menuService.getMenus(organizationId).subscribe(
       (res) => {
-        console.log(res);
         this.menuItemResponses = res;
         this.setMenuItems();
       },

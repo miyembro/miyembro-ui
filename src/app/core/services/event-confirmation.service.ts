@@ -1,10 +1,13 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject, tap } from 'rxjs';
 import { EventAttendanceRequest } from '../models/event-attendance-request';
 import { EventConfirmationRequest } from '../models/event-confirmation-request';
 import { EventConfirmationResponse } from '../models/event-confirmation-response';
 import { environment as env } from '@environments/environment';
+import { EventFilters } from '../models/event-filters';
+import { Page } from '../models/page';
+import { EventConfirmationFilters } from '../models/event-confirmation-filters';
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +43,14 @@ export class EventConfirmationService {
       `${env.apiUrl}${this.baseUrl}/members/` + memberId + `/eventConfirmations/${eventConfirmationId}`,
       request
     ) as Observable<EventConfirmationResponse>;
+  }
+
+  getEventConfirmations(eventId: string | undefined, pageNo: number | null, pageSize: number | null, sortField: string, sortOrder: string, eventConfirmationFilters: EventConfirmationFilters | undefined ): Observable<Page<EventConfirmationResponse>> {
+    const url = `${env.apiUrl}${this.baseUrl}/page/events/${eventId}`;
+    const params = new HttpParams()
+      .set('sortField', sortField.toString())
+      .set('sortOrder', sortOrder.toString());
+      return this.http.post<any>(url, eventConfirmationFilters, { params }) as Observable<Page<EventConfirmationResponse>>;
   }
   
 }

@@ -255,6 +255,12 @@ export class ActiveEventsListComponent implements OnInit, OnDestroy {
     this.router.navigate(['/home/manage-events/active/view', row.eventId]);
   }
 
+  onEventAttendanceDetails(row: any) {
+    const session = this.sessionService.getSession();
+    const organizationId = session?.organization?.organizationId;
+    this.router.navigate(['/home/event-attendance-list', row.eventId, organizationId]);
+  }
+
   pageChangeTable(event: any) {
     const pageNo = event.first / event.rowsPerPage;
     this.populateTable(pageNo, event.rowsPerPage, event.sortField, event.sortOrder);
