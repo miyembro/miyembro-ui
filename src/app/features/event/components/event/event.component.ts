@@ -38,6 +38,7 @@ export class EventComponent implements OnInit, OnChanges{
 
   @Input() event: EventResponse | undefined;
   @Input() isVerticalAlign = false;
+  selectButtonStyleClass = 'event-attendance-buttons';
 
   eventConfirmationResponse: EventConfirmationResponse | undefined;
   eventConfirmationStatus: EventConfirmationStatus | undefined;
@@ -92,6 +93,7 @@ export class EventComponent implements OnInit, OnChanges{
         this.eventConfirmationResponse = res;
         if(this.eventConfirmationResponse) {
           this.eventConfirmationStatus = this.eventConfirmationResponse.eventConfirmationStatus;
+          this.updateSelectButtonStyleClass();
         }
         this.loaderService.hideLoader(this.router.url);
       },
@@ -126,6 +128,7 @@ export class EventComponent implements OnInit, OnChanges{
       (res) => {
         this.eventConfirmationResponse = res;
         this.eventConfirmationStatus = this.eventConfirmationResponse.eventConfirmationStatus;
+        this.updateSelectButtonStyleClass();
         this.alertService.success(this.router.url, 'Success', "Attendance succesfully sent");
         this.loaderService.hideLoader(this.router.url);
       },
@@ -154,6 +157,7 @@ export class EventComponent implements OnInit, OnChanges{
       (res) => {
         this.eventConfirmationResponse = res;
         this.eventConfirmationStatus = this.eventConfirmationResponse.eventConfirmationStatus;
+        this.updateSelectButtonStyleClass();
         this.alertService.success(this.router.url, 'Success', "Attendance succesfully sent");
         this.loaderService.hideLoader(this.router.url);
       },
@@ -164,19 +168,24 @@ export class EventComponent implements OnInit, OnChanges{
     );
   }
 
-  getStatusClass(value: EventConfirmationStatus): string {
+  private updateSelectButtonStyleClass() {
+    const value = this.eventConfirmationStatus;
+    this.selectButtonStyleClass = 'event-attendance-buttons';
     switch (value) {
       case EventConfirmationStatus.YES:
-        return 'selectbutton-success';
+        this.selectButtonStyleClass = this.selectButtonStyleClass + "-selectbutton-success";
+        break;
       case EventConfirmationStatus.NO:
-        return 'selectbutton-danger';
+        this.selectButtonStyleClass = this.selectButtonStyleClass + "-selectbutton-danger";
+        break;
       case EventConfirmationStatus.MAYBE:
-        return 'selectbutton-info';
+        this.selectButtonStyleClass = this.selectButtonStyleClass + "-selectbutton-info";
+        break;
       default:
-        return '';
+        this.selectButtonStyleClass = this.selectButtonStyleClass + "";
+        break;
     }
   }
-  
   
 }
 

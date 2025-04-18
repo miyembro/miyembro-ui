@@ -1,35 +1,48 @@
-/* Base highlight style for selected option */
-.p-selectbutton .p-button.p-highlight {
-    color: white;
+:host ::ng-deep {
+  .event-attendance-buttons-selectbutton-success {
+    .p-togglebutton.p-togglebutton-checked::before {
+      background: var(--p-button-success-background);
+      border: 1px solid var(--p-button-success-border-color);
+      color: var(--p-button-success-color);
+    }
   }
-  
-  /* Green (success) */
-  .selectbutton-success .p-button.p-highlight {
-    background-color: var(--green-500);
-    border-color: var(--green-500);
+  .event-attendance-buttons-selectbutton-danger {
+    .p-togglebutton.p-togglebutton-checked::before {
+      background: var(--p-button-danger-background);
+      border: 1px solid var(--p-button-danger-border-color);
+      color: var(--p-button-danger-color);
+    }
   }
-  .selectbutton-success .p-button.p-highlight:hover {
-    background-color: var(--green-600);
-    border-color: var(--green-600);
+  .event-attendance-buttons-selectbutton-info {
+    .p-togglebutton.p-togglebutton-checked::before {
+      background: var(--p-button-info-background);
+      border: 1px solid var(--p-button-info-border-color);
+      color: var(--p-button-info-color);
+    }
   }
-  
-  /* Red (danger) */
-  .selectbutton-danger .p-button.p-highlight {
-    background-color: var(--red-500);
-    border-color: var(--red-500);
+}
+
+
+:host ::ng-deep {
+  .event-attendance-buttons-selectbutton-success {
+    .p-togglebutton.p-togglebutton-checked {
+      .p-togglebutton-content {
+        color: white;
+      }
+    }
   }
-  .selectbutton-danger .p-button.p-highlight:hover {
-    background-color: var(--red-600);
-    border-color: var(--red-600);
+  .event-attendance-buttons-selectbutton-danger {
+    .p-togglebutton.p-togglebutton-checked {
+      .p-togglebutton-content {
+        color: white;
+      }
+    } 
   }
-  
-  /* Blue (info) */
-  .selectbutton-info .p-button.p-highlight {
-    background-color: var(--blue-500);
-    border-color: var(--blue-500);
+  .event-attendance-buttons-selectbutton-info {
+    .p-togglebutton.p-togglebutton-checked {
+      .p-togglebutton-content {
+        color: white;
+      }
+    } 
   }
-  .selectbutton-info .p-button.p-highlight:hover {
-    background-color: var(--blue-600);
-    border-color: var(--blue-600);
-  }
-  
+}
