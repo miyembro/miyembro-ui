@@ -155,7 +155,7 @@ export class EventAttendanceListPageComponent implements OnInit {
   clearFilterChangeTable() {
     this.membershipFilters = {} as MembershipFilters;
     this.eventConfirmationFilters = {} as EventConfirmationFilters;
-    // this.membershipFilters.membershipStatusNames = this.selectedMembershipStatuses.map((filter: any) => filter.name);
+    this.selectedEventConfirmationStatuses = [];
     this.sortField = "member.firstName";
     this.sortOrder = 1;
     this.populateTable(0, this.rowsPerPage, this.sortField, this.sortOrder);
