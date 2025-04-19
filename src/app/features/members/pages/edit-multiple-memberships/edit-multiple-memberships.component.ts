@@ -23,6 +23,7 @@ import { UpdateMembershipRequests } from 'src/app/core/models/update-membership-
 import { ListboxModule } from 'primeng/listbox';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { Subject, takeUntil } from 'rxjs';
+import { MembershipsSummaryListComponent } from 'src/app/shared/components/memberships-summary-list/memberships-summary-list.component';
 
 @Component({
   selector: 'app-edit-multiple-memberships',
@@ -34,6 +35,7 @@ import { Subject, takeUntil } from 'rxjs';
     MemberDetailsComponent,
     MemberFormComponent,
     MembershipFormComponent,
+    MembershipsSummaryListComponent,
     ReactiveFormsModule,
     SelectModule
   ],

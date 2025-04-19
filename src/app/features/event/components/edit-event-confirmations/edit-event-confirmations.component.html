@@ -9,21 +9,20 @@
       ></app-memberships-summary-list>
     </div>
   </div>
-
-  <p class="text-center">You are editing {{ memberships.length }} member/s</p>
-
-  <!-- Membership Type Dropdown -->
-  <div class="w-full flex justify-center">
-    <app-membership-form
-      [membershipForm]="membershipForm"
-      [membershipTypes]="membershipTypes"
-      [membershipStatuses]="membershipStatuses"
-      [roles]="roles"
-    ></app-membership-form>
+  <div class="card flex flex-col items-center py-5">
+    <p class="text-center mb-4">
+      Update attendance for {{ memberships.length }} member/s
+    </p>
+    <app-event-confirmation-select-button
+      [(eventConfirmationStatus)]="eventConfirmationStatus"
+    ></app-event-confirmation-select-button>
   </div>
 
+  <!-- Membership Type Dropdown -->
+  <div class="w-full flex justify-center"></div>
+
   <!-- Buttons -->
-  <div class="w-full max-w-lg flex justify-center space-x-4 mt-2">
+  <div class="w-full max-w-lg flex justify-center space-x-4">
     <p-button
       label="Update"
       icon="pi pi-check"
@@ -31,8 +30,7 @@
       [raised]="true"
       [rounded]="true"
       class="mb-2"
-      [disabled]="membershipForm.invalid || membershipForm.pristine"
-      (onClick)="onUpdateMemberships()"
+      (onClick)="onUpdateEventConfirmation()"
     />
     <p-button
       label="Cancel"
@@ -41,11 +39,11 @@
       severity="secondary"
       [raised]="true"
       [rounded]="true"
-      (onClick)="onCancelEditMemberships()"
+      (onClick)="onCancelEditEventConfirmation()"
     />
   </div>
 
-  <div class="w-full max-w-lg flex justify-center space-x-4">
+  <!-- <div class="w-full max-w-lg flex justify-center space-x-4">
     <p-button
       label="Remove these members from the organization?"
       size="small"
@@ -57,5 +55,5 @@
       styleClass="text-xs"
       (onClick)="onDeleteMemberships($event)"
     />
-  </div>
+  </div> -->
 </div>

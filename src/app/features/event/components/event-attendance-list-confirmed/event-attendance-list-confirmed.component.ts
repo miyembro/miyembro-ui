@@ -25,6 +25,7 @@ import { EditEventConfirmationComponent } from '../edit-event-confirmation/edit-
 import { EventSummaryComponent } from '../event-summary/event-summary.component';
 import { EventComponent } from '../event/event.component';
 import { Table } from 'src/app/core/models/table';
+import { EditEventConfirmationsComponent } from '../edit-event-confirmations/edit-event-confirmations.component';
 
 @Component({
   selector: 'app-event-attendance-list-confirmed',
@@ -196,7 +197,19 @@ export class EventAttendanceListConfirmedComponent implements OnInit , OnDestroy
   }
 
   private editAttendances() {
-    console.log('dsadasds');
+    const eventConfirmationIds = this.selectedEventConfirmations.map(conf => conf.eventConfirmationId);
+    const memberIds = this.selectedEventConfirmations.map(conf => conf.memberId);
+    console.log(eventConfirmationIds);
+    console.log(memberIds);
+
+    this.ref = this.dialogService.open(EditEventConfirmationsComponent, {
+      header: 'Edit Attendances',
+      modal: true,
+      contentStyle: { overflow: 'auto' },
+      breakpoints: { '960px': '75vw', '640px': '90vw' },
+      data: { organizationId: this.organizationId , eventId: this.eventId, eventConfirmationIds: eventConfirmationIds, memberIds: memberIds },
+      closable: true
+    });
   }
 
   private getMembershipTypes() {

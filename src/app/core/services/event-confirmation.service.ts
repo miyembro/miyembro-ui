@@ -38,12 +38,19 @@ export class EventConfirmationService {
     ) as Observable<EventConfirmationResponse>;
   }
 
-  getEventConfirmations(eventId: string | undefined, pageNo: number | null, pageSize: number | null, sortField: string | null, sortOrder: string, eventConfirmationFilters: EventConfirmationFilters | undefined ): Observable<Page<EventConfirmationResponse>> {
+  getEventConfirmations(eventId: string | undefined, pageNo: number | null, pageSize: number | null, sortField: string, sortOrder: string, eventConfirmationFilters: EventConfirmationFilters | undefined ): Observable<Page<EventConfirmationResponse>> {
     const url = `${env.apiUrl}${this.baseUrl}/page/events/${eventId}`;
-    const params = new HttpParams()
+    let params = null;
+    if(pageNo != null && pageSize != null) {
+      params = new HttpParams()
+      .set('pageNo', pageNo.toString())
+      .set('pageSize', pageSize.toString())
+      .set('sortField', sortField.toString())
       .set('sortOrder', sortOrder.toString());
-    if(sortField) {
-      params.set('sortField', sortField.toString());
+    } else {
+      params = new HttpParams()
+      .set('sortField', sortField.toString())
+      .set('sortOrder', sortOrder.toString());
     }
       
     return this.http.post<any>(url, eventConfirmationFilters, { params }) as Observable<Page<EventConfirmationResponse>>;

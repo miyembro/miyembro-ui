@@ -70,15 +70,22 @@ export class MembershipService {
     return this.http.get(`${env.apiUrl}${this.baseUrl}/organizations/` + organizationId + '/members/' + memberId) as Observable<MembershipResponse>;
   }
 
-  getMembershipsByOrganization(organizationId: string | undefined, pageNo: number, pageSize: number, sortField: string, sortOrder: string, membershipFilters: MembershipFilters | undefined ): Observable<Page<MembershipResponse>> {
+  getMembershipsByOrganization(organizationId: string | undefined, pageNo: number | null, pageSize: number | null, sortField: string, sortOrder: string, membershipFilters: MembershipFilters | undefined ): Observable<Page<MembershipResponse>> {
     const url = `${env.apiUrl}${this.baseUrl}/organizations/${organizationId}/members`;
 
-    const params = new HttpParams()
+    let params = null;
+    if(pageNo != null && pageSize != null) {
+      params = new HttpParams()
       .set('pageNo', pageNo.toString())
       .set('pageSize', pageSize.toString())
       .set('sortField', sortField.toString())
       .set('sortOrder', sortOrder.toString());
-      return this.http.post<any>(url, membershipFilters, { params }) as Observable<Page<MembershipResponse>>;
+    } else {
+      params = new HttpParams()
+      .set('sortField', sortField.toString())
+      .set('sortOrder', sortOrder.toString());
+    }
+    return this.http.post<any>(url, membershipFilters, { params }) as Observable<Page<MembershipResponse>>;
   }
 
   getRequestsMembershipsByOrganization(organizationId: string | undefined, pageNo: number, pageSize: number, sortField: string, sortOrder: string , membershipFilters: MembershipFilters ): Observable<Page<MembershipResponse>> {

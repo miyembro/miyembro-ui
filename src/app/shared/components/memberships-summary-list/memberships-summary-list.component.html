@@ -1,0 +1,12 @@
+<p-listbox
+  [options]="memberships"
+  [group]="true"
+  class="w-full md:w-56"
+  scrollHeight="150px"
+>
+  <ng-template let-group #group>
+    <div class="flex items-center">
+      <app-member-details [member]="group?.member"></app-member-details>
+    </div>
+  </ng-template>
+</p-listbox>

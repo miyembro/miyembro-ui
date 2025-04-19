@@ -30,6 +30,7 @@ import { switchMap, map, Subscription } from 'rxjs';
 import { EventConfirmationFilters } from 'src/app/core/models/event-confirmation-filters';
 import { EventConfirmationService } from 'src/app/core/services/event-confirmation.service';
 import { EventConfirmationResponse } from 'src/app/core/models/event-confirmation-response';
+import { EditEventConfirmationsComponent } from '../edit-event-confirmations/edit-event-confirmations.component';
 
 @Component({
   selector: 'app-event-attendance-list-unconfirmed',
@@ -87,9 +88,9 @@ export class EventAttendanceListUnconfirmedComponent {
   ngOnInit(): void {
     this.multiSelectButtonItems = [
       {
-          label: 'Edit Members Attendances',
+          label: 'Edit Attendances',
           command: () => {
-            this.editMembersAttendances();
+            this.editAttendances();
           }
       }
     ];
@@ -189,8 +190,20 @@ export class EventAttendanceListUnconfirmedComponent {
     this.populateTable(0, event.rowsPerPage, event.sortField, event.sortOrder);
   } 
 
-  private editMembersAttendances() {
-    console.log('dasdas');
+  private editAttendances() {
+    const eventConfirmationIds = null;
+    const memberIds = this.memberships.map(conf => conf.member.memberId);
+    console.log(eventConfirmationIds);
+    console.log(memberIds);
+
+    this.ref = this.dialogService.open(EditEventConfirmationsComponent, {
+      header: 'Edit Attendances',
+      modal: true,
+      contentStyle: { overflow: 'auto' },
+      breakpoints: { '960px': '75vw', '640px': '90vw' },
+      data: { organizationId: this.organizationId , eventId: this.eventId, eventConfirmationIds: eventConfirmationIds, memberIds: memberIds },
+      closable: true
+    });
   }
 
   private getMembershipStatuses() {
@@ -250,7 +263,7 @@ export class EventAttendanceListUnconfirmedComponent {
     const eventConfirmationFilters = {} as EventConfirmationFilters;
   
     this.eventConfirmationService.getEventConfirmations(
-      this.eventId, null, null, null, 'ASC', eventConfirmationFilters
+      this.eventId, null, null, 'eventConfirmationId', 'ASC', eventConfirmationFilters
     ).pipe(
       switchMap((res) => {
         this.eventConfirmations = res.content;
