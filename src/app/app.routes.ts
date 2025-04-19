@@ -56,9 +56,18 @@ export const appRoutes: Route[] = [
         },
         { path: 'my-events', component: MyEventsPageComponent },
         { 
-          path: 'event-attendance-list/:eventId/:organizationId', component: EventAttendanceListPageComponent,
-          
-        }
+          path: 'event-attendance-list/:eventId/:organizationId', 
+          component: EventAttendanceListPageComponent,
+          children: [
+            { 
+              path: 'view/:eventId', 
+              component: EventDetailsDrawerComponent 
+            },
+          ]
+        },
+        // { 
+        //   path: 'event/view/:eventId', component: EventDetailsDrawerComponent 
+        // },
       ],
       canActivate: [AuthGuard],
     },

@@ -40,7 +40,7 @@ export class EventSummaryComponent implements OnChanges {
   }
 
   onViewEventDetails(row: any) {
-    //this.router.navigate([this.router.url + '/view']);
+    this.router.navigate(['view', this.eventId], { relativeTo: this.activatedRoute });
   }
 
   private getEventDetails() {

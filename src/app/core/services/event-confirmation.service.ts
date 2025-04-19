@@ -16,8 +16,8 @@ export class EventConfirmationService {
 
   baseUrl = '/event-confirmations';
 
-  private eventUpdatedSource = new Subject<void>();
-  eventUpdated$ = this.eventUpdatedSource.asObservable();
+  private eventConfirmationUpdatedSource = new Subject<void>();
+  eventConfirmationUpdated$ = this.eventConfirmationUpdatedSource.asObservable();
 
   constructor(
     private http: HttpClient,
@@ -38,13 +38,6 @@ export class EventConfirmationService {
     ) as Observable<EventConfirmationResponse>;
   }
 
-  updateEventConfirmation(memberId: string | undefined, eventConfirmationId: string | undefined, request: EventConfirmationRequest): Observable<EventConfirmationResponse> {
-    return this.http.put<EventConfirmationResponse>(
-      `${env.apiUrl}${this.baseUrl}/members/` + memberId + `/eventConfirmations/${eventConfirmationId}`,
-      request
-    ) as Observable<EventConfirmationResponse>;
-  }
-
   getEventConfirmations(eventId: string | undefined, pageNo: number | null, pageSize: number | null, sortField: string, sortOrder: string, eventConfirmationFilters: EventConfirmationFilters | undefined ): Observable<Page<EventConfirmationResponse>> {
     const url = `${env.apiUrl}${this.baseUrl}/page/events/${eventId}`;
     const params = new HttpParams()
@@ -52,5 +45,18 @@ export class EventConfirmationService {
       .set('sortOrder', sortOrder.toString());
       return this.http.post<any>(url, eventConfirmationFilters, { params }) as Observable<Page<EventConfirmationResponse>>;
   }
+
+  notifyEventConfirmationUpdated(): void {
+    this.eventConfirmationUpdatedSource.next();
+  }
+
+  updateEventConfirmation(memberId: string | undefined, eventConfirmationId: string | undefined, request: EventConfirmationRequest): Observable<EventConfirmationResponse> {
+    return this.http.put<EventConfirmationResponse>(
+      `${env.apiUrl}${this.baseUrl}/members/` + memberId + `/eventConfirmations/${eventConfirmationId}`,
+      request
+    ) as Observable<EventConfirmationResponse>;
+  }
+
+
   
 }

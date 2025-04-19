@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EventConfirmationResponse } from 'src/app/core/models/event-confirmation-response';
 import { Table } from 'src/app/core/models/table';
@@ -45,7 +45,7 @@ import { EventSummaryComponent } from "../../components/event-summary/event-summ
   styleUrl: './event-attendance-list-page.component.scss',
   providers: [DialogService]
 })
-export class EventAttendanceListPageComponent implements OnInit {
+export class EventAttendanceListPageComponent implements OnInit , OnDestroy {
 
   dataLoadedTimestamp: number = Date.now();
   eventConfirmations: EventConfirmationResponse [] = [];
@@ -60,7 +60,7 @@ export class EventAttendanceListPageComponent implements OnInit {
   membershipTypes: MembershipType [] = [];
   organizationId!: string;
   ref: DynamicDialogRef | undefined;
-  rowsPerPage = 10;  
+  rowsPerPage = 5;  
   selectedEventConfirmations: EventConfirmationResponse [] = [];
   eventConfirmatioSortField = "event.eventId";
   sortField = "member.firstName";
@@ -70,7 +70,7 @@ export class EventAttendanceListPageComponent implements OnInit {
   totalRecords = 0; 
 
   private routeSub!: Subscription;
-  
+  private eventConfirmationUpdateSubscription!: Subscription;
 
   constructor(
     private activatedRoute: ActivatedRoute, 
@@ -110,6 +110,21 @@ export class EventAttendanceListPageComponent implements OnInit {
         this.populateTable(0, this.rowsPerPage, this.sortField, this.sortOrder);
       }
     });
+    this.subscribeToEventConfirmationUpdates();
+  }
+
+  ngOnDestroy(): void {
+    if (this.eventConfirmationUpdateSubscription) {
+      this.eventConfirmationUpdateSubscription.unsubscribe();
+    }
+  }
+
+
+  private subscribeToEventConfirmationUpdates() {
+    this.eventConfirmationUpdateSubscription = this.eventConfirmationService.eventConfirmationUpdated$.subscribe(() => {
+      const pageNo = this.first / this.rowsPerPage;
+      this.populateTable(pageNo, this.rowsPerPage, this.sortField, this.sortOrder);
+    });
   }
 
   onEventConfirmationStatusChange(event: any) {
@@ -120,6 +135,8 @@ export class EventAttendanceListPageComponent implements OnInit {
 
     this.eventConfirmationFilters.eventId = this.eventId;
     this.eventConfirmationFilters.eventConfirmationStatuses = eventConfirmationStatuses;
+
+    this.membershipFilters = {} as MembershipFilters;
 
     this.populateTable(0, this.rowsPerPage, this.sortField, this.sortOrder);
   }
@@ -137,7 +154,7 @@ export class EventAttendanceListPageComponent implements OnInit {
     }
     this.eventConfirmationFilters = this.eventConfirmationFilters ?? {} as EventConfirmationFilters;
     if(this.eventConfirmationFilters) {
-      this.eventConfirmationFilters.updatedDates = updatedDates;
+      this.eventConfirmationFilters.updatedDates = updatedDates ? updatedDates  : [];
     }
 
     this.sortField = "member.firstName";
@@ -158,8 +175,11 @@ export class EventAttendanceListPageComponent implements OnInit {
 
   clearFilterChangeTable() {
     this.membershipFilters = {} as MembershipFilters;
-    this.eventConfirmationFilters = {} as EventConfirmationFilters;
-    this.selectedEventConfirmationStatuses = [];
+    if(this.eventConfirmationFilters) {
+      this.eventConfirmationFilters.updatedDates = [];
+      //this.eventConfirmationFilters.eventConfirmationStatuses = this.selectedEventConfirmationStatuses;
+    }
+ 
     this.sortField = "member.firstName";
     this.sortOrder = 1;
     this.populateTable(0, this.rowsPerPage, this.sortField, this.sortOrder);
@@ -255,8 +275,6 @@ export class EventAttendanceListPageComponent implements OnInit {
           colTemplateRefName: 'nameColumn',
           headerFilterType: 'text',
           headerText: 'Name (status)',
-          sortable: true,
-          columnWidth: '15%'
         },
         {
           dataField: 'membership.membershipType.name',
@@ -264,7 +282,6 @@ export class EventAttendanceListPageComponent implements OnInit {
           headerFilterType: 'select',
           headerText: 'Membership Type',
           options: this.membershipTypes,
-          sortable: true
         },
         {
           dataField: 'eventConfirmationStatus',
@@ -278,7 +295,6 @@ export class EventAttendanceListPageComponent implements OnInit {
           colTemplateRefName: 'updatedAtColumn',
           headerFilterType: 'customDate',
           headerText: 'Confirmation Date',
-          sortable: true
         },
         {
           dataField: 'membership.editMembership',

@@ -8,6 +8,7 @@ import { LoaderService } from 'src/app/core/services/loader.service';
 import { EventComponent } from '../../components/event/event.component';
 import { DrawerModule } from 'primeng/drawer';
 import { Subscription } from 'rxjs';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-event-details-drawer',
@@ -31,6 +32,7 @@ export class EventDetailsDrawerComponent implements OnInit, OnDestroy {
     private alertService: AlertService,
     private eventService: EventService, 
     private loaderService: LoaderService,
+    private location: Location,
     private router: Router
   ) {}
 
@@ -54,6 +56,7 @@ export class EventDetailsDrawerComponent implements OnInit, OnDestroy {
       relativeTo: this.activatedRoute,
       queryParamsHandling: 'preserve'
     });
+    this.location.back();
   }
 
   private getEventDetails() {

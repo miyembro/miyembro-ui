@@ -47,11 +47,11 @@ export class EventComponent implements OnInit, OnChanges{
   EventConfirmationStatus = EventConfirmationStatus;
 
   constructor(
-      private alertService: AlertService,
-      private eventConfirmationService: EventConfirmationService,
-      private loaderService: LoaderService,
-      private router: Router,
-      private sessionService: SessionService
+    private alertService: AlertService,
+    private eventConfirmationService: EventConfirmationService,
+    private loaderService: LoaderService,
+    private router: Router,
+    private sessionService: SessionService
   ) {
   }
 
@@ -129,6 +129,7 @@ export class EventComponent implements OnInit, OnChanges{
         this.eventConfirmationResponse = res;
         this.eventConfirmationStatus = this.eventConfirmationResponse.eventConfirmationStatus;
         this.updateSelectButtonStyleClass();
+        this.eventConfirmationService.notifyEventConfirmationUpdated();
         this.alertService.success(this.router.url, 'Success', "Attendance succesfully sent");
         this.loaderService.hideLoader(this.router.url);
       },
@@ -158,6 +159,7 @@ export class EventComponent implements OnInit, OnChanges{
         this.eventConfirmationResponse = res;
         this.eventConfirmationStatus = this.eventConfirmationResponse.eventConfirmationStatus;
         this.updateSelectButtonStyleClass();
+        this.eventConfirmationService.notifyEventConfirmationUpdated();
         this.alertService.success(this.router.url, 'Success', "Attendance succesfully sent");
         this.loaderService.hideLoader(this.router.url);
       },
