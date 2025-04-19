@@ -2,10 +2,13 @@
   <app-table
     [table]="table"
     [tableTitle]="title"
+    tableFooterCountTitle="Attendance"
     [paginator]="true"
     [(totalRecords)]="totalRecords"
     [(rowsPerPage)]="rowsPerPage"
     [(first)]="first"
+    (filterChangeTable)="filterChangeTable($event)"
+    (clearFilterChangeTable)="clearFilterChangeTable()"
     [loading]="loading"
     [(sortField)]="sortField"
     [(sortOrder)]="sortOrder"
@@ -59,9 +62,9 @@
         />
         <div>
           {{
-            row['membership']['member']['firstName'] +
+            row?.membership?.member?.firstName +
               ' ' +
-              row['membership']['member']['lastName']
+              row?.membership?.member?.lastName
           }}
 
           <div class="mt-0">
@@ -69,25 +72,17 @@
               styleClass="py-0 text-sm sm:text-sm md:text-base"
               [rounded]="true"
               [severity]="
-                row['membership']['membershipStatus']['name'] === 'Active'
+                row?.membership?.membershipStatus?.name === 'Active'
                   ? 'secondary'
-                  : row['membership']['membershipStatus']['name'] === 'Expired'
+                  : row?.membership?.membershipStatus?.name === 'Expired'
                   ? 'secondary'
                   : 'secondary'
               "
-              [value]="row['membership']['membershipStatus']['name']"
+              [value]="row?.membership?.membershipStatus?.name"
             />
           </div>
         </div>
       </div>
-    </ng-template>
-    <ng-template #addressColumn let-row>
-      {{
-        (row?.membership?.member?.memberAddress?.city || '') +
-          (row?.membership?.member?.memberAddress?.country
-            ? ', ' + row.membership?.member.memberAddress.country
-            : '')
-      }}
     </ng-template>
     <ng-template #eventConfirmationStatusColumn let-row>
       <p-tag
@@ -109,12 +104,9 @@
         "
       />
     </ng-template>
-    <!-- <ng-template #startDateColumn let-row>
-      {{ row['membership']['startDate'] | date : 'MMMM d, y' }}
+    <ng-template #updatedAtColumn let-row>
+      {{ row.updatedAt | date : 'MMMM d, y, h:mm a' }}
     </ng-template>
-    <ng-template #endDateColumn let-row>
-      {{ row['membership']['endDate'] | date : 'MMMM d, y' }}
-    </ng-template> -->
     <ng-template #editMembershipColumn let-row>
       <div class="flex space-x-2">
         <p-button

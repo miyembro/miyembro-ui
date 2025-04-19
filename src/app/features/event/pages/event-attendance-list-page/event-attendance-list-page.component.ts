@@ -21,6 +21,8 @@ import { ViewMemberDetailsComponent } from 'src/app/features/members/pages/view-
 import { MultiSelectModule } from 'primeng/multiselect';
 import { EventConfirmationStatus } from 'src/app/core/models/event-confirmation-status.enum';
 import { FormsModule } from '@angular/forms';
+import { MembershipTypeService } from 'src/app/core/services/membership-type.service';
+import { MembershipType } from 'src/app/core/models/membership-type';
 
 @Component({
   selector: 'app-event-attendance-list-page',
@@ -51,6 +53,7 @@ export class EventAttendanceListPageComponent implements OnInit {
   first = 0; 
   loading = false;
   membershipFilters: MembershipFilters | undefined;
+  membershipTypes: MembershipType [] = [];
   organizationId!: string;
   ref: DynamicDialogRef | undefined;
   rowsPerPage = 10;  
@@ -67,11 +70,11 @@ export class EventAttendanceListPageComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute, 
-    private alertService : AlertService,
     private dialogService: DialogService,
     private eventConfirmationService: EventConfirmationService,
     private loaderService: LoaderService,
     private membershipService: MembershipService,
+    private membershipTypeService: MembershipTypeService,
     private router: Router,
     private sessionService: SessionService,
   ) {}
@@ -98,9 +101,9 @@ export class EventAttendanceListPageComponent implements OnInit {
     this.routeSub = this.activatedRoute.paramMap.subscribe(params => {
       this.eventId = params.get('eventId')!;
       this.organizationId = params.get('organizationId')!;
-
       if (this.eventId && this.organizationId) {
-        this.populateTable(null, 0, this.eventConfirmatioSortField, this.sortOrder);
+        this.getMembershipTypes();
+        this.populateTable(0, this.rowsPerPage, this.sortField, this.sortOrder);
       }
     });
   }
@@ -110,18 +113,32 @@ export class EventAttendanceListPageComponent implements OnInit {
       this.eventConfirmationFilters = {} as EventConfirmationFilters;
     }
     const eventConfirmationStatuses = this.selectedEventConfirmationStatuses.map((filter: any) => filter.value);
-    this.eventConfirmationFilters  = {
-      eventId: this.eventId,
-      eventConfirmationStatuses: eventConfirmationStatuses,
-      createdAt: undefined,
-      updatedAt: undefined
-    };
 
-    console.log(this.selectedEventConfirmations);
+    this.eventConfirmationFilters.eventId = this.eventId;
+    this.eventConfirmationFilters.eventConfirmationStatuses = eventConfirmationStatuses;
 
-    console.log(eventConfirmationStatuses);
+    this.populateTable(0, this.rowsPerPage, this.sortField, this.sortOrder);
+  }
 
-    this.populateTable(null, null, this.eventConfirmatioSortField, this.sortOrder);
+  filterChangeTable(event:any) {
+    const eventFilters = event.filters;
+    const memberName = eventFilters['membership.member.firstName'][0].value
+    const membershipTypes = eventFilters['membership.membershipType.name'][0].value;
+    const membershipTypeNames = membershipTypes ? membershipTypes.map((filter: any) => filter.name) : null;
+    const updatedDates = eventFilters['updatedAt'][0].value;
+
+    if(this.membershipFilters) {
+      this.membershipFilters.memberFirstName = memberName;
+      this.membershipFilters.membershipTypeNames = membershipTypeNames;
+    }
+    this.eventConfirmationFilters = this.eventConfirmationFilters ?? {} as EventConfirmationFilters;
+    if(this.eventConfirmationFilters) {
+      this.eventConfirmationFilters.updatedDates = updatedDates;
+    }
+
+    this.sortField = "member.firstName";
+    this.sortOrder = 1;
+    this.populateTable(0, this.rowsPerPage, this.sortField, this.sortOrder);
   }
 
   onViewMemberDetails(row: any) {
@@ -135,41 +152,53 @@ export class EventAttendanceListPageComponent implements OnInit {
     });
   }
 
-  private populateTable(pageNo: number | null, pageSize: number | null, sortField: string, sortOrder: number) {
+  clearFilterChangeTable() {
+    this.membershipFilters = {} as MembershipFilters;
+    this.eventConfirmationFilters = {} as EventConfirmationFilters;
+    // this.membershipFilters.membershipStatusNames = this.selectedMembershipStatuses.map((filter: any) => filter.name);
+    this.sortField = "member.firstName";
+    this.sortOrder = 1;
+    this.populateTable(0, this.rowsPerPage, this.sortField, this.sortOrder);
+  }
+
+  // private setMembershipFilters() {
+
+  // }
+
+  private getMembershipTypes() {
+    this.membershipTypeService.getMembershipTypesByOrganizationId(this.organizationId).subscribe(
+      (res) => {
+        this.membershipTypes = res;
+      },
+      (err: any) => {
+        console.log(err);
+      }
+    );
+  }
+
+  private populateTable(pageNo: number, pageSize: number, sortField: string, sortOrder: number) {
     this.loaderService.showLoader(this.router.url, false);
   
     const order = sortOrder == 1 ? 'ASC' : 'DESC';
-    const filters = this.eventConfirmationFilters ?? {} as EventConfirmationFilters;
+    const eventConfirmationFilters = this.eventConfirmationFilters ?? {} as EventConfirmationFilters;
   
     this.eventConfirmationService.getEventConfirmations(
-      this.eventId, pageNo, pageSize, sortField, order, filters
+      this.eventId, null, null, this.eventConfirmatioSortField, 'ASC', eventConfirmationFilters
     ).pipe(
       switchMap((res) => {
         this.eventConfirmations = res.content;
-        console.log(this.eventConfirmations);
         const memberIds = this.eventConfirmations.map(c => c.memberId);
   
-        // Initialize ALL filter fields
-        this.membershipFilters = {
-          memberFirstName: null,
-          memberEmail: null,
-          memberMemberAddressCity: null,
-          memberMemberAddressCountry: null,
-          membershipStatusNames: null,
-          membershipTypeNames: null,
-          roleNames: null,
-          startDates: null,
-          endDates: null,
-          memberIds: memberIds // This is the critical filter
-        };
-  
-        // Fetch ALL memberships (adjust pageSize)
+        this.membershipFilters = this.membershipFilters ?? {} as MembershipFilters;
+
+        this.membershipFilters.memberIds = memberIds;
+
         return this.membershipService.getMembershipsByOrganization(
           this.organizationId,
-          0, // pageNo
-          1000, // pageSize (fetch all records)
-          'member.firstName',
-          'ASC',
+          pageNo,
+          pageSize,
+          sortField,
+          order,
           this.membershipFilters
         ).pipe(
           map(membershipsPage => ({
@@ -180,13 +209,26 @@ export class EventAttendanceListPageComponent implements OnInit {
       })
     ).subscribe(
       ({ confirmations, memberships }) => {
-        console.log('Memberships:', memberships);
         
-        // Verify memberId mapping (adjust property path if needed)
-        this.eventConfirmations = confirmations.map(conf => ({
+        const memberIdSet = new Set<string>(
+          memberships
+            .map(m => m.member?.memberId)
+            .filter((id): id is string => id != null)  // ← type‐guard here
+        );
+        
+        const validConfs = confirmations.filter(
+          conf => conf.memberId != null           // ← rule out undefined
+               && memberIdSet.has(conf.memberId) // ← now memberId is definitely string
+        );
+        
+        this.eventConfirmations = validConfs.map(conf => ({
           ...conf,
-          membership: memberships.find(m => m.member?.memberId === conf.memberId)
+          membership: memberships.find(
+            m => m.member?.memberId === conf.memberId
+          )!
         }));
+
+
         this.setTableData();
   
         this.loading = false;
@@ -213,18 +255,11 @@ export class EventAttendanceListPageComponent implements OnInit {
           columnWidth: '15%'
         },
         {
-          dataField: 'membership.member.memberAddress.city',
-          dataType: 'templateRef',
-          colTemplateRefName: 'addressColumn',
-          headerText: 'Address',
-          headerFilterType: 'combo',
-          sortable: true
-        },
-        {
           dataField: 'membership.membershipType.name',
           dataType: 'string',
           headerFilterType: 'select',
           headerText: 'Membership Type',
+          options: this.membershipTypes,
           sortable: true
         },
         {
@@ -233,28 +268,14 @@ export class EventAttendanceListPageComponent implements OnInit {
           colTemplateRefName: 'eventConfirmationStatusColumn',
           headerText: 'Going?',
         },
-        // {
-        //   dataField: 'membership.role.name',
-        //   dataType: 'string',
-        //   headerFilterType: 'select',
-        //   headerText: 'Role',
-        // },
-        // {
-        //   dataField: 'membership.startDate',
-        //   dataType: 'templateRef',
-        //   colTemplateRefName: 'startDateColumn',
-        //   headerFilterType: 'customDate',
-        //   headerText: 'Membership Start Date',
-        //   sortable: true
-        // },
-        // {
-        //   dataField: 'membership.endDate',
-        //   dataType: 'templateRef',
-        //   colTemplateRefName: 'endDateColumn',
-        //   headerFilterType: 'customDate',
-        //   headerText: 'Membership End Date',
-        //   sortable: true
-        // },
+        {
+          dataField: 'updatedAt',
+          dataType: 'templateRef',
+          colTemplateRefName: 'updatedAtColumn',
+          headerFilterType: 'customDate',
+          headerText: 'Confirmation Date',
+          sortable: true
+        },
         {
           dataField: 'membership.editMembership',
           dataType: 'templateRef',
@@ -266,39 +287,4 @@ export class EventAttendanceListPageComponent implements OnInit {
       sortField: 'membership.member.firstName',
     };
   }
-  
-
- 
-
 }
-
-
-
-
-// private setTableData() {
-//   this.table = {
-//     columns: [
-//       {
-//         dataField: 'memberId',
-//         dataType: 'templateRef',
-//         colTemplateRefName: 'memberIdColumn',
-//         headerFilterType: 'text',
-//         headerText: 'MemberId',
-//         sortable: true,
-//         columnWidth: '15%'
-//       },
-//       {
-//         dataField: 'eventConfirmationStatus',
-//         dataType: 'templateRef',
-//         colTemplateRefName: 'eventConfirmationStatusColumn',
-//         headerFilterType: 'select',
-//         headerText: 'Attendance',
-//         // options: this.eventConfirmationStatusOptions,
-//         sortable: true
-//       },
-      
-//     ],
-//     rows: this.eventConfirmations,
-//     sortField: 'memberId',
-//   };
-// }
