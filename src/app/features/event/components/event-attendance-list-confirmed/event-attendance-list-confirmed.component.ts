@@ -237,12 +237,13 @@ export class EventAttendanceListConfirmedComponent implements OnInit , OnDestroy
         ).pipe(
           map(membershipsPage => ({
             confirmations: this.eventConfirmations,
-            memberships: membershipsPage.content
+            memberships: membershipsPage.content,
+            totalRecords: membershipsPage.totalElements
           }))
         );
       })
     ).subscribe(
-      ({ confirmations, memberships }) => {
+      ({ confirmations, memberships, totalRecords }) => {
         
         const memberIdSet = new Set<string>(
           memberships
@@ -262,6 +263,7 @@ export class EventAttendanceListConfirmedComponent implements OnInit , OnDestroy
           )!
         }));
 
+        this.totalRecords = totalRecords;
 
         this.setTableData();
   

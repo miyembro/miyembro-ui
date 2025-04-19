@@ -270,14 +270,15 @@ export class EventAttendanceListUnconfirmedComponent {
         ).pipe(
           map(membershipsPage => ({
             confirmations: this.eventConfirmations,
-            memberships: membershipsPage.content
+            memberships: membershipsPage.content,
+            totalRecords: membershipsPage.totalElements
           }))
         );
       })
     ).subscribe(
-      ({ confirmations, memberships }) => {
-        
+      ({ confirmations, memberships, totalRecords }) => {
         this.memberships = memberships;
+        this.totalRecords = totalRecords;
 
         this.setTableData();
   
