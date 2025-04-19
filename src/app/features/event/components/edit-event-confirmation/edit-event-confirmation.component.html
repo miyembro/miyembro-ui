@@ -5,14 +5,34 @@
   <div class="w-full flex justify-center mb-2">
     <app-member-details [member]="membership?.member"></app-member-details>
   </div>
-  <div class="card flex flex-col items-center gap-2">
+  <div class="card flex flex-col items-center gap-2 mb-3">
     <p class="pt-1"></p>
     <div class="card flex flex-col items-center gap-2">
       <p class="pt-1">Update Member's Attendance</p>
       <app-event-confirmation-select-button
         [(eventConfirmationStatus)]="eventConfirmationStatus"
-        (eventConfirmationChange)="updateEventConfirmation($event)"
       ></app-event-confirmation-select-button>
     </div>
+  </div>
+  <div class="w-full max-w-lg flex justify-center space-x-4 pt-6">
+    <p-button
+      label="Update"
+      icon="pi pi-check"
+      size="small"
+      [raised]="true"
+      [rounded]="true"
+      styleClass="py-1"
+      (onClick)="onUpdateEventConfirmation()"
+    />
+    <p-button
+      label="Cancel"
+      icon="pi pi-times"
+      size="small"
+      severity="secondary"
+      [raised]="true"
+      [rounded]="true"
+      styleClass="py-1"
+      (onClick)="onCancelUpdateEventConfirmation()"
+    />
   </div>
 </div>

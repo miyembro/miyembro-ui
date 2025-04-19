@@ -13,10 +13,12 @@ import { EventConfirmationService } from 'src/app/core/services/event-confirmati
 import { EventConfirmationResponse } from 'src/app/core/models/event-confirmation-response';
 import { EventConfirmationRequest } from 'src/app/core/models/event-confirmation-request';
 import { AlertService } from 'src/app/core/services/alert.service';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-edit-event-confirmation',
   imports: [
+    ButtonModule,
     CommonModule,
     EventConfirmationSelectButtonComponent,
     MemberDetailsComponent,
@@ -37,9 +39,9 @@ export class EditEventConfirmationComponent implements OnInit {
   constructor(
     private alertService: AlertService,
     private config: DynamicDialogConfig, 
-    private confirmDialogService: ConfirmDialogService,   
     private eventConfirmationService: EventConfirmationService,
     private loaderService: LoaderService,
+    private ref: DynamicDialogRef,
     private membershipService: MembershipService,
     private router: Router
   ) {
@@ -58,7 +60,7 @@ export class EditEventConfirmationComponent implements OnInit {
     this.getEventConfirmationDetails();
   }
 
-  updateEventConfirmation(eventConfirmationStatus: EventConfirmationStatus | undefined) {
+  onUpdateEventConfirmation() {
     this.loaderService.showLoader(this.router.url, false);
 
     const memberId = this.memberId;
@@ -67,7 +69,7 @@ export class EditEventConfirmationComponent implements OnInit {
       eventConfirmationId: this.eventConfirmationResponse?.eventConfirmationId,
       eventId: this.eventConfirmationResponse?.eventId,
       memberId: this.eventConfirmationResponse?.memberId,
-      eventConfirmationStatus: eventConfirmationStatus
+      eventConfirmationStatus: this.eventConfirmationStatus
     }
 
 
@@ -76,6 +78,7 @@ export class EditEventConfirmationComponent implements OnInit {
         this.eventConfirmationResponse = res;
         this.eventConfirmationStatus = this.eventConfirmationResponse.eventConfirmationStatus;
         this.eventConfirmationService.notifyEventConfirmationUpdated();
+        this.onCancelUpdateEventConfirmation();
         this.alertService.success(this.router.url, 'Success', "Attendance succesfully sent");
         this.loaderService.hideLoader(this.router.url);
       },
@@ -84,6 +87,10 @@ export class EditEventConfirmationComponent implements OnInit {
         this.alertService.error(this.router.url, 'Error', err.error.message);
       }
     );
+  }
+
+  onCancelUpdateEventConfirmation() {
+    this.ref.close();
   }
 
   private getEventConfirmationDetails() {
