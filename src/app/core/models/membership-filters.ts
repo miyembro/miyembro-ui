@@ -9,4 +9,5 @@ export interface MembershipFilters {
     startDates: Date [] | null;
     endDates: Date [] | null;
     memberIds?: (string | undefined) [];
+    excludedMemberIds?: (string | undefined) [];
 }

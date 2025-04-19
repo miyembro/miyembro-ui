@@ -4,7 +4,6 @@ import { MembershipResponse } from 'src/app/core/models/membership-response';
 import { MemberDetailsComponent } from 'src/app/features/home/components/member-details/member-details.component';
 import { Router } from '@angular/router';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { ConfirmDialogService } from 'src/app/core/services/confirm-dialog.service';
 import { MembershipService } from 'src/app/core/services/membership.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { EventConfirmationSelectButtonComponent } from '../event-confirmation-select-button/event-confirmation-select-button.component';
@@ -28,7 +27,7 @@ import { ButtonModule } from 'primeng/button';
 })
 export class EditEventConfirmationComponent implements OnInit {
 
-  eventConfirmationId!: string;
+  eventConfirmationId: string | undefined;
   eventConfirmationResponse: EventConfirmationResponse | undefined;
   eventConfirmationStatus: EventConfirmationStatus | undefined;
   eventId!: string;
@@ -58,6 +57,35 @@ export class EditEventConfirmationComponent implements OnInit {
   ngOnInit(): void {
     this.getMembershipDetails();
     this.getEventConfirmationDetails();
+  }
+
+  onAddEventConfirmation() {
+    this.loaderService.showLoader(this.router.url, false);
+    const eventId = this.eventId;
+
+    const memberId = this.memberId;
+
+    const eventAttendanceRequest: EventConfirmationRequest = {
+      eventConfirmationId: null,
+      eventId: eventId,
+      memberId: memberId,
+      eventConfirmationStatus: this.eventConfirmationStatus
+    }
+
+    this.eventConfirmationService.createEventConfirmation(memberId, eventId, eventAttendanceRequest).subscribe(
+      (res) => {
+        this.eventConfirmationResponse = res;
+        this.eventConfirmationStatus = this.eventConfirmationResponse.eventConfirmationStatus;
+        this.eventConfirmationService.notifyEventConfirmationUpdated();
+        this.onCancelUpdateEventConfirmation();
+        this.alertService.success(this.router.url, 'Success', "Attendance succesfully sent");
+        this.loaderService.hideLoader(this.router.url);
+      },
+      (err: any) => {
+        this.loaderService.hideLoader(this.router.url);
+        this.alertService.error(this.router.url, 'Error', err.error.message);
+      }
+    );
   }
 
   onUpdateEventConfirmation() {

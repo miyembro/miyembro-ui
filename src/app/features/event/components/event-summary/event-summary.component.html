@@ -1,8 +1,18 @@
 <div class="pl-3 py-0 sm:py-0 md:py-2 space-x-3">
-  <div *ngIf="event" class="flex items-center space-x-3">
+  <div *ngIf="event" class="flex items-center space-x-3 mt-1">
     <h2 class="text-lg sm:text-lg md:text-xl font-medium text-purple-700">
       Event Attendance:
     </h2>
+    <p-button
+      label="Event Details"
+      size="small"
+      icon="pi pi-calendar"
+      severity="info"
+      [raised]="true"
+      [rounded]="true"
+      styleClass="py-0 text-xs sm:text-xs md:text-sm"
+      (onClick)="onViewEventDetails(event)"
+    />
   </div>
   <div
     *ngIf="event"
@@ -20,17 +30,5 @@
     >
       Date: {{ event.startEventDate | eventDateRange : event.endEventDate }}
     </p>
-  </div>
-  <div *ngIf="event">
-    <p-button
-      label="Event Details"
-      size="small"
-      icon="pi pi-calendar"
-      severity="info"
-      [raised]="true"
-      [rounded]="true"
-      styleClass="py-0 text-xs sm:text-xs md:text-sm"
-      (onClick)="onViewEventDetails(event)"
-    />
   </div>
 </div>

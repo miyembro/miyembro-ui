@@ -1,142 +1,31 @@
 <div class="m-0">
   <app-event-summary [eventId]="eventId"></app-event-summary>
-  <app-table
-    [table]="table"
-    [tableTitle]="title"
-    tableFooterCountTitle="Attendance"
-    [paginator]="true"
-    [(totalRecords)]="totalRecords"
-    [(rowsPerPage)]="rowsPerPage"
-    [(first)]="first"
-    (filterChangeTable)="filterChangeTable($event)"
-    (clearFilterChangeTable)="clearFilterChangeTable()"
-    [loading]="loading"
-    [(sortField)]="sortField"
-    [(sortOrder)]="sortOrder"
-    multiSelectButtonLabel="Multiple Edit"
-    [enableMultiSelectButton]="true"
-    [multiSelectButtonItems]="multiSelectButtonItems"
-    dataKey="eventConfirmationId"
-    [(selectedItems)]="selectedEventConfirmations"
-  >
-    <ng-template #customFilterButton>
-      <p-multiselect
-        [options]="eventConfirmationStatuses"
-        [(ngModel)]="selectedEventConfirmationStatuses"
-        (onChange)="onEventConfirmationStatusChange($event)"
-        placeholder="Filter by member attendance"
-        optionLabel="label"
-        display="chip"
-        styleClass="w-full md:min-w-[320px] multiselect-status"
-        size="small"
-      >
-        <ng-template #header>
-          <div class="font-medium px-3 py-2">Member Attendance Status</div>
-        </ng-template>
-        <ng-template let-status #item>
-          <div class="flex items-center">
-            <p-tag
-              styleClass="py-0 mt-0 text-sm sm:text-sm md:text-base"
-              [rounded]="true"
-              [severity]="
-                status.label === 'Going'
-                  ? 'success'
-                  : status.label === 'Nope'
-                  ? 'danger'
-                  : status.label === 'Maybe'
-                  ? 'info'
-                  : 'secondary'
-              "
-              [value]="status.label"
-            />
-          </div>
-        </ng-template>
-      </p-multiselect>
-    </ng-template>
-    <ng-template #nameColumn let-row>
-      <div style="display: flex; align-items: center; width: '500px'">
-        <p-avatar
-          [image]="
-            row?.membership?.member?.profilePicUrl ||
-            'assets/blank-profile-picture.jpg'
-          "
-          class="mr-2"
-          size="large"
-          shape="circle"
-        />
-        <div>
-          {{
-            row?.membership?.member?.firstName +
-              ' ' +
-              row?.membership?.member?.lastName
-          }}
 
-          <div class="mt-0">
-            <p-tag
-              styleClass="py-0 text-sm sm:text-sm md:text-base"
-              [rounded]="true"
-              [severity]="
-                row?.membership?.membershipStatus?.name === 'Active'
-                  ? 'secondary'
-                  : row?.membership?.membershipStatus?.name === 'Expired'
-                  ? 'secondary'
-                  : 'secondary'
-              "
-              [value]="row?.membership?.membershipStatus?.name"
-            />
-          </div>
-        </div>
-      </div>
-    </ng-template>
-    <ng-template #eventConfirmationStatusColumn let-row>
-      <p-tag
-        styleClass="py-0 text-sm sm:text-sm md:text-base"
-        [rounded]="true"
-        [severity]="
-          row.eventConfirmationStatus === 'YES'
-            ? 'success'
-            : row.eventConfirmationStatus === 'NO'
-            ? 'danger'
-            : 'info'
-        "
-        [value]="
-          row.eventConfirmationStatus === 'YES'
-            ? 'Going'
-            : row.eventConfirmationStatus === 'NO'
-            ? 'Nope'
-            : 'Maybe'
-        "
-      />
-    </ng-template>
-    <ng-template #updatedAtColumn let-row>
-      {{ row.updatedAt | date : 'MMMM d, y, h:mm a' }}
-    </ng-template>
-    <ng-template #editMembershipColumn let-row>
-      <div class="flex space-x-2">
-        <p-button
-          label="Details"
-          size="small"
-          icon="pi pi-user"
-          severity="info"
-          [raised]="true"
-          [rounded]="true"
-          styleClass="py-1 text-xs sm:text-xs md:text-sm
-            "
-          (onClick)="onViewMemberDetails(row)"
-        />
-        <p-button
-          label="Edit Attendance"
-          icon="pi pi-pencil"
-          size="small"
-          severity="help"
-          [raised]="true"
-          [rounded]="true"
-          styleClass="py-1 text-xs sm:text-xs md:text-sm
-        "
-          (onClick)="onEditAttendance(row)"
-        />
-      </div>
-    </ng-template>
-  </app-table>
+  <div class="mt-2 sm:mt-2 md:mt-5 border-b">
+    <p-selectbutton
+      [options]="tabOptions"
+      [(ngModel)]="selectedTab"
+      optionLabel="label"
+      optionValue="value"
+      aria-labelledby="basic"
+    >
+      <ng-template #item let-item>
+        <i [class]="item.icon"></i>
+        <p class="text-sm sm:text-sm md:text-base">{{ item.label }}</p>
+      </ng-template>
+    </p-selectbutton>
+  </div>
+  <div *ngIf="selectedTab === 'confirmed'">
+    <app-event-attendance-list-confirmed
+      [eventId]="eventId"
+      [organizationId]="organizationId"
+    ></app-event-attendance-list-confirmed>
+  </div>
+  <div *ngIf="selectedTab === 'unconfirmed'">
+    <app-event-attendance-list-unconfirmed
+      [eventId]="eventId"
+      [organizationId]="organizationId"
+    ></app-event-attendance-list-unconfirmed>
+  </div>
 </div>
 <router-outlet></router-outlet>
