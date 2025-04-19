@@ -64,19 +64,10 @@
     </p-card>
     <div class="card flex flex-col items-center gap-2">
       <p class="pt-1">Are you going?</p>
-      <p-selectbutton
-        [options]="eventConfirmationStatuses"
-        [(ngModel)]="eventConfirmationStatus"
-        optionLabel="label"
-        optionValue="value"
-        (onChange)="confirmAttendance()"
-        [styleClass]="selectButtonStyleClass"
-        size="small"
-      >
-        <ng-template #item let-item>
-          <i [class]="item.icon"></i><span>{{ item.label }}</span>
-        </ng-template>
-      </p-selectbutton>
+      <app-event-confirmation-select-button
+        [(eventConfirmationStatus)]="eventConfirmationStatus"
+        (eventConfirmationChange)="confirmAttendance($event)"
+      ></app-event-confirmation-select-button>
     </div>
   </div>
 

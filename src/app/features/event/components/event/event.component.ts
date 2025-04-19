@@ -17,6 +17,7 @@ import { SessionService } from 'src/app/core/services/session.service';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { FormsModule } from '@angular/forms';
 import { EventConfirmationRequest } from 'src/app/core/models/event-confirmation-request';
+import { EventConfirmationSelectButtonComponent } from '../event-confirmation-select-button/event-confirmation-select-button.component';
 
 @Component({
   selector: 'app-event',
@@ -25,6 +26,7 @@ import { EventConfirmationRequest } from 'src/app/core/models/event-confirmation
     ButtonModule,
     CardModule,
     CommonModule,
+    EventConfirmationSelectButtonComponent,
     EventDateRangePipe,
     FormsModule,
     HasAddressPipe,
@@ -38,7 +40,6 @@ export class EventComponent implements OnInit, OnChanges{
 
   @Input() event: EventResponse | undefined;
   @Input() isVerticalAlign = false;
-  selectButtonStyleClass = 'event-attendance-buttons';
 
   eventConfirmationResponse: EventConfirmationResponse | undefined;
   eventConfirmationStatus: EventConfirmationStatus | undefined;
@@ -93,7 +94,6 @@ export class EventComponent implements OnInit, OnChanges{
         this.eventConfirmationResponse = res;
         if(this.eventConfirmationResponse) {
           this.eventConfirmationStatus = this.eventConfirmationResponse.eventConfirmationStatus;
-          this.updateSelectButtonStyleClass();
         }
         this.loaderService.hideLoader(this.router.url);
       },
@@ -103,7 +103,7 @@ export class EventComponent implements OnInit, OnChanges{
     );
   }
 
-  confirmAttendance() {
+  confirmAttendance(eventConfirmationStatus: any) {
     if(this.eventConfirmationResponse) {
       this.updateEventConfirmation(this.eventConfirmationStatus)
     } else {
@@ -128,7 +128,6 @@ export class EventComponent implements OnInit, OnChanges{
       (res) => {
         this.eventConfirmationResponse = res;
         this.eventConfirmationStatus = this.eventConfirmationResponse.eventConfirmationStatus;
-        this.updateSelectButtonStyleClass();
         this.eventConfirmationService.notifyEventConfirmationUpdated();
         this.alertService.success(this.router.url, 'Success', "Attendance succesfully sent");
         this.loaderService.hideLoader(this.router.url);
@@ -158,7 +157,6 @@ export class EventComponent implements OnInit, OnChanges{
       (res) => {
         this.eventConfirmationResponse = res;
         this.eventConfirmationStatus = this.eventConfirmationResponse.eventConfirmationStatus;
-        this.updateSelectButtonStyleClass();
         this.eventConfirmationService.notifyEventConfirmationUpdated();
         this.alertService.success(this.router.url, 'Success', "Attendance succesfully sent");
         this.loaderService.hideLoader(this.router.url);
@@ -169,54 +167,5 @@ export class EventComponent implements OnInit, OnChanges{
       }
     );
   }
-
-  private updateSelectButtonStyleClass() {
-    const value = this.eventConfirmationStatus;
-    this.selectButtonStyleClass = 'event-attendance-buttons';
-    switch (value) {
-      case EventConfirmationStatus.YES:
-        this.selectButtonStyleClass = this.selectButtonStyleClass + "-selectbutton-success";
-        break;
-      case EventConfirmationStatus.NO:
-        this.selectButtonStyleClass = this.selectButtonStyleClass + "-selectbutton-danger";
-        break;
-      case EventConfirmationStatus.MAYBE:
-        this.selectButtonStyleClass = this.selectButtonStyleClass + "-selectbutton-info";
-        break;
-      default:
-        this.selectButtonStyleClass = this.selectButtonStyleClass + "";
-        break;
-    }
-  }
   
 }
-
-
-
-
-
-// private updateEventConfirmationStatusButtons() {
-//   this.goingSeverity = 'secondary';
-//   this.maybeSeverity = 'secondary';
-//   this.nopeSeverity = 'secondary';
-//   const status = this.eventConfirmationResponse?.eventConfirmationStatus;
-  
-//   switch (status) {
-//     case EventConfirmationStatus.YES:
-//       this.goingSeverity = 'primary';
-//       break;
-//     case EventConfirmationStatus.MAYBE:
-//       this.maybeSeverity = 'danger';
-//       break;
-//     case EventConfirmationStatus.NO:
-//       this.nopeSeverity = 'info';
-//       break;
-//     default:
-//       {
-//         this.goingSeverity = 'secondary';
-//         this.maybeSeverity = 'secondary';
-//         this.nopeSeverity = 'secondary';
-//       }
-//       break;
-//   }
-// }

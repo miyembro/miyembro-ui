@@ -25,6 +25,8 @@ import { MembershipTypeService } from 'src/app/core/services/membership-type.ser
 import { MembershipType } from 'src/app/core/models/membership-type';
 import { EventComponent } from "../../components/event/event.component";
 import { EventSummaryComponent } from "../../components/event-summary/event-summary.component";
+import { MenuItem } from 'primeng/api';
+import { EditEventConfirmationComponent } from '../../components/edit-event-confirmation/edit-event-confirmation.component';
 
 @Component({
   selector: 'app-event-attendance-list-page',
@@ -58,6 +60,7 @@ export class EventAttendanceListPageComponent implements OnInit , OnDestroy {
   loading = false;
   membershipFilters: MembershipFilters | undefined;
   membershipTypes: MembershipType [] = [];
+  multiSelectButtonItems: MenuItem[] = [];
   organizationId!: string;
   ref: DynamicDialogRef | undefined;
   rowsPerPage = 5;  
@@ -100,7 +103,15 @@ export class EventAttendanceListPageComponent implements OnInit , OnDestroy {
         value: EventConfirmationStatus.MAYBE ,
         icon: 'pi pi-question',
       }
-    ]
+    ];
+    this.multiSelectButtonItems = [
+      {
+          label: 'Edit Attendances',
+          command: () => {
+            this.editAttendances();
+          }
+      }
+    ];
     const pageNo = this.first;
     this.routeSub = this.activatedRoute.paramMap.subscribe(params => {
       this.eventId = params.get('eventId')!;
@@ -118,7 +129,6 @@ export class EventAttendanceListPageComponent implements OnInit , OnDestroy {
       this.eventConfirmationUpdateSubscription.unsubscribe();
     }
   }
-
 
   private subscribeToEventConfirmationUpdates() {
     this.eventConfirmationUpdateSubscription = this.eventConfirmationService.eventConfirmationUpdated$.subscribe(() => {
@@ -162,6 +172,23 @@ export class EventAttendanceListPageComponent implements OnInit , OnDestroy {
     this.populateTable(0, this.rowsPerPage, this.sortField, this.sortOrder);
   }
 
+  onEditAttendance(row: any) {
+    this.ref = this.dialogService.open(EditEventConfirmationComponent, {
+        header: "Edit Member's Attendance",
+        modal: true,
+        contentStyle: { overflow: 'auto' },
+        breakpoints: { '960px': '75vw', '640px': '90vw' },
+        data: { eventId: this.eventId, eventConfirmationId: row.eventConfirmationId , memberId: row.membership.member.memberId, organizationId: this.organizationId },
+        closable: true
+    });
+
+    // this.ref.onClose.subscribe((data: any) => {
+    //     if (data?.eventConfirmation) {
+    //       this.populateTable(0, this.rowsPerPage, this.sortField, this.sortOrder);
+    //     }
+    // });
+  }
+
   onViewMemberDetails(row: any) {
     this.ref = this.dialogService.open(ViewMemberDetailsComponent, {
       header: 'Member Details',
@@ -185,9 +212,10 @@ export class EventAttendanceListPageComponent implements OnInit , OnDestroy {
     this.populateTable(0, this.rowsPerPage, this.sortField, this.sortOrder);
   }
 
-  // private setMembershipFilters() {
 
-  // }
+  private editAttendances() {
+    console.log('dsadasds');
+  }
 
   private getMembershipTypes() {
     this.membershipTypeService.getMembershipTypesByOrganizationId(this.organizationId).subscribe(
@@ -300,7 +328,7 @@ export class EventAttendanceListPageComponent implements OnInit , OnDestroy {
           dataField: 'membership.editMembership',
           dataType: 'templateRef',
           colTemplateRefName: 'editMembershipColumn',
-          headerText: 'Membership Details'
+          headerText: ''
         },
       ],
       rows: this.eventConfirmations,

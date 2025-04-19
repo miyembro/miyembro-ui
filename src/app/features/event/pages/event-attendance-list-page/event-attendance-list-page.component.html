@@ -13,6 +13,9 @@
     [loading]="loading"
     [(sortField)]="sortField"
     [(sortOrder)]="sortOrder"
+    multiSelectButtonLabel="Multiple Edit"
+    [enableMultiSelectButton]="true"
+    [multiSelectButtonItems]="multiSelectButtonItems"
     dataKey="eventConfirmationId"
     [(selectedItems)]="selectedEventConfirmations"
   >
@@ -24,7 +27,7 @@
         placeholder="Filter by member attendance"
         optionLabel="label"
         display="chip"
-        styleClass="w-full md:min-w-[350px] multiselect-status"
+        styleClass="w-full md:min-w-[320px] multiselect-status"
         size="small"
       >
         <ng-template #header>
@@ -120,6 +123,17 @@
           styleClass="py-1 text-xs sm:text-xs md:text-sm
             "
           (onClick)="onViewMemberDetails(row)"
+        />
+        <p-button
+          label="Edit Attendance"
+          icon="pi pi-pencil"
+          size="small"
+          severity="help"
+          [raised]="true"
+          [rounded]="true"
+          styleClass="py-1 text-xs sm:text-xs md:text-sm
+        "
+          (onClick)="onEditAttendance(row)"
         />
       </div>
     </ng-template>

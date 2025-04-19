@@ -1,0 +1,48 @@
+:host ::ng-deep {
+    .event-attendance-buttons-selectbutton-success {
+      .p-togglebutton.p-togglebutton-checked::before {
+        background: var(--p-button-success-background);
+        border: 1px solid var(--p-button-success-border-color);
+        color: var(--p-button-success-color);
+      }
+    }
+    .event-attendance-buttons-selectbutton-danger {
+      .p-togglebutton.p-togglebutton-checked::before {
+        background: var(--p-button-danger-background);
+        border: 1px solid var(--p-button-danger-border-color);
+        color: var(--p-button-danger-color);
+      }
+    }
+    .event-attendance-buttons-selectbutton-info {
+      .p-togglebutton.p-togglebutton-checked::before {
+        background: var(--p-button-info-background);
+        border: 1px solid var(--p-button-info-border-color);
+        color: var(--p-button-info-color);
+      }
+    }
+  }
+  
+  
+  :host ::ng-deep {
+    .event-attendance-buttons-selectbutton-success {
+      .p-togglebutton.p-togglebutton-checked {
+        .p-togglebutton-content {
+          color: white;
+        }
+      }
+    }
+    .event-attendance-buttons-selectbutton-danger {
+      .p-togglebutton.p-togglebutton-checked {
+        .p-togglebutton-content {
+          color: white;
+        }
+      } 
+    }
+    .event-attendance-buttons-selectbutton-info {
+      .p-togglebutton.p-togglebutton-checked {
+        .p-togglebutton-content {
+          color: white;
+        }
+      } 
+    }
+  }

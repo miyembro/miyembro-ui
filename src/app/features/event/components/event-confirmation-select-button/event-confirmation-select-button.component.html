@@ -1,0 +1,13 @@
+<p-selectbutton
+  [options]="eventConfirmationStatuses"
+  [(ngModel)]="eventConfirmationStatus"
+  optionLabel="label"
+  optionValue="value"
+  (onChange)="onChangeAttendance()"
+  [styleClass]="selectButtonStyleClass"
+  size="small"
+>
+  <ng-template #item let-item>
+    <i [class]="item.icon"></i><span>{{ item.label }}</span>
+  </ng-template>
+</p-selectbutton>

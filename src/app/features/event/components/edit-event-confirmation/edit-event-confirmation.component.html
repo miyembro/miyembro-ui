@@ -1,0 +1,18 @@
+<div
+  class="text-sm sm:text-sm md:text-base mt-2 flex flex-col items-center px-4 sm:py-1 md:py-6 space-y-2 sm:space-y-1 md:m:space-y-4 w-[80vw] sm:w-[80vw] md:w-[70vw] lg:w-[50vw] xl:w-[50vw] p-0"
+>
+  <!-- Member Details -->
+  <div class="w-full flex justify-center mb-2">
+    <app-member-details [member]="membership?.member"></app-member-details>
+  </div>
+  <div class="card flex flex-col items-center gap-2">
+    <p class="pt-1"></p>
+    <div class="card flex flex-col items-center gap-2">
+      <p class="pt-1">Update Member's Attendance</p>
+      <app-event-confirmation-select-button
+        [(eventConfirmationStatus)]="eventConfirmationStatus"
+        (eventConfirmationChange)="updateEventConfirmation($event)"
+      ></app-event-confirmation-select-button>
+    </div>
+  </div>
+</div>
