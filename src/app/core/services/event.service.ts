@@ -39,7 +39,7 @@ export class EventService {
     ) as Observable<string>;
   }
 
-  getEvent(eventId: string): Observable<EventResponse> {
+  getEvent(eventId: string | undefined): Observable<EventResponse> {
     return this.http.get(
       `${env.apiUrl}${this.baseUrl}/` + eventId
     ) as Observable<EventResponse>;

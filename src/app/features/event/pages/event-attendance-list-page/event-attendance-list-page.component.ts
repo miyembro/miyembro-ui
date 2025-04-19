@@ -23,6 +23,8 @@ import { EventConfirmationStatus } from 'src/app/core/models/event-confirmation-
 import { FormsModule } from '@angular/forms';
 import { MembershipTypeService } from 'src/app/core/services/membership-type.service';
 import { MembershipType } from 'src/app/core/models/membership-type';
+import { EventComponent } from "../../components/event/event.component";
+import { EventSummaryComponent } from "../../components/event-summary/event-summary.component";
 
 @Component({
   selector: 'app-event-attendance-list-page',
@@ -36,7 +38,9 @@ import { MembershipType } from 'src/app/core/models/membership-type';
     RouterModule,
     TableComponent,
     TagModule,
-  ],
+    EventComponent,
+    EventSummaryComponent
+],
   templateUrl: './event-attendance-list-page.component.html',
   styleUrl: './event-attendance-list-page.component.scss',
   providers: [DialogService]

@@ -55,7 +55,10 @@ export const appRoutes: Route[] = [
           component: EventDetailsPageComponent,
         },
         { path: 'my-events', component: MyEventsPageComponent },
-        { path: 'event-attendance-list/:eventId/:organizationId', component: EventAttendanceListPageComponent }
+        { 
+          path: 'event-attendance-list/:eventId/:organizationId', component: EventAttendanceListPageComponent,
+          
+        }
       ],
       canActivate: [AuthGuard],
     },
