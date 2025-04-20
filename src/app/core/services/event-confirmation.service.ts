@@ -32,6 +32,13 @@ export class EventConfirmationService {
     ) as Observable<EventConfirmationResponse>;
   }
 
+  createEventConfirmations(eventId: string, eventConfirmationRequests: EventConfirmationRequest []): Observable<EventConfirmationResponse []> {
+    return this.http.post<EventConfirmationResponse []>(
+      `${env.apiUrl}${this.baseUrl}/events/${eventId}`,
+      eventConfirmationRequests
+    ) as Observable<EventConfirmationResponse []>;
+  }
+
   getEventConfirmation(organizationId: string | undefined, eventId: string | undefined, memberId: string | undefined): Observable<EventConfirmationResponse> {
     return this.http.get<EventConfirmationResponse>(
       `${env.apiUrl}${this.baseUrl}/organizations/${organizationId}/events/${eventId}/members/${memberId}`
@@ -65,6 +72,13 @@ export class EventConfirmationService {
       `${env.apiUrl}${this.baseUrl}/members/` + memberId + `/eventConfirmations/${eventConfirmationId}`,
       request
     ) as Observable<EventConfirmationResponse>;
+  }
+
+  updateEventConfirmations(eventId: string, eventConfirmationRequests: EventConfirmationRequest []): Observable<EventConfirmationResponse []> {
+    return this.http.put<EventConfirmationResponse []>(
+      `${env.apiUrl}${this.baseUrl}/events/` + eventId,
+      eventConfirmationRequests
+    ) as Observable<EventConfirmationResponse []>;
   }
 
 

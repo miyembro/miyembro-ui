@@ -30,7 +30,19 @@
       [raised]="true"
       [rounded]="true"
       class="mb-2"
-      (onClick)="onUpdateEventConfirmation()"
+      *ngIf="eventConfirmationIds.length !== 0"
+      (onClick)="onUpdateEventConfirmations()"
+    />
+
+    <p-button
+      label="Add"
+      icon="pi pi-check"
+      size="small"
+      [raised]="true"
+      [rounded]="true"
+      class="mb-2"
+      *ngIf="eventConfirmationIds.length === 0"
+      (onClick)="onCreateEventAttendances()"
     />
     <p-button
       label="Cancel"

@@ -14,6 +14,7 @@ import { EventConfirmationStatus } from 'src/app/core/models/event-confirmation-
 import { EventConfirmationSelectButtonComponent } from '../event-confirmation-select-button/event-confirmation-select-button.component';
 import { EventConfirmationResponse } from 'src/app/core/models/event-confirmation-response';
 import { EventConfirmationFilters } from 'src/app/core/models/event-confirmation-filters';
+import { EventConfirmationRequest } from 'src/app/core/models/event-confirmation-request';
 
 @Component({
   selector: 'app-edit-event-confirmations',
@@ -46,17 +47,67 @@ export class EditEventConfirmationsComponent {
     private router: Router
   ) {
     if (config.data) {
-      this.eventConfirmationIds = config.data.eventConfirmationId;
       this.eventId = config.data.eventId;
-      this.memberIds = config.data.memberIds;
       this.organizationId = config.data.organizationId;
+      this.eventConfirmationIds = config.data.eventConfirmationIds;
+      this.memberIds = config.data.memberIds;
       this.getMembershipsDetails();
       this.getEventConfirmationDetails();
     }
   }
 
-  onUpdateEventConfirmation() {
-    console.log("sadfsad");
+
+  onCreateEventAttendances() {
+    this.loaderService.showLoader(this.router.url, false);
+    const eventId = this.eventId;
+    const memberIds = this.memberIds;
+
+    const eventAttendanceRequests: EventConfirmationRequest[] = memberIds.map(memberId => ({
+      eventConfirmationId: null, 
+      eventId: eventId,
+      memberId: memberId,
+      eventConfirmationStatus: this.eventConfirmationStatus
+    }));
+
+
+    this.eventConfirmationService.createEventConfirmations(eventId, eventAttendanceRequests).subscribe(
+      (res) => {
+        this.eventConfirmations = res;
+        console.log(this.eventConfirmations);
+        this.eventConfirmationService.notifyEventConfirmationUpdated();
+        this.onCancelEditEventConfirmation();
+        this.alertService.success(this.router.url, 'Success', "Attendance succesfully sent");
+        this.loaderService.hideLoader(this.router.url);
+      },
+      (err: any) => {
+        this.loaderService.hideLoader(this.router.url);
+        this.alertService.error(this.router.url, 'Error', err.error.message);
+      }
+    );
+  }
+
+  onUpdateEventConfirmations() {
+    const eventConfirmations: EventConfirmationResponse [] = this.eventConfirmations;
+    eventConfirmations.forEach(ec => {
+      ec.eventConfirmationStatus = this.eventConfirmationStatus;
+    });
+    this.loaderService.showLoader(this.router.url, false);
+    const eventId = this.eventId;
+    
+    this.eventConfirmationService.updateEventConfirmations(eventId, eventConfirmations).subscribe(
+      (res) => {
+        this.eventConfirmations = res;
+        console.log(this.eventConfirmations);
+        this.eventConfirmationService.notifyEventConfirmationUpdated();
+        this.onCancelEditEventConfirmation();
+        this.alertService.success(this.router.url, 'Success', "Successfully updated attendances");
+
+        this.loaderService.hideLoader(this.router.url);
+      },
+      (err: any) => {
+        this.loaderService.hideLoader(this.router.url);
+      }
+    );
   }
 
   onCancelEditEventConfirmation() {

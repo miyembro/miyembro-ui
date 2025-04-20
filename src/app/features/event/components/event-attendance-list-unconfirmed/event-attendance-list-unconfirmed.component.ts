@@ -191,17 +191,15 @@ export class EventAttendanceListUnconfirmedComponent {
   } 
 
   private editAttendances() {
-    const eventConfirmationIds = null;
-    const memberIds = this.memberships.map(conf => conf.member.memberId);
-    console.log(eventConfirmationIds);
+    const memberIds = this.selectedMemberships.map(conf => conf.member.memberId);
     console.log(memberIds);
 
     this.ref = this.dialogService.open(EditEventConfirmationsComponent, {
-      header: 'Edit Attendances',
+      header: 'Add Attendances',
       modal: true,
       contentStyle: { overflow: 'auto' },
       breakpoints: { '960px': '75vw', '640px': '90vw' },
-      data: { organizationId: this.organizationId , eventId: this.eventId, eventConfirmationIds: eventConfirmationIds, memberIds: memberIds },
+      data: { organizationId: this.organizationId , eventId: this.eventId, eventConfirmationIds: [], memberIds: memberIds },
       closable: true
     });
   }
