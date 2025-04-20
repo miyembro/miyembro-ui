@@ -8,4 +8,6 @@ export interface EventFilters {
     eventIds?: string [];
     minStartDate?: Date | null;
     maxStartDate?: Date | null;
+    minEndDate?: Date | null;
+    maxEndDate?: Date | null;
 }

@@ -44,7 +44,11 @@ export const appRoutes: Route[] = [
             },
             { 
               path: 'old', 
-              loadComponent: () => import('./features/event/pages/old-events-list/old-events-list.component').then(c => c.OldEventsListComponent) 
+              loadComponent: () => import('./features/event/pages/old-events-list/old-events-list.component').then(c => c.OldEventsListComponent),
+              children: [
+                { path: 'view/:eventId', component: EventDetailsDrawerComponent },
+                { path: 'create/:organizationId', component: EventCreateDrawerComponent },
+              ]
             },
             { path: '', redirectTo: 'active', pathMatch: 'full' }
           ]
