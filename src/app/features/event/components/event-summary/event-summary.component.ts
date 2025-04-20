@@ -7,6 +7,7 @@ import { LoaderService } from 'src/app/core/services/loader.service';
 import { EventResponse } from 'src/app/core/models/event-response';
 import { EventDateRangePipe } from "../../../../shared/pipes/event-date-range.pipe";
 import { ButtonModule } from 'primeng/button';
+import { EventSummaryResponse } from 'src/app/core/models/event-summary-response';
 
 @Component({
   selector: 'app-event-summary',
@@ -22,7 +23,7 @@ export class EventSummaryComponent implements OnChanges {
 
   @Input() eventId: string | undefined;
 
-  event: EventResponse | undefined;
+  event: EventSummaryResponse | undefined;
 
   constructor(
     private activatedRoute: ActivatedRoute, 
@@ -45,7 +46,7 @@ export class EventSummaryComponent implements OnChanges {
 
   private getEventDetails() {
     this.loaderService.showLoader(this.router.url, false);
-    this.eventService.getEvent(this.eventId).subscribe({
+    this.eventService.getEventSummary(this.eventId).subscribe({
       next: (res) => {
         this.event = res;
         if (this.event?.eventPicUrl) {

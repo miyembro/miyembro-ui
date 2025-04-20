@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { EventSummaryResponse } from 'src/app/core/models/event-summary-response';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { Router } from '@angular/router';
-import { DialogService } from 'primeng/dynamicdialog';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { SessionService } from 'src/app/core/services/session.service';
 import { Table } from 'src/app/core/models/table';
@@ -18,6 +18,7 @@ import { EventDetailsDrawerComponent } from "../event-details-drawer/event-detai
 import { RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { MenuItem, MessageService } from 'primeng/api';
+import { EditEventsComponent } from '../../components/edit-events/edit-events.component';
 
 @Component({
   selector: 'app-active-events-list',
@@ -45,6 +46,7 @@ export class ActiveEventsListComponent implements OnInit, OnDestroy {
   loading = false;
   multiSelectButtonItems: MenuItem [] = [];
   onlineOptions: any [] = [];
+  ref: DynamicDialogRef | undefined;
   rowsPerPage = 10;  
   selectedEvents: EventSummaryResponse [] = [];
   sortField = "name";
@@ -68,9 +70,9 @@ export class ActiveEventsListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.multiSelectButtonItems = [
       {
-          label: 'Delete Events',
+          label: 'Edit Events',
           command: () => {
-            this.deleteEvents();
+            this.editEvents();
           }
       }
     ];
@@ -86,8 +88,17 @@ export class ActiveEventsListComponent implements OnInit, OnDestroy {
     }
   }
 
-  private deleteEvents() {
-    console.log('dasdsad');
+  private editEvents() {
+    const organizationId = this.sessionService.organizationId;
+    const eventIds: string [] = this.selectedEvents.map(item => item.eventId);
+    this.ref = this.dialogService.open(EditEventsComponent, {
+      header: 'Edit Events',
+      modal: true,
+      contentStyle: { overflow: 'auto' },
+      breakpoints: { '960px': '75vw', '640px': '90vw' },
+      data: { organizationId: organizationId , eventIds: eventIds },
+      closable: true
+    });
   }
 
   private populateSelectOptions() {
@@ -195,13 +206,6 @@ export class ActiveEventsListComponent implements OnInit, OnDestroy {
     };
   }
 
-  private subscribeToEventUpdates() {
-    this.eventUpdateSubscription = this.eventService.eventUpdated$.subscribe(() => {
-      const pageNo = this.first / this.rowsPerPage;
-      this.populateTable(pageNo, this.rowsPerPage, this.sortField, this.sortOrder);
-    });
-  }
-
   clearFilterChangeTable() {
     this.eventFilters = {} as EventFilters;
     this.sortField = "name";
@@ -270,5 +274,13 @@ export class ActiveEventsListComponent implements OnInit, OnDestroy {
     const pageNo = event.first / event.rowsPerPage;
     this.populateTable(0, event.rowsPerPage, event.sortField, event.sortOrder);
   } 
+
+  private subscribeToEventUpdates() {
+    this.selectedEvents = [];
+    this.eventUpdateSubscription = this.eventService.eventUpdated$.subscribe(() => {
+      const pageNo = this.first / this.rowsPerPage;
+      this.populateTable(pageNo, this.rowsPerPage, this.sortField, this.sortOrder);
+    });
+  }
 
 }

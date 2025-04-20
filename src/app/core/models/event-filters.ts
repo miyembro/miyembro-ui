@@ -5,4 +5,5 @@ export interface EventFilters {
     endDates: Date [] | null;
     eventEventAddressCity: string | null;
     eventEventAddressCountry: string | null;
+    eventIds?: string [];
 }

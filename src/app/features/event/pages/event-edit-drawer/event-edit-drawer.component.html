@@ -2,7 +2,7 @@
   [(visible)]="visible"
   position="right"
   position="full"
-  (onHide)="closeDrawer()"
+  (onHide)="onCloseDrawer()"
 >
   <ng-template pTemplate="headless">
     <div class="flex flex-col h-full miyembro-background">
@@ -11,7 +11,7 @@
         <p-button
           icon="pi pi-arrow-left"
           severity="success"
-          (click)="closeDrawer()"
+          (click)="onCloseDrawer()"
           styleClass="p-button-rounded mr-2"
         ></p-button>
 
@@ -30,7 +30,7 @@
             severity="danger"
             class="mb-2"
             styleClass="text-xs"
-            (onClick)="deleteEvent()"
+            (onClick)="onDeleteEvent($event)"
           />
         </div>
       </div>
@@ -48,7 +48,7 @@
         <div class="mt-auto shrink-0 p-4">
           <div class="flex justify-center space-x-4">
             <p-button
-              (onClick)="cancelUpdateEvent()"
+              (onClick)="onCancelUpdateEvent()"
               severity="secondary"
               [raised]="true"
               size="small"
@@ -59,7 +59,7 @@
             </p-button>
 
             <p-button
-              (onClick)="editEvent()"
+              (onClick)="onEditEvent()"
               severity="success"
               [raised]="true"
               size="small"

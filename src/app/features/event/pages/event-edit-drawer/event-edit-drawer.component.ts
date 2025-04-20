@@ -8,17 +8,16 @@ import { EventService } from 'src/app/core/services/event.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { Subscription } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
-import { BackgroundComponent } from 'src/app/shared/components/background/background.component';
 import { EventFormComponent } from '../../components/event-form/event-form.component';
 import { EventFormType } from 'src/app/core/models/event-form-type';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { emptyEditorValidator } from 'src/app/core/validators/empty-editor-validator';
 import { startDateBeforeEndDateValidator } from 'src/app/core/validators/start-date-before-end-date-validator';
+import { ConfirmDialogService } from 'src/app/core/services/confirm-dialog.service';
 
 @Component({
   selector: 'app-event-edit-drawer',
   imports: [
-    BackgroundComponent,
     ButtonModule,
     CommonModule,
     DrawerModule,
@@ -41,6 +40,7 @@ export class EventEditDrawerComponent implements OnInit, OnDestroy {
   constructor(
     private activatedRoute: ActivatedRoute, 
     private alertService: AlertService,
+    private confirmDialogService: ConfirmDialogService,   
     private eventService: EventService, 
     private formBuilder: FormBuilder,
     private loaderService: LoaderService,
@@ -82,38 +82,36 @@ export class EventEditDrawerComponent implements OnInit, OnDestroy {
     }
   }
 
-  cancelUpdateEvent(){
+  onCancelUpdateEvent(){
     this.location.back();
   }
 
-  closeDrawer() {
+  onCloseDrawer() {
     this.router.navigate(['../../'], { 
       relativeTo: this.activatedRoute,
       queryParamsHandling: 'preserve'
     });
   }
 
-  deleteEvent() {
-    this.loaderService.showLoader(this.router.url, false);
-
-    this.eventService.deleteEventByOrganization(this.event?.organizationId, this.eventId).subscribe(
-      (res) => {
-        console.log(res);
-        this.alertService.success(this.router.url, 'Success', "Succesfully deleted event");
-        this.loaderService.hideLoader(this.router.url);
-        this.eventForm.enable();
-        this.eventService.notifyEventUpdated(); 
-        this.location.back();
+  onDeleteEvent(event: any) {
+    const key = this.router.url;
+    this.confirmDialogService.warning(
+      key,
+      "Are you sure you want to delete this event?", 
+      "Delete Event", 
+      true,
+      "Delete Event",
+      event,
+      () => {
+        this.deleteEvent();
       },
-      (err: any) => {
-        this.eventForm.enable();
-        this.loaderService.hideLoader(this.router.url);
-        this.alertService.error(this.router.url, 'Error', err.error.message);
-      }
+      () => {
+       console.log('sadas');
+      },
     );
   }
 
-  editEvent() {
+  onEditEvent() {
     this.loaderService.showLoader(this.router.url, false);
 
     const eventRequest = { ...this.eventForm.value };
@@ -159,6 +157,26 @@ export class EventEditDrawerComponent implements OnInit, OnDestroy {
       },
       (err: any) => {
         console.log(err);
+        this.eventForm.enable();
+        this.loaderService.hideLoader(this.router.url);
+        this.alertService.error(this.router.url, 'Error', err.error.message);
+      }
+    );
+  }
+
+  private deleteEvent() {
+    this.loaderService.showLoader(this.router.url, false);
+
+    this.eventService.deleteEventByOrganization(this.event?.organizationId, this.eventId).subscribe(
+      (res) => {
+        console.log(res);
+        this.alertService.success(this.router.url, 'Success', "Succesfully deleted event");
+        this.loaderService.hideLoader(this.router.url);
+        this.eventForm.enable();
+        this.eventService.notifyEventUpdated(); 
+        this.location.back();
+      },
+      (err: any) => {
         this.eventForm.enable();
         this.loaderService.hideLoader(this.router.url);
         this.alertService.error(this.router.url, 'Error', err.error.message);

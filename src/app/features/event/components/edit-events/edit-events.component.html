@@ -1,0 +1,39 @@
+<div
+  class="text-sm sm:text-sm md:text-base flex flex-col items-center px-4 sm:py-1 md:py-6 space-y-2 sm:space-y-1 md:m:space-y-4 w-[80vw] sm:w-[80vw] md:w-[70vw] lg:w-[50vw] xl:w-[50vw] p-0"
+>
+  <!-- Member Details -->
+  <div class="w-full flex justify-center">
+    <div>
+      <app-events-summary-list [events]="events"></app-events-summary-list>
+    </div>
+  </div>
+  <div class="card flex flex-col items-center py-5">
+    <p class="text-center mb-4">Delete {{ events.length }} event/s</p>
+  </div>
+
+  <!-- Membership Type Dropdown -->
+  <div class="w-full flex justify-center"></div>
+
+  <!-- Buttons -->
+  <div class="w-full max-w-lg flex justify-center space-x-4">
+    <p-button
+      label="Delete"
+      icon="pi pi-check"
+      size="small"
+      [raised]="true"
+      [rounded]="true"
+      severity="danger"
+      class="mb-2"
+      (onClick)="onDeleteEvents($event)"
+    />
+    <p-button
+      label="Cancel"
+      icon="pi pi-times"
+      size="small"
+      severity="secondary"
+      [raised]="true"
+      [rounded]="true"
+      (onClick)="onCancelEditEvents()"
+    />
+  </div>
+</div>

@@ -1,0 +1,12 @@
+<p-listbox
+  [options]="events"
+  [group]="true"
+  class="w-full md:w-56"
+  scrollHeight="150px"
+>
+  <ng-template let-event #group>
+    <div class="flex items-center">
+      <app-event-summary-details [event]="event"></app-event-summary-details>
+    </div>
+  </ng-template>
+</p-listbox>
