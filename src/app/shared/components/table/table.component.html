@@ -123,6 +123,8 @@
                   [(ngModel)]="
                     selectedValuesDateMap[col.dataField ?? 'default']
                   "
+                  [minDate]="col.minDate"
+                  [maxDate]="col.maxDate"
                   selectionMode="range"
                   styleClass="w-full md:w-56"
                 />

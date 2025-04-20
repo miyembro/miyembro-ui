@@ -6,4 +6,6 @@ export interface EventFilters {
     eventEventAddressCity: string | null;
     eventEventAddressCountry: string | null;
     eventIds?: string [];
+    minStartDate?: Date | null;
+    maxStartDate?: Date | null;
 }

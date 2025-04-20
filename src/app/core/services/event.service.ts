@@ -84,6 +84,40 @@ export class EventService {
     return this.http.post<any>(url, eventFilters, { params }) as Observable<Page<EventSummaryResponse>>;
   }
 
+  getActiveEventsByOrganizationIdPage(organizationId: string | undefined, pageNo: number | null, pageSize: number | null, sortField: string, sortOrder: string, eventFilters: EventFilters | undefined ): Observable<Page<EventSummaryResponse>> {
+    const url = `${env.apiUrl}${this.baseUrl}/page/organizations/${organizationId}/events/active`;
+    let params = null;
+    if(pageNo != null && pageSize != null) {
+      params = new HttpParams()
+        .set('pageNo', pageNo.toString())
+        .set('pageSize', pageSize.toString())
+        .set('sortField', sortField.toString())
+        .set('sortOrder', sortOrder.toString());
+    } else {
+      params = new HttpParams()
+      .set('sortField', sortField.toString())
+      .set('sortOrder', sortOrder.toString());
+    }
+    return this.http.post<any>(url, eventFilters, { params }) as Observable<Page<EventSummaryResponse>>;
+  }
+
+  getOldEventsByOrganizationIdPage(organizationId: string | undefined, pageNo: number | null, pageSize: number | null, sortField: string, sortOrder: string, eventFilters: EventFilters | undefined ): Observable<Page<EventSummaryResponse>> {
+    const url = `${env.apiUrl}${this.baseUrl}/page/organizations/${organizationId}/events/old`;
+    let params = null;
+    if(pageNo != null && pageSize != null) {
+      params = new HttpParams()
+        .set('pageNo', pageNo.toString())
+        .set('pageSize', pageSize.toString())
+        .set('sortField', sortField.toString())
+        .set('sortOrder', sortOrder.toString());
+    } else {
+      params = new HttpParams()
+      .set('sortField', sortField.toString())
+      .set('sortOrder', sortOrder.toString());
+    }
+    return this.http.post<any>(url, eventFilters, { params }) as Observable<Page<EventSummaryResponse>>;
+  }
+
   notifyEventUpdated(): void {
     this.eventUpdatedSource.next();
   }

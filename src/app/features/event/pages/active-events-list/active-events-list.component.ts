@@ -31,7 +31,7 @@ import { EditEventsComponent } from '../../components/edit-events/edit-events.co
     RouterModule,
     TableComponent,
     TagModule,
-],
+  ],
   templateUrl: './active-events-list.component.html',
   styleUrl: './active-events-list.component.scss',
   providers: [DialogService, MessageService]
@@ -86,124 +86,6 @@ export class ActiveEventsListComponent implements OnInit, OnDestroy {
     if (this.eventUpdateSubscription) {
       this.eventUpdateSubscription.unsubscribe();
     }
-  }
-
-  private editEvents() {
-    const organizationId = this.sessionService.organizationId;
-    const eventIds: string [] = this.selectedEvents.map(item => item.eventId);
-    this.ref = this.dialogService.open(EditEventsComponent, {
-      header: 'Edit Events',
-      modal: true,
-      contentStyle: { overflow: 'auto' },
-      breakpoints: { '960px': '75vw', '640px': '90vw' },
-      data: { organizationId: organizationId , eventIds: eventIds },
-      closable: true
-    });
-  }
-
-  private populateSelectOptions() {
-    this.addressOptions = [{
-      dataField: 'eventAddress.city',
-      name: 'City',
-      value: 'eventAddress.city',
-    },
-    {
-      dataField: 'eventAddress.country',
-      name: 'Country',
-      value: 'eventAddress.country',
-    }];
-    this.onlineOptions = [{
-      name: 'Online',
-      value: true,
-    },
-    {
-      name: 'In-person',
-      value: false,
-    }];
-  }
-
-  private populateTable(pageNo: number, pageSize: number, sortField: string, sortOrder: number) {
-    this.loaderService.showLoader(this.router.url, false);
-
-    const session = this.sessionService.getSession();
-    const organizationId = session?.organization?.organizationId;
-    const order = sortOrder == 1 ? 'ASC': 'DESC';
-
-    const filters = this.eventFilters ?? {} as EventFilters
-
-    this.eventService.getEventsByOrganizationIdPage(organizationId, pageNo, pageSize, sortField, order, filters).subscribe(
-      (res) => {
-        this.events = res.content;
-        this.totalRecords = res.totalElements;
-        this.first = pageNo * res.pageable.pageSize;
-        this.dataLoadedTimestamp = Date.now();
-        this.setTableData();
-        this.loading = false;
-        this.loaderService.hideLoader(this.router.url);
-      },
-      (err: any) => {
-        this.loading = false;
-        this.loaderService.hideLoader(this.router.url);
-      }
-    );
-  }
-
-  private setTableData() {
-    this.table = {
-      columns: [
-        {
-          dataField: 'name',
-          dataType: 'templateRef',
-          colTemplateRefName: 'nameColumn',
-          headerFilterType: 'text',
-          headerText: 'Name',
-          sortable: true,
-          columnWidth: '15%'
-        },
-        {
-          dataField: 'isOnline',
-          dataType: 'templateRef',
-          colTemplateRefName: 'isOnlineColumn',
-          headerFilterType: 'select',
-          headerText: 'Online',
-          options: this.onlineOptions,
-          sortable: true
-        },
-        {
-          dataField: 'eventAddress.city',
-          dataType: 'templateRef',
-          colTemplateRefName: 'addressColumn',
-          headerText: 'Address',
-          headerFilterType: 'combo',
-          options: this.addressOptions,
-          sortable: true
-        },
-        {
-          dataField: 'startEventDate',
-          dataType: 'templateRef',
-          colTemplateRefName: 'startEventDateColumn',
-          headerFilterType: 'customDate',
-          headerText: 'Start Date',
-          sortable: true
-        },
-        {
-          dataField: 'endEventDate',
-          dataType: 'templateRef',
-          colTemplateRefName: 'endEventDateColumn',
-          headerFilterType: 'customDate',
-          headerText: 'End Date',
-          sortable: true
-        },
-        {
-          dataField: 'editEvent',
-          dataType: 'templateRef',
-          colTemplateRefName: 'editEventColumn',
-          headerText: 'Details/Edit Event'
-        },
-      ],
-      rows: this.events,
-      sortField: 'member.firstName',
-    };
   }
 
   clearFilterChangeTable() {
@@ -274,6 +156,126 @@ export class ActiveEventsListComponent implements OnInit, OnDestroy {
     const pageNo = event.first / event.rowsPerPage;
     this.populateTable(0, event.rowsPerPage, event.sortField, event.sortOrder);
   } 
+
+  private editEvents() {
+    const organizationId = this.sessionService.organizationId;
+    const eventIds: string [] = this.selectedEvents.map(item => item.eventId);
+    this.ref = this.dialogService.open(EditEventsComponent, {
+      header: 'Edit Events',
+      modal: true,
+      contentStyle: { overflow: 'auto' },
+      breakpoints: { '960px': '75vw', '640px': '90vw' },
+      data: { organizationId: organizationId , eventIds: eventIds },
+      closable: true
+    });
+  }
+
+  private populateSelectOptions() {
+    this.addressOptions = [{
+      dataField: 'eventAddress.city',
+      name: 'City',
+      value: 'eventAddress.city',
+    },
+    {
+      dataField: 'eventAddress.country',
+      name: 'Country',
+      value: 'eventAddress.country',
+    }];
+    this.onlineOptions = [{
+      name: 'Online',
+      value: true,
+    },
+    {
+      name: 'In-person',
+      value: false,
+    }];
+  }
+
+  private populateTable(pageNo: number, pageSize: number, sortField: string, sortOrder: number) {
+    this.loaderService.showLoader(this.router.url, false);
+
+    const session = this.sessionService.getSession();
+    const organizationId = session?.organization?.organizationId;
+    const order = sortOrder == 1 ? 'ASC': 'DESC';
+
+    const filters = this.eventFilters ?? {} as EventFilters
+
+    this.eventService.getActiveEventsByOrganizationIdPage(organizationId, pageNo, pageSize, sortField, order, filters).subscribe(
+      (res) => {
+        this.events = res.content;
+        this.totalRecords = res.totalElements;
+        this.first = pageNo * res.pageable.pageSize;
+        this.dataLoadedTimestamp = Date.now();
+        this.setTableData();
+        this.loading = false;
+        this.loaderService.hideLoader(this.router.url);
+      },
+      (err: any) => {
+        this.loading = false;
+        this.loaderService.hideLoader(this.router.url);
+      }
+    );
+  }
+
+  private setTableData() {
+    this.table = {
+      columns: [
+        {
+          dataField: 'name',
+          dataType: 'templateRef',
+          colTemplateRefName: 'nameColumn',
+          headerFilterType: 'text',
+          headerText: 'Name',
+          sortable: true,
+          columnWidth: '15%'
+        },
+        {
+          dataField: 'isOnline',
+          dataType: 'templateRef',
+          colTemplateRefName: 'isOnlineColumn',
+          headerFilterType: 'select',
+          headerText: 'Online',
+          options: this.onlineOptions,
+          sortable: true
+        },
+        {
+          dataField: 'eventAddress.city',
+          dataType: 'templateRef',
+          colTemplateRefName: 'addressColumn',
+          headerText: 'Address',
+          headerFilterType: 'combo',
+          options: this.addressOptions,
+          sortable: true
+        },
+        {
+          dataField: 'startEventDate',
+          dataType: 'templateRef',
+          colTemplateRefName: 'startEventDateColumn',
+          headerFilterType: 'customDate',
+          headerText: 'Start Date',
+          minDate: new Date(),
+          sortable: true
+        },
+        {
+          dataField: 'endEventDate',
+          dataType: 'templateRef',
+          colTemplateRefName: 'endEventDateColumn',
+          headerFilterType: 'customDate',
+          headerText: 'End Date',
+          minDate: new Date(),
+          sortable: true
+        },
+        {
+          dataField: 'editEvent',
+          dataType: 'templateRef',
+          colTemplateRefName: 'editEventColumn',
+          headerText: 'Details/Edit Event'
+        },
+      ],
+      rows: this.events,
+      sortField: 'member.firstName',
+    };
+  }
 
   private subscribeToEventUpdates() {
     this.selectedEvents = [];
