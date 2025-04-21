@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { DialogService } from 'primeng/dynamicdialog';
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
@@ -15,6 +15,9 @@ import { Subscription } from 'rxjs';
 import { EventAttendanceListConfirmedComponent } from '../../components/event-attendance-list-confirmed/event-attendance-list-confirmed.component';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { EventAttendanceListUnconfirmedComponent } from '../../components/event-attendance-list-unconfirmed/event-attendance-list-unconfirmed.component';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { EventService } from 'src/app/core/services/event.service';
+import { LoaderService } from 'src/app/core/services/loader.service';
 
 @Component({
   selector: 'app-event-attendance-list-page',
@@ -52,13 +55,22 @@ export class EventAttendanceListPageComponent implements OnInit {
   ];
 
   constructor(
-    private activatedRoute: ActivatedRoute
-  ) {}
+    private activatedRoute: ActivatedRoute, 
+    private alertService: AlertService,
+    private eventService: EventService, 
+    private loaderService: LoaderService,
+    private router: Router
+  ) {
+  }
 
   ngOnInit(): void {
     this.routeSub = this.activatedRoute.paramMap.subscribe(params => {
       this.eventId = params.get('eventId')!;
       this.organizationId = params.get('organizationId')!;
     });
+  }
+
+  onViewAttendanceTurnout(event: any)  {
+    this.router.navigate(['graph', this.eventId], { relativeTo: this.activatedRoute });
   }
 }

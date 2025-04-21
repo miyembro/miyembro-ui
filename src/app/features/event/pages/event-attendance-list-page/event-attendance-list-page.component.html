@@ -1,7 +1,15 @@
 <div class="m-0">
   <app-event-summary [eventId]="eventId"></app-event-summary>
-
-  <div class="mt-2 sm:mt-2 md:mt-5 border-b">
+  <p-button
+    icon="pi pi-chart-bar"
+    [raised]="true"
+    severity="success"
+    styleClass="py-1 mt-2"
+    size="small"
+    label="Attendance Turnout"
+    (onClick)="onViewAttendanceTurnout($event)"
+  />
+  <div class="mt-2 sm:mt-2 md:mt-3 border-b">
     <p-selectbutton
       [options]="tabOptions"
       [(ngModel)]="selectedTab"

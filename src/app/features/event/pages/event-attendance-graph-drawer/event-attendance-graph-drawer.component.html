@@ -1,0 +1,10 @@
+<p-drawer
+  [(visible)]="visible"
+  styleClass="w-[90vw] sm:w-[95vw] md:w-[85vw] lg:w-[70vw]"
+  position="right"
+  (onHide)="closeDrawer()"
+>
+  <app-event-attendance-turnout
+    [eventId]="eventId"
+  ></app-event-attendance-turnout>
+</p-drawer>

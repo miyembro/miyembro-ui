@@ -13,6 +13,7 @@ import { EventEditDrawerComponent } from './features/event/pages/event-edit-draw
 import { EventCreateDrawerComponent } from './features/event/pages/event-create-drawer/event-create-drawer.component';
 import { MyEventsPageComponent } from './features/my-events/pages/my-events-page/my-events-page.component';
 import { EventAttendanceListPageComponent } from './features/event/pages/event-attendance-list-page/event-attendance-list-page.component';
+import { EventAttendanceGraphDrawerComponent } from './features/event/pages/event-attendance-graph-drawer/event-attendance-graph-drawer.component';
 
 export const appRoutes: Route[] = [
     {
@@ -67,6 +68,11 @@ export const appRoutes: Route[] = [
               path: 'view/:eventId', 
               component: EventDetailsDrawerComponent 
             },
+            { 
+              path: 'graph/:eventId', 
+              component: EventAttendanceGraphDrawerComponent 
+            },
+
           ]
         },
         // { 
