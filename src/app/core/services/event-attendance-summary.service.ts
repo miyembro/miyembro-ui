@@ -18,7 +18,7 @@ export class EventAttendanceSummaryService {
     
   }
 
-  getEventAttendanceSummaries(eventId: string): Observable<EventAttendanceSummary[]> {
+  getEventAttendanceSummaries(eventId: string | undefined): Observable<EventAttendanceSummary[]> {
     return this.http.get<EventAttendanceSummary[]>(
       `${env.apiUrl}${this.baseUrl}/events/${eventId}`
     );
