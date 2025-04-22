@@ -12,6 +12,7 @@ import { LoaderService } from 'src/app/core/services/loader.service';
 import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
 import { EventAttendanceTurnoutComponent } from "../../components/event-attendance-turnout/event-attendance-turnout.component";
+import { EventSummaryResponse } from 'src/app/core/models/event-summary-response';
 
 @Component({
   selector: 'app-event-attendance-graph-drawer',
@@ -29,6 +30,7 @@ import { EventAttendanceTurnoutComponent } from "../../components/event-attendan
 export class EventAttendanceGraphDrawerComponent {
 
   eventId: string | undefined;
+  event: EventSummaryResponse | undefined;
   visible = true;
 
   private routeSub!: Subscription;
@@ -48,6 +50,7 @@ export class EventAttendanceGraphDrawerComponent {
   ngOnInit() {
     this.routeSub = this.activatedRoute.paramMap.subscribe(params => {
       this.eventId = params.get('eventId')!;
+      this.getEventSummaryDetails();
     });
   } 
 
@@ -55,6 +58,23 @@ export class EventAttendanceGraphDrawerComponent {
     this.router.navigate(['../../'], { 
       relativeTo: this.activatedRoute,
       queryParamsHandling: 'preserve'
+    });
+  }
+
+  private getEventSummaryDetails() {
+    this.loaderService.showLoader(this.router.url, false);
+    this.eventService.getEventSummary(this.eventId).subscribe({
+      next: (res) => {
+        this.event = res;
+        if (this.event?.eventPicUrl) {
+          this.event.eventPicUrl += '?v=' + Date.now();
+        }
+        this.loaderService.hideLoader(this.router.url);
+      },
+      error: (err) => {
+        this.loaderService.hideLoader(this.router.url);
+        this.alertService.error(this.router.url, 'Error', err.error.message);
+      }
     });
   }
 

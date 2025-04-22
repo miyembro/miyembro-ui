@@ -1,3 +1,17 @@
-<div class="card">
-  <p-chart type="bar" [data]="data" [options]="options" class="h-[30rem]" />
+<div class="event-attendance-chart">
+  <div class="w-[90%] sm:w-[90%] md:w-[75%] mx-auto">
+    <p-chart
+      type="bar"
+      [data]="data"
+      [options]="options"
+      class="h-[20rem] w-full"
+    ></p-chart>
+  </div>
+</div>
+<div class="event-attendance-chart">
+  <div class="w-[90%] sm:w-[90%] md:w-[75%] mx-auto pt-2">
+    <app-event-attendance-summary
+      [eventAttendanceSummaries]="eventAttendanceSummaries"
+    ></app-event-attendance-summary>
+  </div>
 </div>

@@ -2,8 +2,16 @@
   [(visible)]="visible"
   position="right"
   styleClass="w-[90vw] sm:w-[95vw] md:w-[85vw] lg:w-[70vw]"
-  [header]="event?.name"
   (onHide)="closeDrawer()"
 >
+  <ng-template #header>
+    <div class="flex items-center gap-2">
+      <p
+        class="text-sm sm:text-sm md:text-base text-surface-700 dark:text-surface-200 font-medium"
+      >
+        {{ event?.name }}
+      </p>
+    </div>
+  </ng-template>
   <app-event [event]="event" [isVerticalAlign]="true"> </app-event>
 </p-drawer>

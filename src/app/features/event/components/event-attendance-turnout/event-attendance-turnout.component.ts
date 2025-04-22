@@ -9,12 +9,14 @@ import { SessionService } from 'src/app/core/services/session.service';
 import { EventAttendanceSummary } from 'src/app/core/models/event-attendance-summary';
 import { ChartModule } from 'primeng/chart';
 import { EventConfirmationColors, EventConfirmationStatus } from 'src/app/core/models/event-confirmation-status.enum';
+import { EventAttendanceSummaryComponent } from '../event-attendance-summary/event-attendance-summary.component';
 
 @Component({
   selector: 'app-event-attendance-turnout',
   imports: [
     ChartModule,
     CommonModule,
+    EventAttendanceSummaryComponent
   ],
   templateUrl: './event-attendance-turnout.component.html',
   styleUrl: './event-attendance-turnout.component.scss',

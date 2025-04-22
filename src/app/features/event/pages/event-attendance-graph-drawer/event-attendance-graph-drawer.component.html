@@ -1,9 +1,18 @@
 <p-drawer
   [(visible)]="visible"
-  styleClass="w-[90vw] sm:w-[95vw] md:w-[65vw] lg:w-[60vw]"
+  styleClass="w-[95vw] sm:w-[95vw] md:w-[65vw] lg:w-[60vw]"
   position="right"
   (onHide)="closeDrawer()"
 >
+  <ng-template #header>
+    <div class="flex items-center gap-2">
+      <p
+        class="text-sm sm:text-sm md:text-base text-surface-700 dark:text-surface-200 font-medium"
+      >
+        Event: {{ event?.name }}
+      </p>
+    </div>
+  </ng-template>
   <app-event-attendance-turnout
     [eventId]="eventId"
   ></app-event-attendance-turnout>

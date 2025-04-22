@@ -1,0 +1,49 @@
+<table
+  class="min-w-full table-auto border border-gray-300 rounded-md overflow-hidden"
+>
+  <thead class="bg-gray-200">
+    <tr>
+      <th class="text-left px-4 py-2">Attendance</th>
+      <th class="text-left px-4 py-2">Number</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor="let group of groupedSummaries">
+      <!-- group header with total -->
+      <tr class="bg-gray-100">
+        <td colspan="2" class="px-4 py-1 font-semibold">
+          {{ group.label }} ({{ group.total }})
+        </td>
+      </tr>
+      <!-- detail rows -->
+      <tr *ngFor="let summary of group.items" class="border-t border-gray-200">
+        <td class="px-4 py-1">
+          <p-tag
+            styleClass="py-0 text-sm"
+            [rounded]="true"
+            [severity]="
+              summary.eventConfirmationStatus === 'YES'
+                ? 'success'
+                : summary.eventConfirmationStatus === 'NO'
+                ? 'danger'
+                : summary.eventConfirmationStatus === 'MAYBE'
+                ? 'info'
+                : 'secondary'
+            "
+            [value]="
+              summary.eventConfirmationStatus === 'YES'
+                ? 'Going'
+                : summary.eventConfirmationStatus === 'NO'
+                ? 'Nope'
+                : summary.eventConfirmationStatus === 'MAYBE'
+                ? 'Maybe'
+                : 'Unconfirmed'
+            "
+          >
+          </p-tag>
+        </td>
+        <td class="px-4 py-1">{{ summary.attendanceNumber }}</td>
+      </tr>
+    </ng-container>
+  </tbody>
+</table>
