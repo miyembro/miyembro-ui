@@ -1,0 +1,21 @@
+<div
+  class="event-item flex min-h-[160px] max-h-[160px] sm:max-h-[160px] md:max-h-[180px] lg:max-h-[200px] cursor-pointer p-4 border border-surface-200 dark:border-surface-700 bg-surface-0 dark:bg-surface-900 rounded shadow-lg dark:shadow-xl"
+>
+  <div class="event-poster w-2/5">
+    <p-skeleton
+      styleClass="rounded w-full h-full object-contain"
+      height="100%"
+    />
+  </div>
+  <div class="event-details w-3/5 pl-3 flex flex-col justify-between h-full">
+    <!-- Name with wrapping -->
+    <div class="event-name flex-grow sm:h-[32px] md:h-[42px]">
+      <p-skeleton styleClass="h-full" height="2rem"></p-skeleton>
+    </div>
+
+    <!-- Dates -->
+    <div class="event-dates flex-grow mt-6 sm:mt-6 md:mt-3">
+      <p-skeleton styleClass="h-full" height="4rem"></p-skeleton>
+    </div>
+  </div>
+</div>

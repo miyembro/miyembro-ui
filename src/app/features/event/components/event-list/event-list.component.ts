@@ -11,6 +11,7 @@ import { EventItemGridComponent } from '../event-item-grid/event-item-grid.compo
 import { EventSummaryResponse } from 'src/app/core/models/event-summary-response';
 import { EventFilters } from 'src/app/core/models/event-filters';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
+import { EventItemGridSkeletonComponent } from "../event-item-grid-skeleton/event-item-grid-skeleton.component";
 
 @Component({
   selector: 'app-event-list',
@@ -20,8 +21,9 @@ import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
     DataViewModule,
     EventItemGridComponent,
     FormsModule,
-    InfiniteScrollDirective
-  ],
+    InfiniteScrollDirective,
+    EventItemGridSkeletonComponent
+],
   templateUrl: './event-list.component.html',
   styleUrl: './event-list.component.scss',
 })
@@ -68,6 +70,10 @@ export class EventListComponent implements OnInit, OnChanges{
     if (changes['filterValue'] && this.filterValue) {
       this.searchEventWithFilter();
     }
+  }
+
+  counterArray(): any[] {
+    return Array(this.calculateDynamicSize());
   }
 
   onClickEvent(event: EventSummaryResponse | undefined) {

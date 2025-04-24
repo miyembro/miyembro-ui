@@ -18,6 +18,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { FormsModule } from '@angular/forms';
 import { EventConfirmationRequest } from 'src/app/core/models/event-confirmation-request';
 import { EventConfirmationSelectButtonComponent } from '../event-confirmation-select-button/event-confirmation-select-button.component';
+import { EventSkeletonComponent } from "../event-skeleton/event-skeleton.component";
 
 @Component({
   selector: 'app-event',
@@ -31,8 +32,9 @@ import { EventConfirmationSelectButtonComponent } from '../event-confirmation-se
     FormsModule,
     HasAddressPipe,
     SelectButtonModule,
-    TagModule
-  ],
+    TagModule,
+    EventSkeletonComponent
+],
   templateUrl: './event.component.html',
   styleUrl: './event.component.scss',
 })
@@ -44,6 +46,7 @@ export class EventComponent implements OnInit, OnChanges{
   eventConfirmationResponse: EventConfirmationResponse | undefined;
   eventConfirmationStatus: EventConfirmationStatus | undefined;
   eventConfirmationStatuses: any [] = [];
+  loading = true;
 
   EventConfirmationStatus = EventConfirmationStatus;
 
@@ -95,9 +98,11 @@ export class EventComponent implements OnInit, OnChanges{
         if(this.eventConfirmationResponse) {
           this.eventConfirmationStatus = this.eventConfirmationResponse.eventConfirmationStatus;
         }
+        this.loading = false;
         this.loaderService.hideLoader(this.router.url);
       },
       (err: any) => {
+        this.loading = false;
         this.loaderService.hideLoader(this.router.url);
       }
     );

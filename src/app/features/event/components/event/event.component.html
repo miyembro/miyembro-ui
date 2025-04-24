@@ -4,6 +4,7 @@
     'md:flex-row md:gap-6': !isVerticalAlign,
     'md:max-w-full': isVerticalAlign
   }"
+  *ngIf="!loading"
 >
   <!-- Event Poster & Details -->
   <div
@@ -16,7 +17,7 @@
   >
     <div class="event-poster flex justify-center">
       <img
-        class="w-full max-w-[350px]"
+        class="w-full h-full max-w-[350px]"
         [src]="event?.eventPicUrl"
         alt="poster"
       />
@@ -90,3 +91,7 @@
     </div>
   </div>
 </div>
+<app-event-skeleton
+  [isVerticalAlign]="isVerticalAlign"
+  *ngIf="loading"
+></app-event-skeleton>

@@ -28,13 +28,17 @@
       </div>
     </ng-template>
   </p-dataview>
-</div>
-
-<!-- <div class="grid grid-cols-12 gap-4" *ngIf="loading">
+  <div class="grid grid-cols-12 gap-4" *ngIf="loading">
     <div
       *ngFor="let i of counterArray(); let first = first"
-      class="col-span-6 sm:col-span-6 md:col-span-4 lg:col-span-2 xl:col-span-2 p-2 h-full"
+      class="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6 xl:col-span-4 2xl:col-span-3"
+      [ngClass]="
+        isFullWidth
+          ? 'col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6 xl:col-span-3 2xl:col-span-2'
+          : 'col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6 xl:col-span-4 2xl:col-span-3'
+      "
     >
-      <app-organization-item-grid-skeleton></app-organization-item-grid-skeleton>
+      <app-event-item-grid-skeleton></app-event-item-grid-skeleton>
     </div>
-  </div> -->
+  </div>
+</div>
