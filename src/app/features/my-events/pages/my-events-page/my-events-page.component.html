@@ -23,7 +23,7 @@
             id="name"
             formControlName="name"
             autocomplete="off"
-            class="w-full h-9 md:h-12"
+            class="w-full h-11 sm:h-11 md:h-12 text-sm sm:text-sm md:text-base"
           />
           <label for="name">Search by name</label>
         </p-floatlabel>
@@ -40,7 +40,8 @@
             dateFormat="yy-mm-dd"
             selectionMode="range"
             [showClear]="true"
-            styleClass="w-full h-9 md:h-12 sm:h-9 md:h-12 text-sm sm:text-sm md:text-base"
+            styleClass="w-full h-11 sm:h-11 md:h-12 text-sm sm:text-sm md:text-base"
+            inputStyleClass="text-sm sm:text-sm md:text-base"
           />
           <label for="dateRange">Filter by Date</label>
         </p-floatlabel>
@@ -56,7 +57,8 @@
               optionLabel="label"
               optionValue="value"
               [showClear]="true"
-              styleClass="w-full h-9 sm:h-9 md:h-12 text-sm sm:text-sm md:text-base"
+              styleClass="w-full h-11 sm:h-11 md:h-12 text-sm sm:text-sm md:text-base"
+              inputStyleClass="text-sm sm:text-sm md:text-base"
               variant="filled"
             />
             <label for="country">Filter by country</label>
@@ -71,7 +73,7 @@
               optionLabel="label"
               optionValue="value"
               [showClear]="true"
-              styleClass="w-full h-9 sm:h-9 md:h-12 text-sm sm:text-sm md:text-base"
+              styleClass="w-full h-11 sm:h-11 md:h-12 text-sm sm:text-sm md:text-base"
               variant="filled"
             />
             <label for="city">Filter by city</label>
@@ -88,7 +90,7 @@
               optionLabel="name"
               optionValue="value"
               [showClear]="true"
-              styleClass="w-full h-11 sm:h-11 md:h-12 text-sm sm:text-sm md:text-base events-online-statuses md:w-80"
+              styleClass="h-11 sm:h-11 md:h-12 text-sm sm:text-sm md:text-base events-online-statuses w-full min-w-65 sm:min-w-65 md:w-full"
             >
               <ng-template let-option #item>
                 <div class="inline-block align-middle p-0 mt-0">
