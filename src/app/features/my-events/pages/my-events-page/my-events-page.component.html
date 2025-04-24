@@ -23,7 +23,7 @@
             id="name"
             formControlName="name"
             autocomplete="off"
-            class="w-full h-9 md:h-11"
+            class="w-full h-9 md:h-12"
           />
           <label for="name">Search by name</label>
         </p-floatlabel>
@@ -40,7 +40,7 @@
             dateFormat="yy-mm-dd"
             selectionMode="range"
             [showClear]="true"
-            styleClass="w-full h-9 md:h-11"
+            styleClass="w-full h-9 md:h-12"
           />
           <label for="dateRange">Filter by Date</label>
         </p-floatlabel>
@@ -55,7 +55,7 @@
               optionLabel="label"
               optionValue="value"
               [showClear]="true"
-              styleClass="w-full h-9 sm:h-9 md:h-11 text-sm sm:text-sm md:text-base"
+              styleClass="w-full h-9 sm:h-9 md:h-12 text-sm sm:text-sm md:text-base"
               variant="filled"
             />
             <label for="country">Filter by country</label>
@@ -70,10 +70,30 @@
               optionLabel="label"
               optionValue="value"
               [showClear]="true"
-              styleClass="w-full h-9 sm:h-9 md:h-11 text-sm sm:text-sm md:text-base"
+              styleClass="w-full h-9 sm:h-9 md:h-12 text-sm sm:text-sm md:text-base"
               variant="filled"
             />
             <label for="city">Filter by city</label>
+          </p-floatlabel>
+        </div>
+        <div class="w-full xs:w-1/2 sm:w-1/2 md:w-56">
+          <p-floatlabel class="w-full md:w-80" variant="in">
+            <p-multiselect
+              id="onlineStatuses"
+              formControlName="onlineStatuses"
+              [options]="onlineOptions"
+              optionLabel="name"
+              optionValue="value"
+              filter
+              styleClass="w-full h-9 sm:h-9 md:h-12 text-sm sm:text-sm md:text-base"
+            >
+              <ng-template let-option #item>
+                <div class="inline-block align-middle p-0">
+                  <span class="p-0">{{ option.name }}</span>
+                </div>
+              </ng-template>
+            </p-multiselect>
+            <label for="onlineStatuses">Filter by type</label>
           </p-floatlabel>
         </div>
       </div>

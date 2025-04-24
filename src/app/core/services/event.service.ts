@@ -118,6 +118,14 @@ export class EventService {
     return this.http.post<any>(url, eventFilters, { params }) as Observable<Page<EventSummaryResponse>>;
   }
 
+  getUniqueEventCities(country: string): Observable<string[]> {
+    return this.http.get(`${env.apiUrl}${this.baseUrl}/countries/` + country + '/cities') as Observable<string []>;
+  }
+
+  getUniqueEventCountries(): Observable<string[]> {
+    return this.http.get(`${env.apiUrl}${this.baseUrl}/countries`) as Observable<string []>;
+  }
+
   notifyEventUpdated(): void {
     this.eventUpdatedSource.next();
   }

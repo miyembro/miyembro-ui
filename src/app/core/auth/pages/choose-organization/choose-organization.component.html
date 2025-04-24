@@ -10,7 +10,7 @@
         [options]="organizations"
         [(ngModel)]="selectedOrganization"
         optionLabel="name"
-        styleClass="w-full min-w-[90vw] md:min-w-[250px] min-h-[60vh] "
+        styleClass="w-full min-w-[90vw] md:min-w-[250px] max-h-[60vh] "
         scrollHeight="50vh"
         [filter]="true"
         (onChange)="onSelectOrganization($event)"
