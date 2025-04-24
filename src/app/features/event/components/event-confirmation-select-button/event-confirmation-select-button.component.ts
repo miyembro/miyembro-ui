@@ -19,7 +19,7 @@ import { Skeleton } from 'primeng/skeleton';
 export class EventConfirmationSelectButtonComponent implements OnInit, OnChanges {
 
   @Input() eventConfirmationStatus: EventConfirmationStatus | undefined; 
-  @Input() loading = true;
+  @Input() loading = false;
   @Output() eventConfirmationStatusChange = new EventEmitter<EventConfirmationStatus>();
   @Output() eventConfirmationChange = new EventEmitter<EventConfirmationStatus>();
 

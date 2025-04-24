@@ -42,6 +42,7 @@ export class OrganizationListComponent implements OnInit{
   @Input() selectedCity: string | null = null;
   @Input() selectedCountry: string | null = null;
 
+  emptyMessage = "";
   hasMore = true;
   layout = 'grid';
   loading = false;

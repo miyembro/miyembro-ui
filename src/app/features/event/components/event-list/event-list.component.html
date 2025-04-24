@@ -7,7 +7,7 @@
   (scrolled)="onScroll()"
   [infiniteScrollContainer]="getScrollContainer()"
 >
-  <p-dataview #dv [value]="events" layout="grid">
+  <p-dataview #dv [value]="events" layout="grid" [emptyMessage]="emptyMessage">
     <ng-template #grid let-events>
       <div class="grid grid-cols-12 gap-3 sm:gap-1 md:gap-3">
         <div

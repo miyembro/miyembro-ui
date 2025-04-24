@@ -37,6 +37,7 @@ export class EventListComponent implements OnInit, OnChanges{
   @Input() selectedCity: string | null = null;
   @Input() selectedCountry: string | null = null;
   
+  emptyMessage = "";
   events: EventSummaryResponse [] = [];
   page = 0; 
   size = 6;
