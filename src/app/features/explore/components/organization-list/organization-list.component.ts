@@ -42,7 +42,7 @@ export class OrganizationListComponent implements OnInit{
   @Input() selectedCity: string | null = null;
   @Input() selectedCountry: string | null = null;
 
-  emptyMessage = "";
+  emptyMessage = " ";
   hasMore = true;
   layout = 'grid';
   loading = false;
@@ -154,6 +154,10 @@ export class OrganizationListComponent implements OnInit{
           this.hasMore = false;  
         } else {
           this.hasMore = true;  
+        }
+
+        if(this.organizations.length == 0) {
+          this.emptyMessage = "No results found";
         }
       },
       (err: any) => {

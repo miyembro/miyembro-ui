@@ -37,7 +37,7 @@ export class EventListComponent implements OnInit, OnChanges{
   @Input() selectedCity: string | null = null;
   @Input() selectedCountry: string | null = null;
   
-  emptyMessage = "";
+  emptyMessage = " ";
   events: EventSummaryResponse [] = [];
   page = 0; 
   size = 6;
@@ -139,6 +139,9 @@ export class EventListComponent implements OnInit, OnChanges{
           this.hasMore = true;  
         }
         this.loading = false;
+        if(this.events.length == 0) {
+          this.emptyMessage = "No results found";
+        }
         this.loaderService.hideLoader(this.router.url);
       },
       (err: any) => {
