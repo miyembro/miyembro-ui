@@ -122,7 +122,7 @@ export class EventListComponent implements OnInit, OnChanges{
     console.log(this.filterValue);
     this.eventFilters = {
       name: this.filterValue ? this.filterValue.name : null,
-      onlineStatuses: this.filterValue ? this.filterValue.onlineStatuses : null,
+      onlineStatuses: this.filterValue && this.filterValue.onlineStatuses && this.filterValue.onlineStatuses.length != 0 ? this.filterValue.onlineStatuses : [true, false],
       eventEventAddressCity: this.filterValue ? this.filterValue.city : null,
       eventEventAddressCountry: this.filterValue ? this.filterValue.country : null,
       startDates: this.filterValue ? this.filterValue.dateRange : null,

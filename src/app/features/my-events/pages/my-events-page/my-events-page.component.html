@@ -40,11 +40,12 @@
             dateFormat="yy-mm-dd"
             selectionMode="range"
             [showClear]="true"
-            styleClass="w-full h-9 md:h-12"
+            styleClass="w-full h-9 md:h-12 sm:h-9 md:h-12 text-sm sm:text-sm md:text-base"
           />
           <label for="dateRange">Filter by Date</label>
         </p-floatlabel>
       </div>
+
       <div class="flex xs:flex-row sm:flex-row gap-4 event-place">
         <div class="w-full xs:w-1/2 sm:w-1/2 md:w-56">
           <p-floatlabel class="w-full md:w-56" variant="in">
@@ -76,25 +77,36 @@
             <label for="city">Filter by city</label>
           </p-floatlabel>
         </div>
-        <div class="w-full xs:w-1/2 sm:w-1/2 md:w-56">
-          <p-floatlabel class="w-full md:w-80" variant="in">
+      </div>
+      <div class="flex xs:flex-row sm:flex-row gap-4 event-place">
+        <div class="w-full xs:w-1/2 sm:w-1/2 md:w-56 p-0">
+          <p-floatlabel variant="in">
             <p-multiselect
               id="onlineStatuses"
               formControlName="onlineStatuses"
               [options]="onlineOptions"
               optionLabel="name"
               optionValue="value"
-              filter
-              styleClass="w-full h-9 sm:h-9 md:h-12 text-sm sm:text-sm md:text-base"
+              [showClear]="true"
+              styleClass="w-full h-11 sm:h-11 md:h-12 text-sm sm:text-sm md:text-base events-online-statuses md:w-80"
             >
               <ng-template let-option #item>
-                <div class="inline-block align-middle p-0">
+                <div class="inline-block align-middle p-0 mt-0">
                   <span class="p-0">{{ option.name }}</span>
                 </div>
               </ng-template>
             </p-multiselect>
             <label for="onlineStatuses">Filter by type</label>
           </p-floatlabel>
+        </div>
+        <div class="w-full xs:w-1/2 sm:w-1/2 md:w-56">
+          <p-button
+            label="Clear Filters"
+            [outlined]="true"
+            icon="pi pi-filter-slash"
+            (click)="clearFilters()"
+            size="small"
+          />
         </div>
       </div>
     </form>

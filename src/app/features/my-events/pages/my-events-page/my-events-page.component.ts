@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EventListComponent } from "../../../event/components/event-list/event-list.component";
-import { Router } from '@angular/router';
-import { AlertService } from 'src/app/core/services/alert.service';
 import { SessionService } from 'src/app/core/services/session.service';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
@@ -11,10 +9,12 @@ import { FloatLabelModule } from "primeng/floatlabel"
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EventService } from 'src/app/core/services/event.service';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-my-events-page',
   imports: [
+    ButtonModule, 
     CommonModule,
     DatePickerModule,
     EventListComponent,
@@ -87,6 +87,16 @@ export class MyEventsPageComponent implements OnInit{
         this.selectedCountry = country;
         this.cities = [];
       }
+    })
+  }
+
+  clearFilters() {
+    this.filterForm.patchValue({
+      name: null,
+      dateRange: null,
+      country: null,
+      city: null,
+      onlineStatuses: null
     })
   }
 
