@@ -22,6 +22,7 @@
       [raised]="true"
       [rounded]="true"
       styleClass="py-1"
+      [disabled]="loading"
       (onClick)="onUpdateEventConfirmation()"
       *ngIf="eventConfirmationId"
     />
@@ -32,6 +33,7 @@
       [raised]="true"
       [rounded]="true"
       styleClass="py-1"
+      [disabled]="loading"
       (onClick)="onAddEventConfirmation()"
       *ngIf="!eventConfirmationId"
     />
