@@ -8,15 +8,17 @@ import { LoaderService } from 'src/app/core/services/loader.service';
 import { SessionService } from 'src/app/core/services/session.service';
 import { EventAttendanceSummary } from 'src/app/core/models/event-attendance-summary';
 import { ChartModule } from 'primeng/chart';
-import { EventConfirmationColors, EventConfirmationStatus } from 'src/app/core/models/event-confirmation-status.enum';
+import { EventConfirmationStatus } from 'src/app/core/models/event-confirmation-status.enum';
 import { EventAttendanceSummaryComponent } from '../event-attendance-summary/event-attendance-summary.component';
+import { Skeleton } from 'primeng/skeleton';
 
 @Component({
   selector: 'app-event-attendance-turnout',
   imports: [
     ChartModule,
     CommonModule,
-    EventAttendanceSummaryComponent
+    EventAttendanceSummaryComponent,
+    Skeleton
   ],
   templateUrl: './event-attendance-turnout.component.html',
   styleUrl: './event-attendance-turnout.component.scss',
@@ -26,6 +28,7 @@ export class EventAttendanceTurnoutComponent implements OnChanges{
   @Input() eventId: string | undefined;
 
   data: any;
+  loading = false;
   options: any;
   eventAttendanceSummaries: EventAttendanceSummary [] = [];
 
@@ -45,15 +48,18 @@ export class EventAttendanceTurnoutComponent implements OnChanges{
   }
 
   private getEventAttendanceSummaries() {
+    this.loading = true;
     this.eventAttendanceSummaryService.getEventAttendanceSummaries(this.eventId).subscribe(
       (res) => {
         console.log(res);
+        this.loading = false;
         this.eventAttendanceSummaries = res;
         this.setData(this.eventAttendanceSummaries);
         this.loaderService.hideLoader(this.router.url);
       },
       (err: any) => {
         console.log(err);
+        this.loading = false;
         this.loaderService.hideLoader(this.router.url);
         this.alertService.error(this.router.url, 'Error', err.error.message);
       }

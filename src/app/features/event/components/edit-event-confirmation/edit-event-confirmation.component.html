@@ -8,14 +8,9 @@
   <div class="card flex flex-col items-center gap-2 mb-3">
     <p class="pt-1"></p>
     <div class="card flex flex-col items-center gap-2">
-      <p class="py-1">
-        <ng-container *ngIf="eventConfirmationId">Update</ng-container>
-        <ng-container *ngIf="!eventConfirmationId">Add</ng-container>
-
-        {{ membership?.member?.firstName }}'s attendance
-      </p>
       <app-event-confirmation-select-button
         [(eventConfirmationStatus)]="eventConfirmationStatus"
+        [loading]="loading"
       ></app-event-confirmation-select-button>
     </div>
   </div>

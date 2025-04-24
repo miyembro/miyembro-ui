@@ -33,6 +33,7 @@ export class EditEventConfirmationComponent implements OnInit {
   eventId!: string;
   memberId!: string;
   membership: MembershipResponse | undefined;
+  loading = false;
   organizationId!: string;
 
   constructor(
@@ -122,6 +123,7 @@ export class EditEventConfirmationComponent implements OnInit {
   }
 
   private getEventConfirmationDetails() {
+    this.loading = true;
     this.loaderService.showLoader(this.router.url, false);
     const eventId = this.eventId;
     const organizationId = this.organizationId;
@@ -133,9 +135,13 @@ export class EditEventConfirmationComponent implements OnInit {
         if(this.eventConfirmationResponse) {
           this.eventConfirmationStatus = this.eventConfirmationResponse.eventConfirmationStatus;
         }
+        this.loading = false;
+
         this.loaderService.hideLoader(this.router.url);
       },
       (err: any) => {
+        this.loading = false;
+
         this.loaderService.hideLoader(this.router.url);
       }
     );

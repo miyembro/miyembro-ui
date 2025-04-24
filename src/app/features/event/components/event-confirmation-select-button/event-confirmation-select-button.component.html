@@ -8,6 +8,8 @@
   size="small"
 >
   <ng-template #item let-item>
-    <i [class]="item.icon"></i><span>{{ item.label }}</span>
+    <i [class]="item.icon" *ngIf="!loading"></i
+    ><span *ngIf="!loading">{{ item.label }}</span>
+    <p-skeleton height="1.5rem" width="4rem" *ngIf="loading"></p-skeleton>
   </ng-template>
 </p-selectbutton>

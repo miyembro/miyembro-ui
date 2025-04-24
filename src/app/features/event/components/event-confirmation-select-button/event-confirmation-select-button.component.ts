@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { EventConfirmationStatus } from 'src/app/core/models/event-confirmation-status.enum';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { FormsModule } from '@angular/forms';
+import { Skeleton } from 'primeng/skeleton';
 
 @Component({
   selector: 'app-event-confirmation-select-button',
@@ -10,6 +11,7 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     FormsModule,
     SelectButtonModule,
+    Skeleton
   ],
   templateUrl: './event-confirmation-select-button.component.html',
   styleUrl: './event-confirmation-select-button.component.scss',
@@ -17,6 +19,7 @@ import { FormsModule } from '@angular/forms';
 export class EventConfirmationSelectButtonComponent implements OnInit, OnChanges {
 
   @Input() eventConfirmationStatus: EventConfirmationStatus | undefined; 
+  @Input() loading = true;
   @Output() eventConfirmationStatusChange = new EventEmitter<EventConfirmationStatus>();
   @Output() eventConfirmationChange = new EventEmitter<EventConfirmationStatus>();
 
