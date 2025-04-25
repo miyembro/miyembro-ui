@@ -1,6 +1,6 @@
 <section class="bg-gray-50 dark:bg-gray-900 login-background min-h-screen">
   <div class="flex items-center justify-center px-6 py-8 mx-auto h-screen">
-    <div class="choose-organization-listbox text-center">
+    <div class="choose-organization-listbox text-center" *ngIf="!loading">
       <h1
         class="text-base mb-5 font-semibold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white"
       >
@@ -22,6 +22,33 @@
           </div>
         </ng-template>
       </p-listbox>
+    </div>
+    <div
+      class="choose-organization-listbox-skeleton text-center"
+      *ngIf="loading"
+    >
+      <p-skeleton
+        width="100%"
+        height="3rem"
+        styleClass="mx-auto mb-5"
+      ></p-skeleton>
+      <p-card
+        styleClass="w-full min-w-[90vw] md:min-w-[250px] max-h-[60vh] mt-2"
+      >
+        <div class="w-[380px]">
+          <div
+            *ngFor="let item of [1, 2, 3, 4, 5]"
+            class="flex items-center gap-2 p-2"
+          >
+            <p-skeleton shape="circle" size="2.5rem"></p-skeleton>
+            <p-skeleton
+              width="100%"
+              height="1.5rem"
+              class="flex-1"
+            ></p-skeleton>
+          </div>
+        </div>
+      </p-card>
     </div>
   </div>
 </section>

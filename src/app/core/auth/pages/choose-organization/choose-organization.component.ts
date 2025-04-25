@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { BackgroundComponent } from "../../../../shared/components/background/background.component";
 import { CardModule } from 'primeng/card';
 import { ListboxModule } from 'primeng/listbox';
 import { OrganizationResponse } from 'src/app/core/models/organization-reponse';
@@ -12,15 +11,23 @@ import { SelectOrganizationLoginRequest } from 'src/app/core/models/select-login
 import { Session } from 'src/app/core/models/session';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { OrganizationService } from 'src/app/core/services/organization.service';
+import { Skeleton } from 'primeng/skeleton';
 
 @Component({
   selector: 'app-choose-organization',
-  imports: [BackgroundComponent, CardModule,  CommonModule, FormsModule, ListboxModule],
+  imports: [
+    CardModule,  
+    CommonModule, 
+    FormsModule, 
+    ListboxModule,
+    Skeleton
+  ],
   templateUrl: './choose-organization.component.html',
   styleUrl: './choose-organization.component.scss'
 })
 export class ChooseOrganizationComponent implements OnInit{
 
+  loading = false;
   loginErrorMessage: string | null = null;
   organizations: OrganizationResponse [] = [];
   selectedOrganization: OrganizationResponse | undefined;
@@ -37,16 +44,7 @@ export class ChooseOrganizationComponent implements OnInit{
   }
   ngOnInit(): void {
     this.session = this.sessionService.getSession();
-    const memberId = this.sessionService.getSession()?.member?.memberId;
-    this.organizationService.getOrganizationsByMemberId(memberId).subscribe(
-      (res) => {
-        this.organizations = res;
-      },
-      (err: any) => {
-        this.loginErrorMessage = err.error.message;
-        console.log(err);
-      }
-    );
+    this.getMemberOrganization();
   }
 
   onSelectOrganization(event: any) {
@@ -67,6 +65,22 @@ export class ChooseOrganizationComponent implements OnInit{
       },
       (err: any) => {
         this.loginErrorMessage = err.error.message;
+      }
+    );
+  }
+
+  private getMemberOrganization() {
+    this.loading = true;
+    const memberId = this.sessionService.getSession()?.member?.memberId;
+    this.organizationService.getOrganizationsByMemberId(memberId).subscribe(
+      (res) => {
+        this.loading = false;
+        this.organizations = res;
+      },
+      (err: any) => {
+        this.loading = false;
+        this.loginErrorMessage = err.error.message;
+        console.log(err);
       }
     );
   }
