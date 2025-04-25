@@ -72,9 +72,8 @@ export class EditOrganizationContactDetailsComponent implements OnInit{
         },
         (err: any) => {
           this.loaderService.hideLoader(this.router.url);
-          this.loginErrorMessage = err.error.message;
+          this.loginErrorMessage = err.error ? err.error.message :   err.message;          
           this.alertService.error(this.router.url, 'Error', this.loginErrorMessage ? this.loginErrorMessage : '');
-
         }
       );
     }
@@ -87,7 +86,7 @@ export class EditOrganizationContactDetailsComponent implements OnInit{
         this.patchForm();
       },
       (err: any) => {
-        this.loginErrorMessage = err.error.message;
+        this.loginErrorMessage = err.error ? err.error.message :   err.message;        
         this.alertService.error(this.router.url, 'Error', this.loginErrorMessage ? this.loginErrorMessage : '');
       }
     );

@@ -65,7 +65,7 @@ export class MyOrganizationComponent implements OnInit{
       },
       (err: any) => {
         this.loading = false;
-        this.loginErrorMessage = err.error.message;
+        this.loginErrorMessage = err.error ? err.error.message :  err.message;      
       }
     );
   }
@@ -78,7 +78,7 @@ export class MyOrganizationComponent implements OnInit{
         this.loading = false;
       },
       (err: any) => {
-        this.loginErrorMessage = err.error.message;
+        this.loginErrorMessage = err.error ? err.error.message :   err.message;        
         this.loading = false;
       }
     );

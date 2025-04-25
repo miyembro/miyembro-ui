@@ -148,7 +148,8 @@ export class EventListComponent implements OnInit, OnChanges{
         console.log(err);
         this.loading = false;
         this.loaderService.hideLoader(this.router.url);
-        this.alertService.error(this.router.url, 'Error', err.error.message);
+        const errorMessage = err.error ? err.error.message : err.message;
+        this.alertService.error(this.router.url, 'Error', errorMessage);
       }
     );
   }

@@ -156,7 +156,7 @@ export class MemberFormComponent implements OnInit, OnChanges{
         this.setFormToPristine();
       },
       (err: any) => {
-        this.loginErrorMessage = err.error.message;
+        this.loginErrorMessage = err.error ? err.error.message :   err.message;      
       }
     );
   }
@@ -171,7 +171,7 @@ export class MemberFormComponent implements OnInit, OnChanges{
         }
       },
       (err: any) => {
-        this.loginErrorMessage = err.error.message;
+        this.loginErrorMessage = err.error ? err.error.message :   err.message;      
       }
     );
   }
@@ -187,7 +187,7 @@ export class MemberFormComponent implements OnInit, OnChanges{
         this.setFormToPristine();
       },
       (err: any) => {
-        this.loginErrorMessage = err.error.message;
+        this.loginErrorMessage = err.error ? err.error.message :   err.message;      
       }
     );
   }
@@ -204,8 +204,7 @@ export class MemberFormComponent implements OnInit, OnChanges{
         this.setFormToPristine();
       },
       (err: any) => {
-        this.loginErrorMessage = err.error.message;
-      }
+        this.loginErrorMessage = err.error ? err.error.message :   err.message;      }
     );
   }
 

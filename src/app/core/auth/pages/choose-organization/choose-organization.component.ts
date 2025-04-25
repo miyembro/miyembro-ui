@@ -64,7 +64,7 @@ export class ChooseOrganizationComponent implements OnInit{
         this.alertService.success('/login', 'Success', 'Succefully Login');
       },
       (err: any) => {
-        this.loginErrorMessage = err.error.message;
+        this.loginErrorMessage = err.error ? err.error.message :   err.message;      
       }
     );
   }
@@ -79,8 +79,7 @@ export class ChooseOrganizationComponent implements OnInit{
       },
       (err: any) => {
         this.loading = false;
-        this.loginErrorMessage = err.error.message;
-        console.log(err);
+        this.loginErrorMessage = err.error ? err.error.message :   err.message;
       }
     );
   }

@@ -49,7 +49,7 @@ export class GoogleLoginComponent implements OnInit {
         this.successFulLogin();
       },
       (err: any) => {
-        this.loginErrorMessage = err.error.message;
+        this.loginErrorMessage = err.error ? err.error.message :   err.message;        
         this.alertService.error('/login', 'Error', err.error.message);
       }
     );

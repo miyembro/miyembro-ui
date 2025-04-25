@@ -77,7 +77,7 @@ updateOrganizationAddress() {
       },
       (err: any) => {
         this.loading = false;
-        this.loginErrorMessage = err.error.message;
+        this.loginErrorMessage = err.error ? err.error.message :   err.message;      
       }
     );
   }
@@ -90,7 +90,7 @@ private getOrganization() {
     },
     (err: any) => {
       this.loading = false;
-      this.loginErrorMessage = err.error.message;
+      this.loginErrorMessage = err.error ? err.error.message :   err.message;    
     }
   );
 }
