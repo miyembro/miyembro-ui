@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { InputGroupModule } from 'primeng/inputgroup';
@@ -12,6 +12,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { AlertComponent } from './shared/components/alert/alert.component';
 import { LoaderComponent } from "./shared/components/loader/loader.component";
 import { ConfirmDialogComponent } from "./shared/components/confirm-dialog/confirm-dialog.component";
+import { SessionTimerService } from './core/services/session-timer.service';
 
 @Component({
   imports: [AlertComponent, ConfirmDialogComponent, FormsModule, ReactiveFormsModule, RouterModule, ButtonModule, InputGroupModule, InputGroupAddonModule, FloatLabelModule, InputTextModule, InputNumberModule, SelectModule, LoaderComponent],
@@ -20,5 +21,6 @@ import { ConfirmDialogComponent } from "./shared/components/confirm-dialog/confi
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
+  
   
 }

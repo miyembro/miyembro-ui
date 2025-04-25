@@ -13,6 +13,8 @@ import { AlertService } from './core/services/alert.service';
 import { provideOAuthClient } from 'angular-oauth2-oidc';
 import { JwtTokenInterceptor } from './core/interceptors/jwt-token.interceptor';
 import { ConfirmDialogService } from './core/services/confirm-dialog.service';
+import { DialogService } from 'primeng/dynamicdialog';
+import { SessionTimerService } from './core/services/session-timer.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -33,10 +35,12 @@ export const appConfig: ApplicationConfig = {
     }),
     provideHttpClient(),
     SessionService,
+    SessionTimerService,
     MessageService,
     AlertService,
     ConfirmDialogService,
     ConfirmationService,
+    DialogService,
     provideHttpClient(withInterceptors([JwtTokenInterceptor])),
   ]
 };

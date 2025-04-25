@@ -33,7 +33,9 @@ import { Table } from 'src/app/core/models/table';
   ],
   templateUrl: './old-events-list.component.html',
   styleUrl: './old-events-list.component.scss',
-  providers: [DialogService, MessageService]
+  providers: [
+    MessageService
+  ]
 })
 export class OldEventsListComponent implements OnInit, OnDestroy {
 

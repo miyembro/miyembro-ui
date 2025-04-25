@@ -15,7 +15,9 @@ import { GoogleRequest } from 'src/app/core/models/google-request';
 import { Session } from 'src/app/core/models/session';
 import { LogoComponent } from "../../../../shared/components/logo/logo.component";
 import { LoaderService } from 'src/app/core/services/loader.service';
+import { SessionTimerService } from 'src/app/core/services/session-timer.service';
 declare const google: any;
+
 
 @Component({
   selector: 'app-login',
@@ -36,6 +38,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private alertService: AlertService,
     private authenticationService: AuthenticationService,
     private loaderService: LoaderService,
+    private sessionTimer: SessionTimerService,
     private router: Router,
     private sessionService: SessionService,
   ) {
@@ -137,6 +140,8 @@ export class LoginComponent implements OnInit, OnDestroy {
       });
     } else {
       this.sessionService.setSession(session);
+      this.sessionTimer.startTimer();
+
       const numberOfJoinedOrganizations: number | undefined = this.sessionService.getSession()?.organizationIdsOfMember?.length;
       if (numberOfJoinedOrganizations && numberOfJoinedOrganizations > 1) {
         this.router.navigate(['/choose-organization']);

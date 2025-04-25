@@ -39,6 +39,11 @@ export class AuthenticationService {
     return this.http.post(`${env.apiUrl}/auth/logout`, {}) as Observable<Session>;
   }
 
+  // auth.service.ts
+  refreshToken(token: string | undefined) {
+    return this.http.post(`${env.apiUrl}${this.baseUrl}/refreshToken`, token) as Observable<Session>;
+  }
+
   register(memberRequest: MemberRequest): Observable<Member> {
     return this.http.post(`${env.apiUrl}/auth/register`, memberRequest) as Observable<Member>;
   }

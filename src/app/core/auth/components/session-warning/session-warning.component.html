@@ -1,0 +1,25 @@
+<div
+  class="text-sm sm:text-sm md:text-base mt-2 flex flex-col items-center px-4 sm:py-1 md:py-6 space-y-2 sm:space-y-1 md:m:space-y-4 w-[80vw] sm:w-[80vw] md:w-[30vw] lg:w-[30vw] xl:w-[30vw] p-0"
+>
+  <!-- Member Details -->
+  <div class="mb-2">
+    <p>Your session will expire in {{ formattedTime }}.</p>
+    <p>Would you like to continue?</p>
+  </div>
+  <div class="w-full max-w-lg flex justify-center space-x-4 pt-6">
+    <p-button
+      label="Continue"
+      (click)="onContinue()"
+      severity="success"
+      [raised]="true"
+      styleClass="p-button-sm"
+    />
+    <p-button
+      label="Log Out"
+      (click)="onLogout()"
+      severity="secondary"
+      [raised]="true"
+      styleClass="p-button-sm"
+    />
+  </div>
+</div>

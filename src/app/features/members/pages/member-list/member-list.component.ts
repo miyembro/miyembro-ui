@@ -52,7 +52,7 @@ import { ViewMemberDetailsComponent } from '../view-member-details/view-member-d
   ],
   templateUrl: './member-list.component.html',
   styleUrl: './member-list.component.scss',
-  providers: [DialogService, MessageService]
+  providers: [MessageService]
 })
 export class MemberListComponent implements OnInit {
 

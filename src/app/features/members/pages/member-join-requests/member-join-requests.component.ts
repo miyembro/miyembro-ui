@@ -41,7 +41,9 @@ import { FormsModule } from '@angular/forms';
   ],
   templateUrl: './member-join-requests.component.html',
   styleUrl: './member-join-requests.component.scss',
-  providers: [DialogService, MessageService]
+  providers: [
+    MessageService
+  ]
 })
 export class MemberJoinRequestsComponent implements OnInit {
 

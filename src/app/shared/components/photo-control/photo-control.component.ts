@@ -12,11 +12,14 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   imports: [ButtonModule, CommonModule, DynamicDialogModule, ToastModule],
   templateUrl: './photo-control.component.html',
   styleUrl: './photo-control.component.scss',
-  providers: [DialogService, MessageService, {
+  providers: [ 
+    MessageService, 
+    {
     provide: NG_VALUE_ACCESSOR,
     multi: true,
     useExisting: forwardRef(() => PhotoControlComponent), 
-  }],
+    }
+  ],
 })
 export class PhotoControlComponent implements OnInit, OnDestroy, ControlValueAccessor{
 

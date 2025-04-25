@@ -39,19 +39,26 @@ export const JwtTokenInterceptor: HttpInterceptorFn = (
 
 
 
-        if (!tokenService.isLoggedIn()) return EMPTY; 
+        // if (!tokenService.isLoggedIn()) return EMPTY; 
 
-        alertService.error(
-          '/login', 
-          'Session Expired', 
-          'Your session has expired. Please log in again.'
-        );
+        // alertService.error(
+        //   '/login', 
+        //   'Session Expired', 
+        //   'Your session has expired. Please log in again.'
+        // );
 
-        loaderService.hideLoader(router.url);
+        // loaderService.hideLoader(router.url);
         
-        tokenService.clearSession();
-        router.navigate(['/login']);
-        return EMPTY; 
+        // tokenService.clearSession();
+        // router.navigate(['/login']);
+        // return EMPTY; 
+        // Skip if session timer already handled it
+        if (tokenService.isLoggedIn()) {
+            tokenService.clearSession();
+            loaderService.hideLoader(router.url);
+            router.navigate(['/login']);
+        }
+        return EMPTY;
       }
       return throwError(() => error); // Propagate other errors
     })

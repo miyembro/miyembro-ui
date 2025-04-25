@@ -39,7 +39,6 @@ import { LoaderService } from 'src/app/core/services/loader.service';
 ],
   templateUrl: './event-attendance-list-page.component.html',
   styleUrl: './event-attendance-list-page.component.scss',
-  providers: [DialogService]
 })
 export class EventAttendanceListPageComponent implements OnInit {
 

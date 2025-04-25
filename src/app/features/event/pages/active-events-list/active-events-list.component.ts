@@ -34,7 +34,9 @@ import { EditEventsComponent } from '../../components/edit-events/edit-events.co
   ],
   templateUrl: './active-events-list.component.html',
   styleUrl: './active-events-list.component.scss',
-  providers: [DialogService, MessageService]
+  providers: [
+    MessageService
+  ]
 })
 export class ActiveEventsListComponent implements OnInit, OnDestroy {
 
