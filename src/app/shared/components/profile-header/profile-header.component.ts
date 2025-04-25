@@ -6,10 +6,19 @@ import { FormsModule } from '@angular/forms';
 import { PhotoControlComponent } from '../photo-control/photo-control.component';
 import { ChipModule } from 'primeng/chip';
 import { ProfileHeaderService } from '../../../core/services/profile-header.service';
+import { Skeleton } from 'primeng/skeleton';
 
 @Component({
   selector: 'app-profile-header',
-  imports: [AvatarGroupModule, AvatarModule, ChipModule, CommonModule, FormsModule, PhotoControlComponent],
+  imports: [
+    AvatarGroupModule, 
+    AvatarModule, 
+    ChipModule, 
+    CommonModule, 
+    FormsModule, 
+    PhotoControlComponent, 
+    Skeleton
+  ],
   templateUrl: './profile-header.component.html',
   styleUrl: './profile-header.component.scss'
 })
@@ -17,6 +26,7 @@ export class ProfileHeaderComponent {
 
   @Input() backgroundImageUrl: string | undefined;
   @Input() isEditAllowed = false;
+  @Input() loading = false;
   @Input() logoUrl: string | undefined;
   @Input() title: string | undefined;
 

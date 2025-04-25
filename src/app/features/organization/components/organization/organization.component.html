@@ -2,6 +2,7 @@
   <app-organization-collapsing-header
     [organization]="organization"
     [isEditAllowed]="isEditAllowed"
+    [loading]="loading"
     ><ng-content></ng-content
   ></app-organization-collapsing-header>
   <p-tabs value="0" styleClass="organizaion-tab-panels" [(value)]="activeTab">
@@ -18,6 +19,7 @@
       <app-organization-about-us
         [organization]="organization"
         [isEditAllowed]="isEditAllowed"
+        [loading]="loading"
       >
       </app-organization-about-us>
       }

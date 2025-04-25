@@ -68,16 +68,13 @@ export class OrganizationDetailsPageComponent implements OnInit {
 
   private getMembershipByMemberIdAndOrganizationId(organization: OrganizationResponse | null) {
     const session = this.sessionService.getSession();
-    const getMembershipRequest: GetMembershipRequest = {
-      organizationId: organization?.organizationId,
-      memberId: session?.member.memberId
-    };
-
     this.membershipService.getMembershipByMemberIdAndOrganizationId(organization?.organizationId, session?.member.memberId).subscribe(
       (res) => {
         this.membership = res;
+        this.loading = false;
       },
       (err: any) => {
+        this.loading = false;
         this.loginErrorMessage = err.error.message;
       }
     );
@@ -85,6 +82,7 @@ export class OrganizationDetailsPageComponent implements OnInit {
 
 
   private getOrganization() {
+    this.loading = true;
     this.organizationService.getMyOrganizationById(this.organizationId).subscribe(
       (res) => {
         this.organization = res;

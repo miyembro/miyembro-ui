@@ -18,6 +18,7 @@ export class CollapsibleHeaderComponent implements OnInit{
 
   @Input() backgroundImageUrl: string | undefined;
   @Input() isEditAllowed = false;
+  @Input() loading = false;
   @Input() logoUrl: string | undefined;
   @Input() title: string | undefined;
   @Output() backgroundImageUrlChange = new EventEmitter<string>(); 

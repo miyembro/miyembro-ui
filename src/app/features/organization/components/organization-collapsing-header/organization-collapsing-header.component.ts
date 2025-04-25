@@ -17,8 +17,9 @@ import { ProfileHeaderService } from 'src/app/core/services/profile-header.servi
 })
 export class OrganizationCollapsingHeaderComponent implements OnInit, OnChanges {
   
-    @Input() organization: OrganizationResponse | null = null;
-    @Input() isEditAllowed = false;
+  @Input() isEditAllowed = false;
+  @Input() loading = false;
+  @Input() organization: OrganizationResponse | null = null;
 
   backgroundImageUrl: string | undefined;
   logoUrl: string | undefined;

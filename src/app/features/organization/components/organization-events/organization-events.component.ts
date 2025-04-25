@@ -25,7 +25,6 @@ export class OrganizationEventsComponent {
   constructor(
     private router: Router,
   ) {
-
   }
 
   goToCreateEvent() {

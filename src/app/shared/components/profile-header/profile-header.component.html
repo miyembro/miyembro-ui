@@ -1,40 +1,37 @@
-<div>
-  <app-photo-control
-    [isEditable]="isEditAllowed"
-    [ngModel]="backgroundImageUrl"
-    height="200"
-    width="851"
-    (ngModelChange)="onBackgroundImageChange($event)"
-    buttonLabel="Update Photo"
-    [isIconButtonOnly]="false"
-    styleClass="w-[100%] h-[200px] md:h-[200px] lg:h-[300px] p-0"
+<app-photo-control
+  *ngIf="!loading"
+  [isEditable]="isEditAllowed"
+  [ngModel]="backgroundImageUrl"
+  height="200"
+  width="851"
+  (ngModelChange)="onBackgroundImageChange($event)"
+  buttonLabel="Update Photo"
+  [isIconButtonOnly]="false"
+  styleClass="w-[100%] h-[200px] md:h-[200px] lg:h-[300px] p-0"
+>
+  <ng-content organization-membership></ng-content>
+  <div
+    organization-logo
+    class="absolute top-1/2 transform -translate-y-1/2 flex items-center gap-4 w-full justify-center sm:justify-start sm:right-4 sm:w-auto organization-badge"
   >
-    <ng-content organization-membership></ng-content>
-    <div
-      organization-logo
-      class="absolute top-1/2 transform -translate-y-1/2 flex items-center gap-4 w-full justify-center sm:justify-start sm:right-4 sm:w-auto organization-badge"
+    <p
+      class="font-[750] text-2xl sm:text-2xl md:text-4xl mix-blend-mode: difference text-white"
+      style="mix-blend-mode: difference"
     >
-      <p
-        class="font-[750] text-2xl sm:text-2xl md:text-4xl mix-blend-mode: difference text-white"
-        style="mix-blend-mode: difference"
-      >
-        {{ title }}
-      </p>
-      <!-- <app-readable-title
-        [imageId]="'photoControlBackground'"
-        styleClass="font-[750] text-4xl sm:text-4xl"
-        [text]="title"
-      ></app-readable-title> -->
-      <app-photo-control
-        [ngModel]="logoUrl"
-        height="200"
-        width="200"
-        [isEditable]="isEditAllowed"
-        [isRound]="true"
-        (ngModelChange)="onLogoChange($event)"
-        styleClass="w-[85px] h-[85px] sm:w-[100px] sm:h-[100px] md:w-[120px] md:h-[120px] lg:w-[150px] lg:h-[150px]"
-      >
-      </app-photo-control>
-    </div>
-  </app-photo-control>
+      {{ title }}
+    </p>
+    <app-photo-control
+      [ngModel]="logoUrl"
+      height="200"
+      width="200"
+      [isEditable]="isEditAllowed"
+      [isRound]="true"
+      (ngModelChange)="onLogoChange($event)"
+      styleClass="w-[85px] h-[85px] sm:w-[100px] sm:h-[100px] md:w-[120px] md:h-[120px] lg:w-[150px] lg:h-[150px]"
+    >
+    </app-photo-control>
+  </div>
+</app-photo-control>
+<div class="w-[100%] h-[200px] md:h-[200px] lg:h-[300px] p-0" *ngIf="loading">
+  <p-skeleton height="100%" width="100%"></p-skeleton>
 </div>

@@ -8,6 +8,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { SessionService } from 'src/app/core/services/session.service';
 import { OrganizationDescriptionComponent } from "../../../../shared/components/organization-description/organization-description.component";
+import { DescriptionSkeletonComponent } from 'src/app/shared/components/description-skeleton/description-skeleton.component';
+import { ContactDetailsSkeletonComponent } from "../../../../shared/components/contact-details-skeleton/contact-details-skeleton.component";
 
 @Component({
   selector: 'app-organization-about-us',
@@ -16,15 +18,18 @@ import { OrganizationDescriptionComponent } from "../../../../shared/components/
     CardModule,
     CommonModule,
     ContactDetailsComponent,
-    OrganizationDescriptionComponent
-  ],
+    DescriptionSkeletonComponent,
+    OrganizationDescriptionComponent,
+    ContactDetailsSkeletonComponent
+],
   templateUrl: './organization-about-us.component.html',
   styleUrl: './organization-about-us.component.scss'
 })
 export class OrganizationAboutUsComponent {
 
-  @Input() organization: OrganizationResponse | null = null;
   @Input() isEditAllowed = false;
+  @Input() loading = false;
+  @Input() organization: OrganizationResponse | null = null;
 
   constructor(
     private router: Router, 

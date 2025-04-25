@@ -29,6 +29,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class MyOrganizationComponent implements OnInit{
 
+  loading = false;
   loginErrorMessage: string | null = null;
   membership: MembershipResponse | null = null;
   organization: OrganizationResponse | null = null;
@@ -37,10 +38,8 @@ export class MyOrganizationComponent implements OnInit{
       private organizationService: OrganizationService,
       private membershipService: MembershipService,
       private sessionService: SessionService,
-  ) {
-    
+  ) { 
   }
-
 
   ngOnInit(): void {
     this.getOrganization();
@@ -52,6 +51,7 @@ export class MyOrganizationComponent implements OnInit{
   }
 
   private getOrganization() {
+    this.loading = true;
     let organizationId;
     if(this.sessionService.getSession()?.organization?.organizationId) {
       organizationId = this.sessionService.getSession()?.organization?.organizationId;
@@ -59,9 +59,12 @@ export class MyOrganizationComponent implements OnInit{
     this.organizationService.getMyOrganizationById(organizationId).subscribe(
       (res) => {
         this.organization = res;
+        this.loading = false;
+
         this.getMembershipByMemberIdAndOrganizationId(this.organization);
       },
       (err: any) => {
+        this.loading = false;
         this.loginErrorMessage = err.error.message;
       }
     );
@@ -69,17 +72,14 @@ export class MyOrganizationComponent implements OnInit{
 
   private getMembershipByMemberIdAndOrganizationId(organization: OrganizationResponse | null) {
     const session = this.sessionService.getSession();
-    const getMembershipRequest: GetMembershipRequest = {
-      organizationId: organization?.organizationId,
-      memberId: session?.member.memberId
-    };
-
     this.membershipService.getMembershipByMemberIdAndOrganizationId(organization?.organizationId, session?.member.memberId).subscribe(
       (res) => {
         this.membership = res;
+        this.loading = false;
       },
       (err: any) => {
         this.loginErrorMessage = err.error.message;
+        this.loading = false;
       }
     );
   }

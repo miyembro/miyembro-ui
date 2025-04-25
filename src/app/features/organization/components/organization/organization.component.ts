@@ -31,17 +31,16 @@ import { MembershipResponse } from 'src/app/core/models/membership-response';
 export class OrganizationComponent implements OnInit {
   
   @Input() isMyOrganization = false;
+  @Input() loading = false;
   @Input() membership: MembershipResponse | null = null;
   @Input() organization: OrganizationResponse | null = null;
 
   activeTab: WritableSignal<string> = signal('0');
-
   isEditAllowed = false;
 
   constructor( 
     private sessionService: SessionService
   ) {
-
   }
 
   ngOnInit(): void {

@@ -1,0 +1,67 @@
+<div class="space-y-6" [ngClass]="{ 'text-sm': textSize === 'small' }">
+  <!-- Address Section Skeleton -->
+  <div>
+    <p-skeleton
+      *ngIf="showTitleHeader"
+      width="20%"
+      height="2rem"
+      styleClass="mb-4"
+    ></p-skeleton>
+    <div class="mt-2 flex items-center">
+      <p-skeleton shape="circle" size="1rem" class="mr-2"></p-skeleton>
+      <p-skeleton width="100%" height="1.5rem" class="flex-1"></p-skeleton>
+    </div>
+  </div>
+
+  <!-- Contact Details Skeleton -->
+  <div>
+    <p-skeleton
+      *ngIf="showTitleHeader"
+      width="25%"
+      height="2rem"
+      styleClass="mb-4"
+    ></p-skeleton>
+    <div class="mt-2 flex items-center">
+      <p-skeleton shape="circle" size="1rem" class="mr-2"></p-skeleton>
+      <p-skeleton width="100%" height="1.5rem" class="flex-1"></p-skeleton>
+    </div>
+    <div class="mt-2 flex items-center">
+      <p-skeleton shape="circle" size="1rem" class="mr-2"></p-skeleton>
+      <p-skeleton width="100%" height="1.5rem" class="flex-1"></p-skeleton>
+    </div>
+    <div class="mt-2 flex items-center">
+      <p-skeleton shape="circle" size="1rem" class="mr-2"></p-skeleton>
+      <p-skeleton width="100%" height="1.5rem" class="flex-1"></p-skeleton>
+    </div>
+  </div>
+
+  <!-- Membership Section Skeleton -->
+  <div *ngIf="showMembership">
+    <p-skeleton
+      *ngIf="showTitleHeader"
+      width="25%"
+      height="2rem"
+      styleClass="mb-4"
+    ></p-skeleton>
+    <div class="mt-2 flex items-center">
+      <p-skeleton shape="circle" size="1rem" class="mr-2"></p-skeleton>
+      <p-skeleton width="100%" height="1.5rem" class="flex-1"></p-skeleton>
+    </div>
+    <div class="mt-2 flex items-center">
+      <p-skeleton shape="circle" size="1rem" class="mr-2"></p-skeleton>
+      <p-skeleton width="100%" height="1.5rem" class="flex-1"></p-skeleton>
+    </div>
+    <div class="mt-2 flex items-center">
+      <p-skeleton shape="circle" size="1rem" class="mr-2"></p-skeleton>
+      <p-skeleton width="100%" height="1.5rem" class="flex-1"></p-skeleton>
+    </div>
+    <div class="mt-2 flex items-center">
+      <p-skeleton shape="circle" size="1rem" class="mr-2"></p-skeleton>
+      <p-skeleton width="100%" height="1.5rem" class="flex-1"></p-skeleton>
+    </div>
+    <div class="mt-2 flex items-center block">
+      <p-skeleton shape="circle" size="1rem" class="mr-2"></p-skeleton>
+      <p-skeleton width="100%" height="1.5rem" class="flex-1"></p-skeleton>
+    </div>
+  </div>
+</div>

@@ -1,8 +1,8 @@
 <p-card
   styleClass="p-3 max-w-full mx-auto my-5 relative organization-description-card"
 >
-  <app-organization-description [organization]="organization">
-    <div class="flex justify-end">
+  <app-organization-description [organization]="organization" *ngIf="!loading">
+    <div class="flex justify-end" *ngIf="!loading">
       <p-button
         *ngIf="isEditAllowed"
         label="Edit"
@@ -14,6 +14,7 @@
       />
     </div>
   </app-organization-description>
+  <app-description-skeleton *ngIf="loading"></app-description-skeleton>
 </p-card>
 <p-card>
   <app-contact-details
@@ -23,6 +24,7 @@
     [showEmail]="true"
     [phoneNumber]="organization?.phoneNumber"
     [websiteUrl]="organization?.websiteUrl"
+    *ngIf="!loading"
   >
     <p-button
       edit-organization-address
@@ -45,4 +47,8 @@
       (click)="goToEditOrganizationContactDetails()"
     />
   </app-contact-details>
+  <app-contact-details-skeleton
+    *ngIf="loading"
+    [showTitleHeader]="true"
+  ></app-contact-details-skeleton>
 </p-card>

@@ -5,7 +5,9 @@ import { OrganizationResponse } from 'src/app/core/models/organization-reponse';
 
 @Component({
   selector: 'app-organization-description',
-  imports: [ButtonModule],
+  imports: [
+    ButtonModule
+  ],
   templateUrl: './organization-description.component.html',
   styleUrl: './organization-description.component.scss'
 })
@@ -13,7 +15,7 @@ export class OrganizationDescriptionComponent implements OnChanges{
 
   @Input() organization: OrganizationResponse | null = null;
   
-  safeDescription: SafeHtml | null = null;
+  safeDescription: any = null;
 
   constructor(
     private sanitizer: DomSanitizer,
