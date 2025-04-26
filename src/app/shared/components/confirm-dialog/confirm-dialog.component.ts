@@ -40,7 +40,7 @@ export class ConfirmDialogComponent implements OnInit, OnDestroy{
             closable: true,
             closeOnEscape: true,
             icon: 'pi ' + confirmDialogOptions.icon,
-            rejectButtonProps: {
+            rejectButtonProps:  {
                 label: 'Cancel',
                 severity: 'secondary',
                 size: 'small',
@@ -52,8 +52,8 @@ export class ConfirmDialogComponent implements OnInit, OnDestroy{
                 size: 'small',
                 raised: true
             },
-            accept: confirmDialogOptions.accept,
-            reject: confirmDialogOptions.reject
+            accept: confirmDialogOptions.accept == null ? null: confirmDialogOptions.accept,
+            reject: confirmDialogOptions.reject == null ? null :confirmDialogOptions.reject
         });
         });
     }

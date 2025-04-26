@@ -17,8 +17,8 @@ export class ConfirmDialogService {
       return this.confirmDialogSubject.asObservable();
     }
   
-    info(key: string, message: string, header: string, closable: boolean, acceptButtonLabel: string, event: Event, accept: any, reject: any) {
-      this.setConfirmDialog({ key: key, type: 'info', message: message, header: header, icon: 'pi-info-circle', closable: closable, acceptButtonLabel: acceptButtonLabel, event: event, accept: accept, reject: reject });
+    info(key: string, message: string, header: string, closable: boolean, acceptButtonLabel: string, accept: any) {
+      this.setConfirmDialog({ key: key, type: 'info', message: message, header: header, icon: 'pi-info-circle', closable: closable, acceptButtonLabel: acceptButtonLabel, accept: null });
     }
   
     save(key: string, message: string, header: string, closable: boolean, acceptButtonLabel: string, event: Event, accept: any, reject: any) {

@@ -19,6 +19,13 @@ export class MemberExportService {
     
   }
 
+  exportActiveMembers(organizationId: string | undefined): Observable<Blob> {
+    const url = `${env.apiUrl}${this.baseUrl}/organizations/${organizationId}/members/excel/active`;
+    return this.http.post(url, null, {
+      responseType: 'blob'
+    });
+  }
+
   exportAllMembers(organizationId: string | undefined): Observable<Blob> {
     const url = `${env.apiUrl}${this.baseUrl}/organizations/${organizationId}/members/excel/all`;
     return this.http.post(url, null, {
@@ -45,6 +52,13 @@ export class MemberExportService {
 
     return this.http.post(url, membershipFilters, {
       params: params,
+      responseType: 'blob'
+    });
+  }
+
+  exportSelectedMembers(organizationId: string | undefined, memberIds: string []): Observable<Blob> {
+    const url = `${env.apiUrl}${this.baseUrl}/organizations/${organizationId}/members/excel/selected`;
+    return this.http.post(url, memberIds, {
       responseType: 'blob'
     });
   }

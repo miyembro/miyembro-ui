@@ -33,6 +33,7 @@ import { TagModule } from 'primeng/tag';
 import { ViewMemberDetailsComponent } from '../view-member-details/view-member-details.component';
 import { MemberExportService } from 'src/app/core/services/member-export.service';
 import { SplitButtonModule } from 'primeng/splitbutton';
+import { ConfirmDialogService } from 'src/app/core/services/confirm-dialog.service';
 
 @Component({
   selector: 'app-member-list',
@@ -83,6 +84,7 @@ export class MemberListComponent implements OnInit {
   session: Session | null = null;
 
   constructor(
+    private confirmDialogService: ConfirmDialogService,   
     private dialogService: DialogService,
     private loaderService: LoaderService,
     private memberExportService: MemberExportService,
@@ -108,17 +110,31 @@ export class MemberListComponent implements OnInit {
     }];
     this.exportItems = [
       {
-        label: 'Export Filtered View',
+        label: 'Filtered View',
         icon: 'pi pi-people',
         command: () => {
             this.exportFilteredMembers();
         },
       },
       {
-        label: 'Export All Members',
+        label: 'All Members',
         icon: 'pi pi-people',
         command: () => {
           this.exportAllMembers();
+        },
+      },
+      {
+        label: 'Active Members',
+        icon: 'pi pi-people',
+        command: () => {
+          this.exportActiveMembers();
+        },
+      },
+      {
+        label: 'Selected Members',
+        icon: 'pi pi-people',
+        command: () => {
+          this.checkSelectedBeforeExport();
         },
       },
     ]
@@ -229,6 +245,24 @@ export class MemberListComponent implements OnInit {
     this.populateTable(0, event.rowsPerPage, event.sortField, event.sortOrder);
   } 
 
+  private checkSelectedBeforeExport() {
+    if(this.selectedMemberships.length == 0) {
+      const key = this.router.url;
+      this.confirmDialogService.info(
+        key,
+        "Please select a member before exporting", 
+        "Export Selected Members", 
+        true,
+        "Ok",
+        () => {
+          console.log('sadas');
+         },
+      );
+    } else {
+      this.exportSelectedMembers();
+    }
+  }
+
   private editMemberships() {
     const organizationId = this.sessionService.organizationId;
     this.ref = this.dialogService.open(EditMultipleMembershipsComponent, {
@@ -248,7 +282,42 @@ export class MemberListComponent implements OnInit {
     });
   }
 
+  private exportActiveMembers() {
+    this.loading = true;
+    this.loaderService.showLoader(this.router.url, false);
+
+    const session = this.sessionService.getSession();
+    const organizationId = session?.organization?.organizationId;
+
+    this.memberExportService.exportActiveMembers(organizationId).subscribe(
+      blob => {
+      // Create a URL for the blob
+      const url = window.URL.createObjectURL(blob);
+      
+      // Create a temporary anchor element
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Active Members.xlsx';
+      
+      // Trigger the download
+      document.body.appendChild(a);
+      a.click();
+      
+      // Cleanup
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+      this.loading = false;
+      this.loaderService.hideLoader(this.router.url);
+    }, 
+    (err: any) => {
+      console.log(err);
+      this.loading = false;
+      this.loaderService.hideLoader(this.router.url);
+    });
+  }
+
   private exportAllMembers() {
+
     this.loading = true;
     this.loaderService.showLoader(this.router.url, false);
 
@@ -299,6 +368,42 @@ export class MemberListComponent implements OnInit {
       const a = document.createElement('a');
       a.href = url;
       a.download = 'Filtered Members.xlsx';
+      
+      // Trigger the download
+      document.body.appendChild(a);
+      a.click();
+      
+      // Cleanup
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+      this.loading = false;
+      this.loaderService.hideLoader(this.router.url);
+    }, 
+    (err: any) => {
+      console.log(err);
+      this.loading = false;
+      this.loaderService.hideLoader(this.router.url);
+    });
+  }
+
+  private exportSelectedMembers() {
+    this.loading = true;
+    this.loaderService.showLoader(this.router.url, false);
+
+    const session = this.sessionService.getSession();
+    const organizationId = session?.organization?.organizationId;
+
+    const memberIds: string [] = this.selectedMemberships.map(membership => membership.member.memberId);
+
+    this.memberExportService.exportSelectedMembers(organizationId, memberIds).subscribe(
+      blob => {
+      // Create a URL for the blob
+      const url = window.URL.createObjectURL(blob);
+      
+      // Create a temporary anchor element
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Selected Members.xlsx';
       
       // Trigger the download
       document.body.appendChild(a);

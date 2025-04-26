@@ -11,6 +11,6 @@ export interface ConfirmDialogOptions {
     acceptButtonSeverity?: string;
     reject?: any;
     rejectButtonSeverity?: string;
-    event?: Event
+    event?: Event | null | undefined
   }
   
