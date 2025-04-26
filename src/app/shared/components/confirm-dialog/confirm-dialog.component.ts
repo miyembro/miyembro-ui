@@ -53,7 +53,8 @@ export class ConfirmDialogComponent implements OnInit, OnDestroy{
                 raised: true
             },
             accept: confirmDialogOptions.accept == null ? null: confirmDialogOptions.accept,
-            reject: confirmDialogOptions.reject == null ? null :confirmDialogOptions.reject
+            reject: confirmDialogOptions.reject == null ? null :confirmDialogOptions.reject,
+            rejectVisible: confirmDialogOptions.reject != null // Add this line
         });
         });
     }
