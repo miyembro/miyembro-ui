@@ -9,6 +9,8 @@ import { EventAttendanceSummaryService } from 'src/app/core/services/event-atten
 import { SessionService } from 'src/app/core/services/session.service';
 import { ButtonModule } from 'primeng/button';
 import { EventAttendanceSummaryResponse } from 'src/app/core/models/event-attendance-summary-response';
+import { LoaderService } from 'src/app/core/services/loader.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-events-attendance-summaries',
@@ -29,6 +31,8 @@ export class EventsAttendanceSummariesComponent implements OnInit {
 
   eventAttendanceSummaryResponses: EventAttendanceSummaryResponse[] = [];
   eventsAttendanceSummariesForm: FormGroup;
+  loaded = false;
+  loading = false;
 
   data: any;
   options: any;
@@ -38,6 +42,8 @@ export class EventsAttendanceSummariesComponent implements OnInit {
   constructor(
     private eventAttendanceSummaryService: EventAttendanceSummaryService,
     private formBuilder: FormBuilder,
+    private loaderService: LoaderService,
+    private router: Router,
     private sessionService: SessionService,
   ) {
     this.eventsAttendanceSummariesForm = this.formBuilder.group({
@@ -50,6 +56,8 @@ export class EventsAttendanceSummariesComponent implements OnInit {
   }
 
   onShowGraph() {
+    this.loading = true;
+    this.loaderService.showLoader(this.router.url, false);
     const dateRange: Date[] = this.eventsAttendanceSummariesForm.get('startDate')?.value;
 
     if (!dateRange || dateRange.length !== 2) {
@@ -65,8 +73,15 @@ export class EventsAttendanceSummariesComponent implements OnInit {
         next: (summaries) => {
           this.eventAttendanceSummaryResponses = summaries;
           this.updateChartData(summaries);
+          this.loading = false;
+          this.loaderService.hideLoader(this.router.url);
+          this.loaded = true;
         },
-        error: (err) => console.error('Error fetching events:', err)
+        error: (err) => {
+          console.error('Error fetching events:', err);
+          this.loading = false;
+          this.loaderService.hideLoader(this.router.url);
+        }
       });
   }
 
@@ -82,8 +97,8 @@ export class EventsAttendanceSummariesComponent implements OnInit {
     this.data = {
       labels: [],
       datasets: [
-        { label: 'Going (Yes)', backgroundColor: docStyle.getPropertyValue('--p-green-700'), borderColor: docStyle.getPropertyValue('--p-green-700'), borderWidth: 1, data: [] },
-        { label: 'Not Going (No)', backgroundColor: docStyle.getPropertyValue('--p-red-700'), borderColor: docStyle.getPropertyValue('--p-red-700'), borderWidth: 1, data: [] },
+        { label: 'Going', backgroundColor: docStyle.getPropertyValue('--p-green-700'), borderColor: docStyle.getPropertyValue('--p-green-700'), borderWidth: 1, data: [] },
+        { label: 'Nope', backgroundColor: docStyle.getPropertyValue('--p-red-700'), borderColor: docStyle.getPropertyValue('--p-red-700'), borderWidth: 1, data: [] },
         { label: 'Maybe', backgroundColor: docStyle.getPropertyValue('--p-sky-700'), borderColor: docStyle.getPropertyValue('--p-sky-700'), borderWidth: 1, data: [] },
         { label: 'Unconfirmed', backgroundColor: docStyle.getPropertyValue('--p-surface-600'), borderColor: docStyle.getPropertyValue('--p-surface-600'), borderWidth: 1, data: [] }
       ]
