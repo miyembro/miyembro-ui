@@ -54,13 +54,14 @@
         </ng-template>
       </p-multiselect>
     </ng-template>
-    <ng-template #exportButtons>
+    <ng-template #customButtons>
       <div class="flex flew-row">
         <p-splitbutton
           size="small"
           label="Export"
           icon="pi pi-file-excel"
           [model]="exportItems"
+          styleClass="export-splitbutton"
         />
       </div>
     </ng-template>

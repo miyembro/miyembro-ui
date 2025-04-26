@@ -9,3 +9,12 @@
     }
    
   }
+
+  :host ::ng-deep {
+    .export-splitbutton .p-tieredmenu-overlay {
+        position: absolute !important; 
+        top: 100% !important; 
+        left: -0px !important; 
+        z-index: 9999; 
+    }
+}
