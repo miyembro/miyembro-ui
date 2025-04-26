@@ -34,7 +34,7 @@ export class MemberExportService {
   }
 
   exportMembers(organizationId: string | undefined, pageNo: number | null, pageSize: number | null, sortField: string, sortOrder: string, membershipFilters: MembershipFilters | undefined ): Observable<Blob> {
-    const url = `${env.apiUrl}${this.baseUrl}/organizations/${organizationId}/members/excel`;
+    const url = `${env.apiUrl}${this.baseUrl}/organizations/${organizationId}/members/excel/filtered`;
 
     let params = null;
     if(pageNo != null && pageSize != null) {
