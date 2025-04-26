@@ -31,6 +31,8 @@ import { LoaderService } from 'src/app/core/services/loader.service';
 import { EditMultipleMembershipsComponent } from '../edit-multiple-memberships/edit-multiple-memberships.component';
 import { TagModule } from 'primeng/tag';
 import { ViewMemberDetailsComponent } from '../view-member-details/view-member-details.component';
+import { MemberExportService } from 'src/app/core/services/member-export.service';
+import { SplitButtonModule } from 'primeng/splitbutton';
 
 @Component({
   selector: 'app-member-list',
@@ -46,6 +48,7 @@ import { ViewMemberDetailsComponent } from '../view-member-details/view-member-d
     InputTextModule,
     MultiSelectModule,
     ReactiveFormsModule,
+    SplitButtonModule,
     TableComponent,
     TableModule,
     TagModule
@@ -57,6 +60,7 @@ import { ViewMemberDetailsComponent } from '../view-member-details/view-member-d
 export class MemberListComponent implements OnInit {
 
   addressOptions: any [] = [];
+  exportItems: any [] = [];
   first = 0; 
   loading = false;
   memberships: MembershipResponse [] = [];
@@ -81,6 +85,7 @@ export class MemberListComponent implements OnInit {
   constructor(
     private dialogService: DialogService,
     private loaderService: LoaderService,
+    private memberExportService: MemberExportService,
     private membershipService: MembershipService,
     private membershipStatusService: MembershipStatusService,
     private membershipTypeService: MembershipTypeService,
@@ -101,6 +106,22 @@ export class MemberListComponent implements OnInit {
       name: 'Country',
       value: 'member.memberAddress.country',
     }];
+    this.exportItems = [
+      {
+        label: 'Export Filtered View',
+        icon: 'pi pi-people',
+        command: () => {
+            this.exportFilteredMembers();
+        },
+      },
+      {
+        label: 'Export All Members',
+        icon: 'pi pi-people',
+        command: () => {
+          this.exportAllMembers();
+        },
+      },
+    ]
     this.multiSelectButtonItems = [
       {
           label: 'Edit Memberships',
@@ -198,7 +219,6 @@ export class MemberListComponent implements OnInit {
     });
   }
   
-
   pageChangeTable(event: any) {
     const pageNo = event.first / event.rowsPerPage;
     this.populateTable(pageNo, event.rowsPerPage, event.sortField, event.sortOrder);
@@ -225,6 +245,75 @@ export class MemberListComponent implements OnInit {
           this.selectedMemberships = [];
           this.populateTable(0, this.rowsPerPage, this.sortField, this.sortOrder);
         }
+    });
+  }
+
+  private exportAllMembers() {
+    this.loading = true;
+    this.loaderService.showLoader(this.router.url, false);
+
+    const session = this.sessionService.getSession();
+    const organizationId = session?.organization?.organizationId;
+
+    this.memberExportService.exportAllMembers(organizationId).subscribe(
+      blob => {
+      // Create a URL for the blob
+      const url = window.URL.createObjectURL(blob);
+      
+      // Create a temporary anchor element
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'All Members.xlsx';
+      
+      // Trigger the download
+      document.body.appendChild(a);
+      a.click();
+      
+      // Cleanup
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+      this.loading = false;
+      this.loaderService.hideLoader(this.router.url);
+    }, 
+    (err: any) => {
+      console.log(err);
+      this.loading = false;
+      this.loaderService.hideLoader(this.router.url);
+    });
+  }
+
+  private exportFilteredMembers() {
+    this.loading = true;
+    this.loaderService.showLoader(this.router.url, false);
+
+    const session = this.sessionService.getSession();
+    const organizationId = session?.organization?.organizationId;
+    const order = this.sortOrder == 1 ? 'ASC': 'DESC';
+
+    this.memberExportService.exportMembers(organizationId, null, null, this.sortField, order, this.membershipFilters).subscribe(
+      blob => {
+      // Create a URL for the blob
+      const url = window.URL.createObjectURL(blob);
+      
+      // Create a temporary anchor element
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Filtered Members.xlsx';
+      
+      // Trigger the download
+      document.body.appendChild(a);
+      a.click();
+      
+      // Cleanup
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+      this.loading = false;
+      this.loaderService.hideLoader(this.router.url);
+    }, 
+    (err: any) => {
+      console.log(err);
+      this.loading = false;
+      this.loaderService.hideLoader(this.router.url);
     });
   }
   

@@ -12,6 +12,7 @@ import { Session } from 'src/app/core/models/session';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { OrganizationService } from 'src/app/core/services/organization.service';
 import { Skeleton } from 'primeng/skeleton';
+import { LoaderService } from 'src/app/core/services/loader.service';
 
 @Component({
   selector: 'app-choose-organization',
@@ -36,6 +37,7 @@ export class ChooseOrganizationComponent implements OnInit{
   constructor(
     private alertService: AlertService,
     private authenticationService: AuthenticationService,
+    private loaderService: LoaderService,
     private organizationService: OrganizationService,
     private router: Router,
     private sessionService: SessionService,
@@ -48,6 +50,8 @@ export class ChooseOrganizationComponent implements OnInit{
   }
 
   onSelectOrganization(event: any) {
+    this.loaderService.showLoader(this.router.url, false);
+
     const memberId = this.sessionService.getSession()?.member.memberId;
     const selectOrganizationLoginRequest: SelectOrganizationLoginRequest = {
         organizationId: this.selectedOrganization?.organizationId ?? null,
@@ -60,10 +64,12 @@ export class ChooseOrganizationComponent implements OnInit{
         if(session) {
           localStorage.setItem('authToken', session.accessToken);
         }
+        this.loaderService.hideLoader(this.router.url);
         this.router.navigate(['/home/explore']);
         this.alertService.success('/login', 'Success', 'Succefully Login');
       },
       (err: any) => {
+        this.loaderService.hideLoader(this.router.url);
         this.loginErrorMessage = err.error ? err.error.message :   err.message;      
       }
     );

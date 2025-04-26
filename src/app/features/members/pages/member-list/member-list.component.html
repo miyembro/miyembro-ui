@@ -54,6 +54,16 @@
         </ng-template>
       </p-multiselect>
     </ng-template>
+    <ng-template #exportButtons>
+      <div class="flex flew-row">
+        <p-splitbutton
+          size="small"
+          label="Export"
+          icon="pi pi-file-excel"
+          [model]="exportItems"
+        />
+      </div>
+    </ng-template>
     <ng-template #nameColumn let-row>
       <div style="display: flex; align-items: center; width: '500px'">
         <p-avatar

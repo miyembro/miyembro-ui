@@ -38,6 +38,8 @@ export class TableComponent implements AfterContentInit, OnChanges{
   @ContentChildren(TemplateRef) tempList!: QueryList<TemplateRef<any>>;
   @ContentChild('customFilterButton') customFilterButton!: TemplateRef<any>;
   @ContentChild('customButtons') customButtons!: TemplateRef<any>;
+  @ContentChild('exportButtons') exportButtons!: TemplateRef<any>;
+
 
   @Input() dataKey = "id";
   @Input() enableMultiSelectButton = false;

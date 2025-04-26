@@ -29,8 +29,15 @@
         <ng-container *ngIf="customFilterButton">
           <ng-container *ngTemplateOutlet="customFilterButton"></ng-container>
         </ng-container>
+      </div>
+      <div class="flex gap-2">
         <ng-container *ngIf="customButtons">
           <ng-container *ngTemplateOutlet="customButtons"></ng-container>
+        </ng-container>
+      </div>
+      <div class="flex gap-2">
+        <ng-container *ngIf="exportButtons">
+          <ng-container *ngTemplateOutlet="exportButtons"></ng-container>
         </ng-container>
       </div>
 
