@@ -14,6 +14,7 @@ import { EventCreateDrawerComponent } from './features/event/pages/event-create-
 import { MyEventsPageComponent } from './features/my-events/pages/my-events-page/my-events-page.component';
 import { EventAttendanceListPageComponent } from './features/event/pages/event-attendance-list-page/event-attendance-list-page.component';
 import { EventAttendanceGraphDrawerComponent } from './features/event/pages/event-attendance-graph-drawer/event-attendance-graph-drawer.component';
+import { EventsAttendanceSummariesComponent } from './features/event/pages/events-attendance-summaries/events-attendance-summaries.component';
 
 export const appRoutes: Route[] = [
     {
@@ -29,6 +30,8 @@ export const appRoutes: Route[] = [
         { path: 'explore', component: ExplorePageComponent },
         { path: 'my-organization', component: MyOrganizationComponent },
         { path: 'members', component: MemberPageComponent },
+        { path: 'events-attendance-summaries', component: EventsAttendanceSummariesComponent },
+
         {
           path: 'manage-events',
           component: ManageEventsComponent,

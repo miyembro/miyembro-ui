@@ -1,0 +1,58 @@
+<div
+  class="mx-auto md:max-w-[80%] w-full text-sm sm:text-sm md:text-base !pt-0"
+>
+  <div
+    style="
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: white;
+      margin-top: 0;
+    "
+    class="!pt-0 !mt-0"
+  >
+    <form
+      [formGroup]="eventsAttendanceSummariesForm"
+      autocomplete="off"
+      class="flex flex-col md:flex-wrap lg:flex-row md:justify-left sm:py-4 md:py-2 gap-2 sm:gap-2 md:gap-4 text-sm sm:text-sm md:text-base"
+    >
+      <div>
+        <div class="w-full md:w-full lg:w-auto">
+          <p-floatlabel variant="in">
+            <p-datepicker
+              inputId="dateRange"
+              formControlName="startDate"
+              showIcon
+              iconDisplay="input"
+              dateFormat="yy-mm-dd"
+              selectionMode="range"
+              [showClear]="true"
+              styleClass="w-full h-11 sm:h-11 md:h-12 text-sm sm:text-sm md:text-base"
+              inputStyleClass="text-sm sm:text-sm md:text-base"
+            />
+            <label for="dateRange">Select Date Range</label>
+          </p-floatlabel>
+        </div>
+      </div>
+      <div class="w-full xs:w-1/2 sm:w-1/2 md:w-56">
+        <p-button
+          label="Show Events Graph"
+          icon="pi pi-chart-bar"
+          (click)="onShowGraph()"
+          size="small"
+          [disabled]="eventsAttendanceSummariesForm.invalid"
+        />
+      </div>
+    </form>
+  </div>
+  <div *ngIf="eventAttendanceSummaryResponses.length !== 0">
+    <div class="w-[100%] sm:w-[100] md:w-[100%] mx-auto mt-5">
+      <p-chart
+        type="bar"
+        [data]="data"
+        [options]="options"
+        styleClass=" w-full h-[60vh]"
+      ></p-chart>
+    </div>
+  </div>
+</div>

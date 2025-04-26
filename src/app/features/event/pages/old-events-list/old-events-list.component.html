@@ -19,6 +19,17 @@
     dataKey="eventId"
     [(selectedItems)]="selectedEvents"
   >
+    <ng-template #customButtons>
+      <p-button
+        icon="pi pi-chart-bar"
+        [raised]="true"
+        severity="success"
+        styleClass="py-1"
+        size="small"
+        label="Event Attendance Summary"
+        (onClick)="goToEventsAttendanceSummaries()"
+      />
+    </ng-template>
     <ng-template #nameColumn let-row>
       <div style="display: flex; align-items: center; width: '500px'">
         <p-avatar

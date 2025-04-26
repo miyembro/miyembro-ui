@@ -128,6 +128,10 @@ export class OldEventsListComponent implements OnInit, OnDestroy {
     this.populateTable(0, this.rowsPerPage, this.sortField, this.sortOrder);
   }
 
+  goToEventsAttendanceSummaries() {
+    this.router.navigate(['/home/events-attendance-summaries']);
+  }
+
   onViewEventDetails(row: any) {
     this.router.navigate(['/home/manage-events/old/view', row.eventId]);
   }
