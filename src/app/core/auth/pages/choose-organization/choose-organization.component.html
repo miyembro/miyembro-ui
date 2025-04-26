@@ -1,6 +1,6 @@
 <section class="bg-gray-50 dark:bg-gray-900 login-background min-h-screen">
   <div class="flex items-center justify-center px-6 py-8 mx-auto h-screen">
-    <div class="choose-organization-listbox text-center" *ngIf="false">
+    <div class="choose-organization-listbox text-center" *ngIf="!loading">
       <h1
         class="text-base mb-5 font-semibold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white"
       >
@@ -25,7 +25,7 @@
     </div>
     <div
       class="choose-organization-listbox-skeleton text-center justify-center"
-      *ngIf="true"
+      *ngIf="loading"
     >
       <div class="w-[90vw] sm:w-[90vw] md:w-[32vw] justify-center">
         <p-skeleton width="100%" height="3rem"></p-skeleton>
