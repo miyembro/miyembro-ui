@@ -18,11 +18,11 @@ export class ConfirmDialogService {
     }
   
     info(key: string, message: string, header: string, closable: boolean, acceptButtonLabel: string, accept: any) {
-      this.setConfirmDialog({ key: key, type: 'info', message: message, header: header, icon: 'pi-info-circle', closable: closable, acceptButtonLabel: acceptButtonLabel, accept: null });
+      this.setConfirmDialog({ key: key, type: 'info', message: message, header: header, icon: 'pi-info-circle', closable: closable, acceptButtonSeverity: 'info', acceptButtonLabel: acceptButtonLabel, accept: null });
     }
   
     save(key: string, message: string, header: string, closable: boolean, acceptButtonLabel: string, event: Event, accept: any, reject: any) {
-      this.setConfirmDialog({ key: key, type: 'save', message: message, header: header, icon: 'pi-exclamation-triangle', closable: closable,  acceptButtonLabel: acceptButtonLabel, event: event, accept: accept, reject: reject });
+      this.setConfirmDialog({ key: key, type: 'save', message: message, header: header, icon: 'pi-exclamation-triangle', closable: closable,  acceptButtonSeverity: 'success', acceptButtonLabel: acceptButtonLabel, event: event, accept: accept, reject: reject });
     }
 
     warning(key: string, message: string, header: string, closable: boolean, acceptButtonLabel: string, event: Event, accept: any, reject: any) {
