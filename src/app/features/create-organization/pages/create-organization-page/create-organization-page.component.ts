@@ -66,9 +66,14 @@ export class CreateOrganizationPageComponent implements OnInit{
       description: ['', [emptyEditorValidator(), Validators.required]],
       logoUrl: [''],
       backgroundImageUrl: [''],
-      email: [''],
+      email: ['', [Validators.email]],
       phoneNumber: [''],
-      websiteUrl: [''],
+      websiteUrl: ['',
+        [
+          Validators.pattern(
+            /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/
+          )
+        ]],
       organizationAddress: [null]
     });
     this.organizationAddressForm = this.formBuilder.group({

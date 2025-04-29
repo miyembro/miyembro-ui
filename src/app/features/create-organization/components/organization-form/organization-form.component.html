@@ -6,24 +6,26 @@
         class="sm:col-span-2"
         *ngIf="formType === OrganizationFormType.ADD_ORGANIZATION"
       >
-        <label class="text-gray-600 text-sm mb-2 block" for="name">
-          Organization Name<span class="ml-2 text-red-500 font-semilbold"
-            >*</span
+        <p-floatlabel variant="in">
+          <input
+            pInputText
+            id="name"
+            formControlName="name"
+            autocomplete="off"
+            class="w-full"
+            [ngClass]="{
+              'border-2 border-red-500': f['name'].invalid && f['name'].touched
+            }"
+          />
+          <label for="name">Organization Name</label>
+        </p-floatlabel>
+        <div class="min-h-[4vh]">
+          <span
+            class="text-red-600 text-sm"
+            *ngIf="f['name'].invalid && f['name'].touched"
+            >{{ f['name'].errors | formErrors : 'name' }}</span
           >
-        </label>
-        <input
-          pInputText
-          id="name"
-          formControlName="name"
-          type="text"
-          class="w-full"
-          pTooltip="{{ f['name'].errors | formErrors : 'name' }}"
-          tooltipStyleClass="error-tooltip"
-          [tooltipDisabled]="!(f['name'].invalid && f['name'].touched)"
-          [ngClass]="{
-            'border-2 border-red-500': f['name'].invalid && f['name'].touched
-          }"
-        />
+        </div>
       </div>
 
       <!-- Description - Full Width -->
@@ -43,14 +45,16 @@
             'create-organization-description ':
               f['description'].invalid && f['description'].touched
           }"
-          tooltipStyleClass="error-tooltip"
-          [tooltipDisabled]="
-            !(f['description'].invalid && f['description'].touched)
-          "
-          pTooltip="{{ f['description'].errors | formErrors : 'description' }}"
         >
           <p-editor formControlName="description" [style]="{ height: '320px' }">
           </p-editor>
+        </div>
+        <div class="min-h-[4vh]">
+          <span
+            class="text-red-600 text-sm"
+            *ngIf="f['description'].invalid && f['description'].touched"
+            >{{ f['description'].errors | formErrors : 'description' }}</span
+          >
         </div>
       </div>
 
@@ -61,22 +65,27 @@
           formType === OrganizationFormType.UPDATE_ORGANIZATION_CONTACT_DETAILS
         "
       >
-        <label class="text-gray-600 text-sm mb-2 block" for="email">
-          Email
-        </label>
-        <input
-          pInputText
-          id="email"
-          formControlName="email"
-          type="text"
-          class="w-full"
-          pTooltip="{{ f['email'].errors | formErrors : 'email' }}"
-          tooltipStyleClass="error-tooltip"
-          [tooltipDisabled]="!(f['email'].invalid && f['email'].touched)"
-          [ngClass]="{
-            'border-2 border-red-500': f['email'].invalid && f['email'].touched
-          }"
-        />
+        <p-floatlabel variant="in">
+          <input
+            pInputText
+            id="email"
+            formControlName="email"
+            autocomplete="off"
+            class="w-full"
+            [ngClass]="{
+              'border-2 border-red-500':
+                f['email'].invalid && f['email'].touched
+            }"
+          />
+          <label for="email">Email</label>
+        </p-floatlabel>
+        <div class="min-h-[4vh]">
+          <span
+            class="text-red-600 text-sm"
+            *ngIf="f['email'].invalid && f['email'].touched"
+            >{{ f['email'].errors | formErrors : 'email' }}</span
+          >
+        </div>
       </div>
 
       <!-- Phone Number -->
@@ -86,27 +95,24 @@
           formType === OrganizationFormType.UPDATE_ORGANIZATION_CONTACT_DETAILS
         "
       >
-        <label class="text-gray-600 text-sm mb-2 block" for="phoneNumber">
-          Phone Number
-        </label>
-        <p-inputnumber
-          formControlName="phoneNumber"
-          mode="decimal"
-          inputId="withoutgrouping"
-          [styleClass]="
-            f['phoneNumber'].invalid && f['phoneNumber'].touched
-              ? 'border-4 border-red-500'
-              : ''
-          "
-          [useGrouping]="false"
-          pTooltip="{{ f['phoneNumber'].errors | formErrors : 'phoneNumber' }}"
-          tooltipStyleClass="error-tooltip"
-          [tooltipDisabled]="
-            !(f['phoneNumber'].invalid && f['phoneNumber'].touched)
-          "
-        />
+        <ngx-material-intl-tel-input
+          fieldControlName="phoneNumber"
+          [autoIpLookup]="true"
+          appearance="fill"
+          [hidePhoneIcon]="true"
+          class="custom-phone-input"
+          [ngClass]="{
+            'border-2 border-red-500':
+              f['phoneNumber'].invalid && f['phoneNumber'].touched
+          }"
+        >
+        </ngx-material-intl-tel-input>
+        <div class="min-h-[4vh]">
+          <span class="text-red-600 text-sm">
+            {{ f['phoneNumber'].errors | formErrors : 'phoneNumber' }}
+          </span>
+        </div>
       </div>
-
       <!-- Website URL -->
       <div
         class="sm:col-span-2"
@@ -115,25 +121,27 @@
           formType === OrganizationFormType.UPDATE_ORGANIZATION_CONTACT_DETAILS
         "
       >
-        <label class="text-gray-600 text-sm mb-2 block" for="websiteUrl">
-          Website
-        </label>
-        <input
-          pInputText
-          id="websiteUrl"
-          formControlName="websiteUrl"
-          type="text"
-          class="w-full"
-          pTooltip="{{ f['websiteUrl'].errors | formErrors : 'websiteUrl' }}"
-          tooltipStyleClass="error-tooltip"
-          [tooltipDisabled]="
-            !(f['websiteUrl'].invalid && f['websiteUrl'].touched)
-          "
-          [ngClass]="{
-            'border-2 border-red-500':
-              f['websiteUrl'].invalid && f['websiteUrl'].touched
-          }"
-        />
+        <p-floatlabel variant="in">
+          <input
+            pInputText
+            id="websiteUrl"
+            formControlName="websiteUrl"
+            autocomplete="off"
+            class="w-full"
+            [ngClass]="{
+              'border-2 border-red-500':
+                f['websiteUrl'].invalid && f['websiteUrl'].touched
+            }"
+          />
+          <label for="websiteUrl">Website</label>
+        </p-floatlabel>
+        <div class="min-h-[4vh]">
+          <span
+            class="text-red-600 text-sm"
+            *ngIf="f['websiteUrl'].invalid && f['websiteUrl'].touched"
+            >{{ f['websiteUrl'].errors | formErrors : 'websiteUrl' }}</span
+          >
+        </div>
       </div>
     </div>
     <ng-content></ng-content>

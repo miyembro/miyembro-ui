@@ -16,6 +16,8 @@ import { FormErrorsPipe } from 'src/app/shared/pipes/form-errors.pipe';
 import { TextareaModule } from 'primeng/textarea';
 import { EditorModule } from 'primeng/editor';
 import { OrganizationFormType } from 'src/app/core/models/organization-form-type';
+import { FloatLabel } from 'primeng/floatlabel';
+import { NgxMaterialIntlTelInputComponent } from 'ngx-material-intl-tel-input';
 
 @Component({
   selector: 'app-organization-form',
@@ -26,12 +28,14 @@ import { OrganizationFormType } from 'src/app/core/models/organization-form-type
     CommonModule,
     DividerModule,
     EditorModule,
+    FloatLabel,
     FormErrorsFilterPipe,
     FormErrorsPipe,
     FormsModule,
     IftaLabelModule,
     InputNumberModule,
     InputTextModule,
+    NgxMaterialIntlTelInputComponent,
     PasswordModule,
     ReactiveFormsModule,
     TextareaModule,

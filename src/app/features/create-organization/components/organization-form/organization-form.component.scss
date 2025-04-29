@@ -28,3 +28,61 @@
         }
     }
 }
+
+
+::ng-deep ngx-material-intl-tel-input .intl-tel-input {
+  background-color: red !important; /* Background color */
+}
+
+::ng-deep ngx-material-intl-tel-input input {
+  // background-color: red !important; /* Input background */
+  // border-radius: 4px !important; /* Optional: Border radius */
+}
+
+::ng-deep ngx-material-intl-tel-input input:focus {
+  // background-color: red !important; /* Focus background */
+  // border-color: #80b3ff !important; /* Focus border color */
+}
+
+::ng-deep ngx-material-intl-tel-input .mat-mdc-form-field {
+  // background-color: red !important; /* Focus background */
+  // border-color: #80b3ff !important; /* Focus border color */
+}
+
+::ng-deep ngx-material-intl-tel-input .mdc-floating-label {
+  display: none; 
+}
+
+::ng-deep ngx-material-intl-tel-input .main-label {
+  display: none; 
+}
+
+
+::ng-deep ngx-material-intl-tel-input .mat-mdc-form-field-hint {
+  display: none; 
+}
+
+
+::ng-deep ngx-material-intl-tel-input .mat-mdc-form-field-error {
+  display: none; 
+}
+
+::ng-deep div.mat-mdc-select-panel {
+  background-color: white !important;
+}
+
+::ng-deep input.mat-select-search-input {
+  background-color: white !important;
+}
+
+
+::ng-deep ngx-material-intl-tel-input label.mat-mdc-floating-label {
+  font-family: Arial, Helvetica, sans-serif;
+  color: rgb(116, 110, 110) !important;
+  font-weight: 600  !important;
+}
+
+::ng-deep ngx-material-intl-tel-input div.ng-invalid.ng-touched {
+  border-color: red !important;
+  border-width: 2px !important;
+}

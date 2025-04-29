@@ -17,6 +17,7 @@ import { FormErrorsPipe } from 'src/app/shared/pipes/form-errors.pipe';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { MembershipTypeValidity } from '../../../../core/models/membership-type-validity';
 import { SelectModule } from 'primeng/select';
+import { FloatLabel } from 'primeng/floatlabel';
 
 @Component({
   selector: 'app-organization-membership-type-form',
@@ -28,6 +29,7 @@ import { SelectModule } from 'primeng/select';
     CardModule,
     CommonModule,
     DividerModule,
+    FloatLabel,
     FormErrorsFilterPipe,
     FormErrorsPipe,
     FormsModule,

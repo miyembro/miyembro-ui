@@ -17,11 +17,6 @@
               [virtualScrollItemSize]="38"
               placeholder="Select a Country"
               class="w-full md:w-56"
-              pTooltip="{{ f['country'].errors | formErrors : 'country' }}"
-              tooltipStyleClass="error-tooltip"
-              [tooltipDisabled]="
-                !(f['country'].invalid && f['country'].touched)
-              "
               [ngClass]="{
                 'border-2 border-red-500':
                   f['country'].invalid && f['country'].touched
@@ -42,6 +37,13 @@
             </p-select>
             <label for="country">Country </label>
           </p-iftalabel>
+          <div class="min-h-[4vh]">
+            <span
+              class="text-red-600 text-sm"
+              *ngIf="f['country'].invalid && f['country'].touched"
+              >{{ f['country'].errors | formErrors : 'country' }}</span
+            >
+          </div>
         </div>
       </div>
       <div class="sm:col-span-2">
@@ -61,13 +63,6 @@
               [disabled]="!selectedCountry"
               placeholder="Select a State/Province"
               class="w-full md:w-56"
-              pTooltip="{{
-                f['provinceState'].errors | formErrors : 'provinceState'
-              }}"
-              tooltipStyleClass="error-tooltip"
-              [tooltipDisabled]="
-                !(f['provinceState'].invalid && f['provinceState'].touched)
-              "
               [ngClass]="{
                 'border-2 border-red-500':
                   f['provinceState'].invalid && f['provinceState'].touched
@@ -88,6 +83,15 @@
             </p-select>
             <label for="provinceState">State</label>
           </p-iftalabel>
+          <div class="min-h-[4vh]">
+            <span
+              class="text-red-600 text-sm"
+              *ngIf="f['provinceState'].invalid && f['provinceState'].touched"
+              >{{
+                f['provinceState'].errors | formErrors : 'provinceState'
+              }}</span
+            >
+          </div>
         </div>
       </div>
       <div class="sm:col-span-2">
@@ -107,9 +111,6 @@
               [disabled]="!selectedCountry || !selectedState"
               placeholder="Select a City"
               class="w-full md:w-56"
-              pTooltip="{{ f['city'].errors | formErrors : 'city' }}"
-              tooltipStyleClass="error-tooltip"
-              [tooltipDisabled]="!(f['city'].invalid && f['city'].touched)"
               [ngClass]="{
                 'border-2 border-red-500':
                   f['city'].invalid && f['city'].touched
@@ -130,6 +131,13 @@
             </p-select>
             <label for="city">City</label>
           </p-iftalabel>
+          <div class="min-h-[4vh]">
+            <span
+              class="text-red-600 text-sm"
+              *ngIf="f['city'].invalid && f['city'].touched"
+              >{{ f['city'].errors | formErrors : 'city' }}</span
+            >
+          </div>
         </div>
       </div>
       <div class="sm:col-span-2">

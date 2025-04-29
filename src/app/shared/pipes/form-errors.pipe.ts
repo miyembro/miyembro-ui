@@ -41,6 +41,16 @@ export class FormErrorsPipe implements PipeTransform {
       errorMessage = `Minimum characters required (${errors['minlength'].requiredLength}).`;
     } else if (errors['incorrectPasswordFormat']) {
       errorMessage = 'Password must contain at least one lowercase, one uppercase, and one number or one special character. Must not have whitespace.';
+    } else if (errors['invalidCountry']) {
+      errorMessage = 'Invalid country code';
+    } else if (errors['invalidNumber']) {
+      errorMessage = 'Invalid phone number format';
+    } else if (errors['pattern']) {
+      if (fieldName[0] === 'websiteUrl') {
+        errorMessage = 'Invalid website URL format (e.g., https://example.com)';
+      } else {
+        errorMessage = 'Invalid format';
+      }
     } else {
       errorMessage = 'Unhandled Error.';
     }
