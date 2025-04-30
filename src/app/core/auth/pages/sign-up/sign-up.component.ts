@@ -19,13 +19,17 @@ import { LoginType } from 'src/app/core/models/login-type.enum';
 import { Member } from 'src/app/core/models/member';
 import { LogoComponent } from "../../../../shared/components/logo/logo.component";
 import { LoaderService } from 'src/app/core/services/loader.service';
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { BackgroundComponent } from 'src/app/shared/components/background/background.component';
 
 @Component({
   selector: 'app-sign-up',
   imports: [
+    BackgroundComponent, 
     ButtonModule,
     CardModule,
     CommonModule,
+    FloatLabelModule,
     FormErrorsFilterPipe,
     FormErrorsPipe,
     FormsModule,
