@@ -46,7 +46,7 @@
           </p-floatlabel>
           <div class="min-h-[2vh]">
             <span
-              class="text-red-600 text-sm"
+              class="text-red-600 text-xs sm:text-xs md:text-sm"
               *ngIf="f['firstName'].invalid && f['firstName'].touched"
               >{{ f['firstName'].errors | formErrors : 'first name' }}</span
             >
@@ -69,7 +69,7 @@
           </p-floatlabel>
           <div class="min-h-[2vh]">
             <span
-              class="text-red-600 text-sm"
+              class="text-red-600 text-xs sm:text-xs md:text-sm"
               *ngIf="f['lastName'].invalid && f['lastName'].touched"
               >{{ f['lastName'].errors | formErrors : 'last name' }}</span
             >
@@ -92,7 +92,7 @@
           </p-floatlabel>
           <div class="min-h-[2vh]">
             <span
-              class="text-red-600 text-sm"
+              class="text-red-600 text-xs sm:text-xs md:text-sm"
               *ngIf="f['email'].invalid && f['email'].touched"
               >{{ f['email'].errors | formErrors : 'email' }}</span
             >
@@ -101,7 +101,8 @@
         <div>
           <p-floatlabel variant="in">
             <p-password
-              [feedback]="false"
+              [feedback]="true"
+              [toggleMask]="true"
               formControlName="password"
               inputId="password"
               styleClass="register-password sessions-password block w-full"
@@ -112,9 +113,9 @@
             />
             <label for="password">Password</label>
           </p-floatlabel>
-          <div class="min-h-[2vh]">
+          <div class="min-h-[3vh]">
             <span
-              class="text-red-600 text-sm"
+              class="text-red-600 text-xs sm:text-xs md:text-sm"
               *ngIf="f['password'].invalid && f['password'].touched"
               >{{
                 f['password'].errors ||
@@ -140,7 +141,7 @@
           </p-floatlabel>
           <div class="min-h-[2vh]">
             <span
-              class="text-red-600 text-sm"
+              class="text-red-600 text-xs sm:text-xs md:text-sm"
               *ngIf="
                 f['confirmPassword'].invalid && f['confirmPassword'].touched
               "
@@ -152,7 +153,7 @@
             >
           </div>
         </div>
-        <div class="h-2 sm:h-2 md:h-4 my-0 py-0">
+        <div class="h-2 sm:h-2 md:h-2 my-0 py-0">
           <!-- Adjust the height class as needed -->
           <p class="text-red-500 font-medium text-xs" *ngIf="loginErrorMessage">
             {{ loginErrorMessage }}

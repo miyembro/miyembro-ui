@@ -21,6 +21,7 @@ import { LogoComponent } from "../../../../shared/components/logo/logo.component
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { BackgroundComponent } from 'src/app/shared/components/background/background.component';
+import { passwordStrengthValidator } from 'src/app/core/validators/password-strength-validator';
 
 @Component({
   selector: 'app-sign-up',
@@ -111,12 +112,37 @@ export class SignUpComponent implements OnInit {
     } 
   }
 
+  onPasswordScore(event: any) {
+    const passwordControl = this.signupForm.get('password');
+    if (!passwordControl) return;
+  
+    // Clear previous errors
+    const currentErrors = { ...passwordControl.errors };
+  
+    // Handle strength validation
+    if (event.strength === 'weak') {
+      passwordControl.setErrors({ ...currentErrors, weakPassword: true });
+    } else {
+      // Remove weakPassword error if exists
+      if (currentErrors?.['weakPassword']) {
+        delete currentErrors['weakPassword'];
+        passwordControl.setErrors(Object.keys(currentErrors).length ? currentErrors : null);
+      }
+    }
+    
+    // Force validation update
+    passwordControl.updateValueAndValidity();
+  }
+
   private buildForm() {
     this.signupForm = this.formBuilder.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
+      password: ['',  [
+                 Validators.required,
+                 passwordStrengthValidator()
+              ]],
       phoneNumber: [null],
       profilePicUrl: [null],
       loginType: [LoginType.NORMAL],

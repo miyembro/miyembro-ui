@@ -20,13 +20,13 @@ export class FormErrorsPipe implements PipeTransform {
 
   private getError(errors: { [error: string]: any }, fieldName: string | string[]): string {
     let errorMessage = '';
-
+    console.log(errors);
     if (typeof fieldName === 'string') {
       fieldName = [fieldName];
     }
 
     if (errors['required'] || errors['whitespace']) {
-      errorMessage = `The ${fieldName[0]} field is required.`;
+      errorMessage = `The ${fieldName[0]} is required.`;
     } else if (errors['email']) {
       errorMessage = 'Incorrect email format.';
     } else if (errors['startDateGreaterThanEndDate']) {
@@ -41,6 +41,14 @@ export class FormErrorsPipe implements PipeTransform {
       errorMessage = `Minimum characters required (${errors['minlength'].requiredLength}).`;
     } else if (errors['incorrectPasswordFormat']) {
       errorMessage = 'Password must contain at least one lowercase, one uppercase, and one number or one special character. Must not have whitespace.';
+    } else if (errors['passwordStrength']) {
+      switch(errors['passwordStrength']) {
+        case 'weakpassword': 
+          errorMessage =  'At least 6 characters with 2 of: uppercase, lowercase, numbers';
+          break;
+        default:
+          errorMessage = 'Should include uppercase, lowercase, and numbers (8+ characters)';
+      }
     } else if (errors['invalidCountry']) {
       errorMessage = 'Invalid country code';
     } else if (errors['invalidNumber']) {
