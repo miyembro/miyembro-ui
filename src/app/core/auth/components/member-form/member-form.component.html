@@ -32,13 +32,6 @@
                 class="text-sm sm:text-sm md:text-base"
                 formControlName="firstName"
                 autocomplete="off"
-                pTooltip="{{
-                  f['firstName'].errors | formErrors : 'first name'
-                }}"
-                tooltipStyleClass="error-tooltip"
-                [tooltipDisabled]="
-                  !(f['firstName'].invalid && f['firstName'].touched)
-                "
                 [ngClass]="{
                   'border-2 border-red-500':
                     f['firstName'].invalid && f['firstName'].touched
@@ -46,6 +39,13 @@
               />
               <label for="firstName">First Name</label>
             </p-floatlabel>
+            <div class="min-h-[4vh]">
+              <span
+                class="text-red-600 text-sm"
+                *ngIf="f['firstName'].invalid && f['firstName'].touched"
+                >{{ f['firstName'].errors | formErrors : 'first name' }}</span
+              >
+            </div>
           </div>
           <div
             *ngIf="
@@ -60,11 +60,6 @@
                 class="text-sm sm:text-sm md:text-base"
                 formControlName="lastName"
                 autocomplete="off"
-                pTooltip="{{ f['lastName'].errors | formErrors : 'last name' }}"
-                tooltipStyleClass="error-tooltip"
-                [tooltipDisabled]="
-                  !(f['lastName'].invalid && f['lastName'].touched)
-                "
                 [ngClass]="{
                   'border-2 border-red-500':
                     f['lastName'].invalid && f['lastName'].touched
@@ -72,6 +67,13 @@
               />
               <label for="firstName">Last Name</label>
             </p-floatlabel>
+            <div class="min-h-[4vh]">
+              <span
+                class="text-red-600 text-sm"
+                *ngIf="f['lastName'].invalid && f['lastName'].touched"
+                >{{ f['lastName'].errors | formErrors : 'last name' }}</span
+              >
+            </div>
           </div>
           <div>
             <ngx-material-intl-tel-input
@@ -81,19 +83,21 @@
               appearance="fill"
               [hidePhoneIcon]="true"
               class="custom-phone-input"
-              pTooltip="{{
-                f['phoneNumber'].errors | formErrors : 'phone number'
-              }}"
-              tooltipStyleClass="error-tooltip"
-              [tooltipDisabled]="
-                !(f['phoneNumber'].invalid && f['phoneNumber'].touched)
-              "
               [ngClass]="{
                 'border-2 border-red-500':
                   f['phoneNumber'].invalid && f['phoneNumber'].touched
               }"
             >
             </ngx-material-intl-tel-input>
+            <div class="min-h-[4vh]">
+              <span
+                class="text-red-600 text-sm"
+                *ngIf="f['phoneNumber'].invalid && !f['phoneNumber'].pristine"
+                >{{
+                  f['phoneNumber'].errors | formErrors : 'phone number'
+                }}</span
+              >
+            </div>
           </div>
           <div>
             <p-floatlabel variant="in">
@@ -104,13 +108,6 @@
                 iconDisplay="input"
                 dateFormat="yy-mm-dd"
                 styleClass="text-xs sm:text-xs md:text-base"
-                pTooltip="{{
-                  f['birthDate'].errors | formErrors : 'birthDate'
-                }}"
-                tooltipStyleClass="error-tooltip"
-                [tooltipDisabled]="
-                  !(f['birthDate'].invalid && f['birthDate'].touched)
-                "
                 [styleClass]="
                   f['birthDate'].invalid && f['birthDate'].touched
                     ? 'border-2 border-red-500 border-error '
@@ -119,6 +116,15 @@
               />
               <label for="in_label">Date of Birth*</label>
             </p-floatlabel>
+            <div class="min-h-[4vh]">
+              <span
+                class="text-red-600 text-sm"
+                *ngIf="f['birthDate'].invalid && f['birthDate'].touched"
+                >{{
+                  f['birthDate'].errors | formErrors : 'date of birth'
+                }}</span
+              >
+            </div>
           </div>
         </div>
         <p-divider styleClass="mt-4"></p-divider>
@@ -142,14 +148,6 @@
                 inputId="country"
                 placeholder="Select a Country"
                 class="w-full md:w-56"
-                pTooltip="{{
-                  getControlErrors('memberAddress', 'country')
-                    | formErrors : 'country'
-                }}"
-                tooltipStyleClass="error-tooltip"
-                [tooltipDisabled]="
-                  !isControlInvalidAndTouched('memberAddress', 'country')
-                "
                 [ngClass]="{
                   'border-2 border-red-500': isControlInvalidAndTouched(
                     'memberAddress',
@@ -172,6 +170,16 @@
               </p-select>
               <label for="country">Country</label>
             </p-iftalabel>
+            <div class="min-h-[4vh]">
+              <span
+                class="text-red-600 text-sm"
+                *ngIf="isControlInvalidAndTouched('memberAddress', 'country')"
+                >{{
+                  getControlErrors('memberAddress', 'country')
+                    | formErrors : 'country'
+                }}</span
+              >
+            </div>
           </div>
           <div>
             <p-iftalabel class="w-full">
@@ -188,14 +196,6 @@
                 [disabled]="!selectedCountry"
                 placeholder="Select a State/Province"
                 class="w-full md:w-56"
-                pTooltip="{{
-                  getControlErrors('memberAddress', 'provinceState')
-                    | formErrors : 'provinceState'
-                }}"
-                tooltipStyleClass="error-tooltip"
-                [tooltipDisabled]="
-                  !isControlInvalidAndTouched('memberAddress', 'provinceState')
-                "
                 [ngClass]="{
                   'border-2 border-red-500': isControlInvalidAndTouched(
                     'memberAddress',
@@ -218,6 +218,18 @@
               </p-select>
               <label for="provinceState">State</label>
             </p-iftalabel>
+            <div class="min-h-[4vh]">
+              <span
+                class="text-red-600 text-sm"
+                *ngIf="
+                  isControlInvalidAndTouched('memberAddress', 'provinceState')
+                "
+                >{{
+                  getControlErrors('memberAddress', 'provinceState')
+                    | formErrors : 'province/state'
+                }}</span
+              >
+            </div>
           </div>
           <div>
             <p-iftalabel class="w-full">
@@ -234,14 +246,6 @@
                 [disabled]="!selectedCountry || !selectedState"
                 placeholder="Select a City"
                 class="w-full md:w-56"
-                pTooltip="{{
-                  getControlErrors('memberAddress', 'city')
-                    | formErrors : 'city'
-                }}"
-                tooltipStyleClass="error-tooltip"
-                [tooltipDisabled]="
-                  !isControlInvalidAndTouched('memberAddress', 'city')
-                "
                 [ngClass]="{
                   'border-2 border-red-500': isControlInvalidAndTouched(
                     'memberAddress',
@@ -264,6 +268,16 @@
               </p-select>
               <label for="city">City</label>
             </p-iftalabel>
+            <div class="min-h-[4vh]">
+              <span
+                class="text-red-600 text-sm"
+                *ngIf="isControlInvalidAndTouched('memberAddress', 'city')"
+                >{{
+                  getControlErrors('memberAddress', 'city')
+                    | formErrors : 'city'
+                }}</span
+              >
+            </div>
           </div>
           <div>
             <p-floatlabel variant="in">
@@ -290,6 +304,7 @@
               />
               <label for="postalCode">Postal Code</label>
             </p-floatlabel>
+            <div class="min-h-[4vh]"></div>
           </div>
           <div>
             <p-floatlabel variant="in">
@@ -316,6 +331,7 @@
               />
               <label for="street">Street</label>
             </p-floatlabel>
+            <div class="min-h-[4vh]"></div>
           </div>
         </div>
         <p-divider styleClass="mt-2 sm:mt-2 md:mt-4"></p-divider>
